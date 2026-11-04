@@ -86,6 +86,19 @@ That writes a transparent PNG of every frame in a grid and an Aseprite-style JSO
 `meta.pixelfx` with fps, loop, columns and the pivot). Phaser's atlas loader and the Aseprite importers for Godot
 and Unity read it. `node tools/sheets.mjs` exports the whole library to `sheets/`.
 
+### Cocos Creator
+
+Export the effects directly into a Cocos Creator project's resources folder. This creates transparent PNG/JSON assets for every effect plus an index, splitting long animations into 2048px-safe pages when needed, so all effects use the same runtime component:
+
+```bash
+node tools/cocos.mjs --out ../my-cocos/assets/resources/pixelfx
+node tools/cocos.mjs fire ice moves/sword-combo --out ../my-cocos/assets/resources/pixelfx
+```
+
+Copy [`cocos/runtime/PixelfxSprite.ts`](cocos/runtime/PixelfxSprite.ts) into `assets/scripts/pixelfx/`, attach it next to a Cocos `Sprite`, and set `effectId` to an id such as `fire/campfire`. It handles loading, nearest-neighbour filtering, the exported pivot, playback speed, looping and auto-destroy. See [`cocos/README.md`](cocos/README.md) for the full setup and API.
+
+This repository also includes a Cocos preview scene at `assets/scenes/Main.scene`. Open that scene in Creator 3.8.8 and press **Preview** to play all exported effects in sequence.
+
 Any effect takes a `palette` (a dark-to-bright ramp of hex colors), so a fire can burn blue and a heal can glow
 pink without touching its code:
 

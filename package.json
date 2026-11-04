@@ -15,9 +15,14 @@
   "scripts": {
     "render": "node tools/render.mjs",
     "check": "node tools/check.mjs",
-    "gallery": "node tools/serve.mjs"
+    "gallery": "node tools/serve.mjs",
+    "cocos": "node tools/cocos.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.10"
-  }
+  },
+  "creator": {
+    "version": "3.8.8"
+  },
+  "uuid": "5e391d89-7023-4577-8ecb-371108a19383"
 }

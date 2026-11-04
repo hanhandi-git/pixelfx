@@ -2,4 +2,14 @@ node_modules/
 dist/
 records/
 sheets/
+cocos/resources/
 .DS_Store
+profiles/
+settings/
+temp/
+assets/resources/pixelfx/
+library/
+assets/**/*.meta
+assets/resources/
+assets/migrate-canvas.ts
+*.log
