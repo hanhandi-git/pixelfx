@@ -8,7 +8,7 @@
 // The output is ordinary PNG + JSON. PixelfxSprite.ts creates SpriteFrames from
 // the atlas rectangles without requiring a custom Cocos editor importer.
 
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { ROOT, allIds, resolveIds, loadEffect, renderFrames, canvas, save } from "./lib/fxlib.mjs";
 import { actTiming } from "../src/core/index.js";
@@ -30,6 +30,11 @@ if (fps !== undefined && (!Number.isFinite(fps) || fps <= 0)) throw new Error("-
 if (seed !== undefined && !Number.isFinite(seed)) throw new Error("--seed must be a number");
 if (!Number.isInteger(maxTextureSize) || maxTextureSize < 64) throw new Error("--max-size must be an integer >= 64");
 
+// A targeted export updates the shared catalog without hiding the other exported effects.
+const indexFile = join(output, "index.json");
+const previous = patterns.length && existsSync(indexFile) ? JSON.parse(readFileSync(indexFile, "utf8")) : null;
+if (previous && !Array.isArray(previous.effects)) throw new Error(`${indexFile}: effects must be an array`);
+const catalog = new Map((previous?.effects ?? []).map((effect) => [effect.id, effect]));
 mkdirSync(output, { recursive: true });
 const index = [];
 let failed = 0;
@@ -71,13 +76,14 @@ for (const id of ids) {
   }
 }
 
-writeFileSync(join(output, "index.json"), JSON.stringify({
+for (const effect of index) catalog.set(effect.id, effect);
+writeFileSync(indexFile, JSON.stringify({
   version: 1,
   generator: "pixelfx",
   coordinateSystem: "top-left",
-  effects: index,
+  effects: [...catalog.values()],
 }, null, 1));
-console.log(`\n${index.length} Cocos effects -> ${output}`);
+console.log(`\n${index.length} Cocos effects -> ${output} (${catalog.size} in catalog)`);
 if (failed) process.exit(1);
 
 /** Pack frames into several Cocos-safe textures. Rectangles stay top-left based. */

@@ -66,6 +66,7 @@ import * as lightning_lightning_strike from "./lightning/lightning-strike.js";
 import * as lightning_plasma_ball from "./lightning/plasma-ball.js";
 import * as lightning_spark_arc from "./lightning/spark-arc.js";
 import * as lightning_storm_cloud from "./lightning/storm-cloud.js";
+import * as lightning_storm_sigil from "./lightning/storm-sigil.js";
 import * as lightning_tesla_coil from "./lightning/tesla-coil.js";
 import * as lightning_thunderclap from "./lightning/thunderclap.js";
 import * as lightning_zap_hit from "./lightning/zap-hit.js";
@@ -123,6 +124,7 @@ import * as spawn_dissolve_burn from "./spawn/dissolve-burn.js";
 import * as spawn_egg_hatch from "./spawn/egg-hatch.js";
 import * as spawn_poof from "./spawn/poof.js";
 import * as spawn_respawn_beam from "./spawn/respawn-beam.js";
+import * as spawn_shanhaijing_summon from "./spawn/shanhaijing-summon.js";
 import * as spawn_shatter_death from "./spawn/shatter-death.js";
 import * as spawn_soul_rise from "./spawn/soul-rise.js";
 import * as spawn_spawn_portal from "./spawn/spawn-portal.js";
@@ -314,6 +316,7 @@ export const effects = {
   "lightning/plasma-ball": lightning_plasma_ball,
   "lightning/spark-arc": lightning_spark_arc,
   "lightning/storm-cloud": lightning_storm_cloud,
+  "lightning/storm-sigil": lightning_storm_sigil,
   "lightning/tesla-coil": lightning_tesla_coil,
   "lightning/thunderclap": lightning_thunderclap,
   "lightning/zap-hit": lightning_zap_hit,
@@ -371,6 +374,7 @@ export const effects = {
   "spawn/egg-hatch": spawn_egg_hatch,
   "spawn/poof": spawn_poof,
   "spawn/respawn-beam": spawn_respawn_beam,
+  "spawn/shanhaijing-summon": spawn_shanhaijing_summon,
   "spawn/shatter-death": spawn_shatter_death,
   "spawn/soul-rise": spawn_soul_rise,
   "spawn/spawn-portal": spawn_spawn_portal,

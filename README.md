@@ -4,7 +4,7 @@
 
 # pixelfx.
 
-**<!-- count -->244<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
+**<!-- count -->246<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
 explosions, magic, weather, UI, pickups, critters and more. Play them live, recolor and mirror them, drop them into
 a browser game, or export sprite sheets for any engine. Plus a Claude Code skill that makes new ones the way a
 picky pixel artist would: draft, render, look, refine.
@@ -31,12 +31,12 @@ the idea at library scale, with a skill to keep going.
 | **explosions** | 12 | barrel explosion, big explosion, cartoon pow, dirt explosion, firework burst, firework rocket… |
 | **water** | 12 | bubbles, drip, fountain, geyser, rain splash, ripples… |
 | **ice** | 10 | blizzard vortex, freeze, frost breath, frost nova, ice crystal, ice lance… |
-| **lightning** | 11 | ball lightning, chain lightning, charge up, electrified, lightning strike, plasma ball… |
+| **lightning** | 12 | ball lightning, chain lightning, charge up, electrified, lightning strike, plasma ball… |
 | **sci-fi** | 12 | emp blast, energy core, force field, glitch, hologram, jetpack… |
 | **melee** | 12 | claw swipe, dagger flurry, double slash, hammer smash, heavy cleave, scythe reap… |
 | **impacts** | 11 | blunt hit, bullet impact, critical hit, ground slam, heavy landing, hit flash… |
 | **projectiles** | 13 | arrow, bullet tracer, cannon shot, energy disc, signal flare, homing missile… |
-| **spawn & death** | 10 | coin drop, disintegrate, dissolve burn, egg hatch, poof, respawn beam… |
+| **spawn & death** | 11 | coin drop, disintegrate, dissolve burn, egg hatch, poof, respawn beam… |
 | **arcane** | 12 | arcane beam, arcane missiles, arcane orb, blink in, blink out, magic circle cast… |
 | **holy** | 10 | blessing, divine shield, feather burst, halo, heal, healing ring… |
 | **shadow** | 12 | black hole, curse, dark explosion, eclipse, grasping hands, hex sigil… |
@@ -108,6 +108,11 @@ npm run workbench
 ```
 
 Open [http://localhost:8080/gallery/workbench.html](http://localhost:8080/gallery/workbench.html). It imports the effect modules directly, supports category filtering and search, and provides play, pause, replay, previous/next and speed controls. `npm run build:web` emits the static page under `dist/gallery/workbench.html`.
+
+Link to a specific effect with `?fx=<category>/<name>`, for example
+[Storm sigil](http://localhost:8080/gallery/workbench.html?fx=lightning/storm-sigil). Selecting an effect updates
+the URL, so a refresh keeps the selection. After adding an effect in `src/fx/`, run `node tools/index.mjs` and
+refresh the workbench; rebuild with `npm run build:web` when using the static `dist/gallery` version.
 
 Any effect takes a `palette` (a dark-to-bright ramp of hex colors), so a fire can burn blue and a heal can glow
 pink without touching its code:

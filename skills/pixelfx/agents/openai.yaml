@@ -1,0 +1,4 @@
+interface:
+  display_name: "PixelFX 素材生成与预览"
+  short_description: "Create pixel VFX and preview in the workbench"
+  default_prompt: "用 $pixelfx 生成一个与现有库风格一致的像素特效，入库并在 gallery/workbench.html 预览。"

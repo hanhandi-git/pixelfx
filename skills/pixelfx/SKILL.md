@@ -1,8 +1,9 @@
 ---
 name: pixelfx
-description: Make pixel art effects and sprite animations in code with the pixelfx library, which has 244 ready-made ones, acted out by a character who winds up, freezes on contact and recovers (fire, explosions, water, ice, lightning, sci-fi, melee, impacts, projectiles, spawn and death, arcane, holy, shadow, status, nature, weather, UI, pickups, transitions, critters) to drop into a game, recolor, export as sprite sheets or remix, plus a draft, render, look, refine loop that makes new ones look hand-animated. Use when someone wants pixel art VFX, sprite animations or sprite sheets, game juice, a specific effect ("a frost nova for my mage", "a coin pickup sparkle"), wants to use or export a pixelfx effect in Godot, Unity, Phaser or a canvas game, or wants their pixel effects to look better.
+description: 使用 pixelfx 的 JavaScript/Painter 生成、修改像素风特效与精灵动画，遵循现有库的像素、配色、光照和动作风格，注册到素材库、渲染检查、导出 PNG/JSON，并在 gallery/workbench.html 实测预览。适用于新增像素素材、魔法/打击/粒子特效、sprite sheet、素材复用换色和 Cocos Creator 资源导出；普通插画与照片生成不适用。
 license: MIT
-compatibility: Node 18 or newer. ffmpeg is optional (GIF and MP4 previews).
+metadata:
+  runtime: Node 18 or newer; npm for the static build; ffmpeg optional for GIF/MP4 previews.
 ---
 
 # pixelfx
@@ -16,12 +17,52 @@ Claude](https://www.spritefusion.com/blog/how-to-make-good-pixel-art-effects-wit
 your eyes, feed your references. One-shot prompts make mediocre effects. Drafts you render, look at and refine
 make good ones.
 
+## Style profile distilled from the library
+
+Use this as the default art direction when inventing a new effect. It is a compact summary of the existing
+corpus, not a replacement for the runtime contract in `docs/AUTHORING.md`.
+
+- **Pixel language:** draw at native resolution with intentional 1 px steps, hard ramps and stair-stepped
+  diagonals. Use a readable silhouette and a single focal point; remove isolated noise inside forms.
+- **Palette:** start with a dark cool base, move through 4–6 saturated mid steps, and reserve the final step for
+  a small white-hot core. Effects may recolor through `fit(o.palette, n)`, but preserve value order. Keep color in
+  `color` and soft additive energy in `light`.
+- **Lighting:** every important event has a tight hot source, a colored halo and a wider low-strength pool. Put
+  glints and light along paths, then let the source fall off quickly so the frame does not wash out.
+- **Motion:** choreograph anticipation/charge, a one- or two-frame hero release, spread or recoil, then a slower
+  decay. Vary particle speed, size, delay and lifetime; use gravity, drag, bounce and stretched sparks to make
+  motion feel physical.
+- **Depth:** split rings, beams and crowds into far and near halves with `drawBack`/`draw`. Ground motifs use
+  compressed ellipses, dimmer rear rows and a brighter foreground rim. Keep the anchor meaningful (feet, impact,
+  muzzle or spell target).
+- **Material cues:** use translucent `SMOKE`, `VAPOUR` and `DUST` for volumes; stepped ramps for solid pixels;
+  crackles, forks and cooling traces for electricity; scorch, debris and small aftersparks for impacts.
+- **Timing and finish:** one-shots must be empty at `t = duration`; loops must match at the seam. Fast attacks and
+  white flashes sell force, while follow-through, embers, motes or smoke sell persistence. Keep frames within the
+  declared canvas and use seeded randomness only.
+
+For a reusable generation brief, state: **subject + anchor, phase choreography, focal light, palette ramp, depth
+split, secondary motion, and fade/loop behavior**. Example: “A violet-blue storm sigil at a target's feet; the
+ring writes in, a white core gathers overhead, a forked bolt lands for two hero frames, arcs crawl outward, then
+scorch and sparks cool away; ground ellipse behind/in front, deterministic seed.”
+
 ## Before anything
 
-1. Work in a pixelfx checkout. If the working directory has no `tools/render.mjs`, clone one next to the
-   project: `git clone https://github.com/patch-gg/pixelfx`. No install step: the tools use only Node.
+1. Work in the user's pixelfx checkout and read its `AGENTS.md`. On this machine the project is
+   `/Users/michiyang/Desktop/code/develop/game_dev/pixelfx`; prefer an explicitly provided checkout when different.
+   All project-relative paths below refer to that checkout, not the installed skill directory. Keep effect
+   definitions in `src/fx/`; Cocos is an export/playback adapter. Core tools use Node; run `npm ci` if build
+   dependencies are missing. Create a new checkout only when the user needs a separate one.
 2. Check it runs: `node tools/render.mjs fire/torch` writes `records/fire/torch/contact.png`. Open that PNG with
    your image-reading tool. That contact sheet is how you see every effect from now on.
+
+## 生成素材并在工作台预览
+
+当任务包含新增素材、放入现有素材库、浏览器预览或同步 Cocos 资源时，读取
+[references/generate-and-preview.md](references/generate-and-preview.md)。完成源码、注册表、资源导出和浏览器
+验证后，交付指向新素材的工作台直达链接。不要只生成临时预览文件就结束。
+
+典型请求：`用 $pixelfx 制作一个冰火爆炸素材，放入现有素材库，并打开 workbench 预览。`
 
 ## 1. Look for an existing effect first
 

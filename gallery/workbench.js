@@ -1,7 +1,9 @@
 import { FX, Player, categories } from "./app.js";
 
 const $ = (selector) => document.querySelector(selector);
-const state = { category: "all", query: "", selected: 0, player: null, filtered: FX };
+const requestedId = new URLSearchParams(location.search).get("fx");
+const initialIndex = Math.max(0, FX.findIndex((fx) => fx.id === requestedId));
+const state = { category: "all", query: "", selected: initialIndex, player: null, filtered: FX };
 const list = $("#effect-list"), categoryBar = $("#categories"), canvas = $("#stage");
 
 function text(node, value) { node.textContent = value; return node; }
@@ -65,6 +67,9 @@ function select(index) {
   document.querySelectorAll(".controls button, #speed").forEach((control) => control.disabled = false);
   state.selected = Math.max(0, Math.min(index, state.filtered.length - 1));
   const fx = current();
+  const url = new URL(location.href);
+  url.searchParams.set("fx", fx.id);
+  history.replaceState(null, "", url);
   document.querySelectorAll(".effect-item").forEach((item, i) => item.setAttribute("aria-selected", String(i === state.selected)));
   state.player = new Player(canvas, fx, 16 / 10, 1.6);
   state.player.speed = Number($("#speed").value);
@@ -119,5 +124,5 @@ function animate(now) {
 
 renderCategories();
 renderList();
-select(0);
+select(initialIndex);
 requestAnimationFrame(animate);

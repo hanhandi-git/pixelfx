@@ -1,6 +1,6 @@
 # Catalog
 
-244 effects in 21 categories. Every one is a file in
+246 effects in 21 categories. Every one is a file in
 `src/fx/<category>/<name>.js`; render any of them with `node tools/render.mjs <id> --gif`.
 
 ## moves
@@ -110,6 +110,7 @@ strikes, arcs, coils, storms.
 | Plasma ball | `lightning/plasma-ball` | loop 3s | 112×104 | A glass globe on a dark pedestal: wandering plasma tendrils reach from the core to the glass and fan out in bright feet where they touch it, lighting the stand and floor. |
 | Spark arc | `lightning/spark-arc` | loop 2s | 124×120 | A climbing arc between two rods: it strikes white at their narrow foot, climbs on rising heat as it stretches and bows, sputters and snaps at the top, then strikes again. |
 | Storm cloud | `lightning/storm-cloud` | loop 3s | 168×176 | A storm cloud boils overhead, billows lit from inside by flickering discharges, ragged scud under its flat dark base; rain slants down and once a loop a bolt cracks to the floor. |
+| Storm sigil | `lightning/storm-sigil` | one-shot 2.8s | 256×256 | A storm rune writes itself under the target, a charged core gathers overhead, then a forked lightning pillar slams down and leaves crawling arcs across the fading seal. |
 | Tesla coil | `lightning/tesla-coil` | loop 2.4s | 224×136 | A copper coil under a steel torus throws branching arcs that lash out in volleys and now and then strike the floor in a spray of sparks, lighting the metal and the ground. |
 | Thunderclap | `lightning/thunderclap` | one-shot 1.9s | 288×156 | A thunderclap round the caster: a white flash, forked bolts burst out and stab the floor, a heavy shock ring tears across the ground raising dust and grit, sparks streak away. |
 | Zap hit | `lightning/zap-hit` | one-shot 0.9s | 144×112 | A contact zap: an arc snaps in from the left, the hit point overloads into a knot of tiny crackling zigzags, a fern of burn marks glows outward, sparks jink away, ozone puffs. |
@@ -202,6 +203,7 @@ poofs, portals, souls, shatters.
 | Egg hatch | `spawn/egg-hatch` | one-shot 3.1s | 120×96 | A speckled egg rocks three times, each rock cracking it further with warm light leaking out, then pops: light pours out of the opening and lit shell halves tumble away. |
 | Poof | `spawn/poof` | one-shot 1.6s | 112×92 | A cartoon death poof: a white pop, a ring of soft round smoke balls bursting out between speed lines, little stars spinning off, and the cloud lifting and thinning away. |
 | Respawn beam | `spawn/respawn-beam` | one-shot 2.5s | 128×150 | A guide line drops, a pillar of light slams onto the spot, and a scan bar climbs from the feet writing the character back in row by row, white-hot lines cooling to its colors. |
+| Shanhaijing summon | `spawn/shanhaijing-summon` | one-shot 6.4s | 224×160 | A cinnabar circle inks itself in oracle-bone glyphs, the air drags inward, the floor tears open and an antlered beast heaves up out of the dark, throat and eyes catching fire. |
 | Shatter death | `spawn/shatter-death` | one-shot 3.3s | 172×96 | Frost races up the body and seals it in faceted ice, a glint sweeps it, cracks spread from the chest, then it bursts into its own facets that tumble, bounce and melt. |
 | Soul rise | `spawn/soul-rise` | one-shot 3.2s | 96×140 | The body's outline flares and dims, then a pale glowing copy of it lifts out, stretching as its legs melt into a rippling wisp, shedding motes until it thins into light. |
 | Spawn portal | `spawn/spawn-portal` | one-shot 3.8s | 208×150 | A rift tears open on the floor and swirls, belches violet smoke and sparks, spits a fountain of wisps up out of itself, then twists shut with a pop. |
