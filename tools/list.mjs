@@ -3,6 +3,7 @@
 // Matches ids, names, tags and descriptions; no words lists everything.
 
 import { allIds, loadEffect } from "./lib/fxlib.mjs";
+import { originOf } from "../src/fx/provenance.js";
 
 const words = process.argv.slice(2).map((w) => w.toLowerCase());
 let n = 0;
@@ -16,7 +17,7 @@ for (const id of allIds()) {
   const hay = [id, m.name, m.desc, ...m.tags].join(" ").toLowerCase();
   if (!words.every((w) => hay.includes(w))) continue;
   n++;
-  const kind = m.loop ? `loop ${m.duration}s` : `once ${m.duration}s`;
-  console.log(`${id.padEnd(30)} ${kind.padEnd(11)} ${(m.size[0] + "x" + m.size[1]).padEnd(8)} ${m.actor ? "actor  " : "       "}${m.desc}`);
+  const play = m.loop ? `loop ${m.duration}s` : `once ${m.duration}s`;
+  console.log(`${id.padEnd(30)} ${originOf(id).padEnd(9)} ${(m.kind ?? "effect").padEnd(11)} ${play.padEnd(11)} ${(m.size[0] + "x" + m.size[1]).padEnd(8)} ${m.actor ? "actor  " : "       "}${m.desc}`);
 }
 console.log(`\n${n} effect${n === 1 ? "" : "s"}`);

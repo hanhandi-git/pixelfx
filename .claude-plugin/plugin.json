@@ -1,8 +1,8 @@
 {
   "name": "pixelfx",
   "displayName": "pixelfx",
-  "version": "0.3.0",
-  "description": "Pixel art effects and animations as code: a library of ready-made effects in 20 categories, sprite sheet export for any engine, and a skill that makes new effects by drafting, rendering, looking and refining.",
+  "version": "0.4.0",
+  "description": "Pixel art effects and animations as code: ready-made effects in 23 categories, fantasy maps, minions, boss units and choreographed encounters, sprite sheet export for any engine, and a skill that makes new ones by drafting, rendering, looking and refining.",
   "author": {
     "name": "Patch",
     "url": "https://patch.gg"
@@ -10,5 +10,5 @@
   "homepage": "https://github.com/patch-gg/pixelfx",
   "repository": "https://github.com/patch-gg/pixelfx",
   "license": "MIT",
-  "keywords": ["pixel-art", "vfx", "effects", "animation", "sprite-sheet", "gamedev", "canvas", "godot", "unity", "phaser"]
+  "keywords": ["pixel-art", "vfx", "effects", "animation", "sprite-sheet", "gamedev", "canvas", "godot", "unity", "phaser", "fantasy", "boss-fight", "map"]
 }

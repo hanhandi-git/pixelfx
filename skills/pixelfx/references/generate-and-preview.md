@@ -69,6 +69,8 @@ npm run workbench
 
 用可用的浏览器工具实际验证：素材名和 ID 正确、总数更新、分类与搜索能找到素材、播放时画布发生变化、
 暂停与重播可用、切换速度正常、控制台无相关错误。刷新 URL 后仍应选中指定效果。
+素材会按 `original` / `new` 标记；工作台来源筛选支持 `workbench.html?source=new`，gallery 支持
+`gallery/?source=new`。新增素材自动算 `new`，不需要逐个改 `meta.tags`。
 若具备 Codex 打开面板的工具，显示这条新素材直达链接，方便用户直接查看。
 
 工作台按分类排列，新增第 N 种素材不代表其列表排序是 N；以 ID 和名称核实。
@@ -89,3 +91,20 @@ npm run build:web
 遵循项目约定保留 `records/`、`assets/resources/pixelfx/`、`dist/` 为生成产物，
 不要把它们或 Cocos `.meta`、缓存添加到源码提交。
 注明实际无法验证的环节，例如仅验证了导出而未在 Creator 内播放。
+
+
+## 7. 奇幻内容（地图、小怪、Boss、遭遇战）
+
+地图、小怪、Boss 和遭遇战的完整流程在 [fantasy-game.md](fantasy-game.md)。它们的注册、检查和预览命令不同：
+
+```bash
+node tools/check.mjs world/<name> mobs/<name> boss/<name>
+node tools/map.mjs world/<name>            # contact + layout + gameplay
+node tools/encounter.mjs <name> --mp4     # contact + timeline.json (+ mp4)
+node tools/index.mjs && npm run check
+npm run build:web
+```
+
+浏览器入口是 `http://localhost:8080/gallery/fantasy.html?enc=<name>`；静态构建后为
+`/dist/gallery/fantasy.html?enc=<name>`。地图和单位的源码仍在 `src/fx/`，不要放进 Cocos 运行时。
+Cocos 导出对普通单位/攻击同样适用；地图是全屏循环，按 sprite sheet 导出时帧数和图集会很大，通常只在游戏确实需要图片时导出。

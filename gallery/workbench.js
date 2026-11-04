@@ -1,9 +1,10 @@
 import { FX, Player, categories } from "./app.js";
 
 const $ = (selector) => document.querySelector(selector);
-const requestedId = new URLSearchParams(location.search).get("fx");
-const initialIndex = Math.max(0, FX.findIndex((fx) => fx.id === requestedId));
-const state = { category: "all", query: "", selected: initialIndex, player: null, filtered: FX };
+const params = new URLSearchParams(location.search);
+const requestedId = params.get("fx");
+const requestedSource = params.get("source");
+const state = { category: "all", query: "", prov: ["original", "new"].includes(requestedSource) ? requestedSource : "all", selected: 0, player: null, filtered: FX };
 const list = $("#effect-list"), categoryBar = $("#categories"), canvas = $("#stage");
 
 function text(node, value) { node.textContent = value; return node; }
@@ -17,7 +18,9 @@ function button(label, className = "") {
 function current() { return state.filtered[state.selected] ?? null; }
 function matches(fx) {
   const q = state.query.trim().toLowerCase();
-  return (state.category === "all" || fx.cat === state.category) && (!q || [fx.id, fx.name, fx.meta.desc, ...fx.meta.tags].join(" ").toLowerCase().includes(q));
+  return (state.category === "all" || fx.cat === state.category)
+    && (state.prov === "all" || fx.prov === state.prov)
+    && (!q || [fx.id, fx.name, fx.prov, fx.meta.desc, ...fx.meta.tags].join(" ").toLowerCase().includes(q));
 }
 
 function renderCategories() {
@@ -44,11 +47,44 @@ function renderList() {
     const item = button("", "effect-item");
     item.setAttribute("role", "option");
     item.setAttribute("aria-selected", String(index === state.selected));
-    item.append(text(document.createElement("span"), String(index + 1).padStart(3, "0")), text(document.createElement("strong"), fx.name), text(document.createElement("small"), fx.meta.loop ? "loop" : `${+fx.meta.duration.toFixed(2)}s`));
+    const name = document.createElement("span");
+    name.className = "effect-name";
+    name.append(text(document.createElement("strong"), fx.name), text(document.createElement("em"), fx.prov));
+    name.lastChild.className = `origin-badge ${fx.prov}`;
+    item.append(text(document.createElement("span"), String(index + 1).padStart(3, "0")), name, text(document.createElement("small"), fx.meta.loop ? "loop" : `${+fx.meta.duration.toFixed(2)}s`));
     item.addEventListener("click", () => select(index));
     list.append(item);
   });
-  $("#count").textContent = `${FX.length} effects · ${state.filtered.length} shown`;
+  const newCount = FX.filter((fx) => fx.prov === "new").length;
+  $("#count").textContent = `${FX.length} effects · ${newCount} new · ${state.filtered.length} shown`;
+}
+
+function renderOrigins() {
+  const bar = $("#origins");
+  bar.replaceChildren();
+  const counts = { all: FX.length, original: FX.filter((fx) => fx.prov === "original").length, new: FX.filter((fx) => fx.prov === "new").length };
+  const labels = { all: "all sources", original: "original", new: "new" };
+  for (const id of ["all", "original", "new"]) {
+    const b = button(`${labels[id]} ${counts[id]}`, "origin");
+    b.setAttribute("aria-pressed", String(id === state.prov));
+    b.addEventListener("click", () => {
+      state.prov = id;
+      state.selected = 0;
+      // a category with nothing in the chosen source would show an empty fight: fall back to all
+      if (state.category !== "all" && !FX.some((fx) => fx.cat === state.category && (id === "all" || fx.prov === id))) {
+        state.category = "all";
+        renderCategories();
+      }
+      const url = new URL(location.href);
+      if (id === "all") url.searchParams.delete("source");
+      else url.searchParams.set("source", id);
+      history.replaceState(null, "", url);
+      renderOrigins();
+      renderList();
+      select(0);
+    });
+    bar.append(b);
+  }
 }
 
 function select(index) {
@@ -71,7 +107,8 @@ function select(index) {
   url.searchParams.set("fx", fx.id);
   history.replaceState(null, "", url);
   document.querySelectorAll(".effect-item").forEach((item, i) => item.setAttribute("aria-selected", String(i === state.selected)));
-  state.player = new Player(canvas, fx, 16 / 10, 1.6);
+  const screen = fx.meta.size[0] >= 320 && Math.abs(fx.meta.size[0] / fx.meta.size[1] - 16 / 9) < 0.05;
+  state.player = new Player(canvas, fx, screen ? 16 / 9 : 16 / 10, screen ? 1 : 1.6);
   state.player.speed = Number($("#speed").value);
   state.player.render();
   updateDetails(fx);
@@ -83,7 +120,7 @@ function updateDetails(fx) {
   $("#effect-name").textContent = fx.name;
   $("#effect-id").textContent = fx.id;
   $("#description").textContent = fx.meta.desc;
-  const facts = [["kind", fx.meta.loop ? "loop" : "one-shot"], ["duration", `${fx.meta.duration}s`], ["frames", `${Math.round(fx.meta.duration * fx.meta.fps) + (fx.meta.loop ? 0 : 1)} @ ${fx.meta.fps} fps`], ["canvas", `${fx.meta.size[0]} × ${fx.meta.size[1]} px`], ["tags", fx.meta.tags.join(" · ")]];
+  const facts = [["source", fx.prov], ["kind", fx.meta.loop ? "loop" : "one-shot"], ["duration", `${fx.meta.duration}s`], ["frames", `${Math.round(fx.meta.duration * fx.meta.fps) + (fx.meta.loop ? 0 : 1)} @ ${fx.meta.fps} fps`], ["canvas", `${fx.meta.size[0]} × ${fx.meta.size[1]} px`], ["tags", fx.meta.tags.join(" · ")]];
   $("#facts").replaceChildren(...facts.flatMap(([key, value]) => [text(document.createElement("dt"), key), text(document.createElement("dd"), value)]));
 }
 
@@ -123,6 +160,8 @@ function animate(now) {
 }
 
 renderCategories();
+renderOrigins();
 renderList();
-select(initialIndex);
+const start = state.filtered.findIndex((fx) => fx.id === requestedId);
+select(start >= 0 ? start : 0);
 requestAnimationFrame(animate);

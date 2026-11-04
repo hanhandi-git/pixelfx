@@ -1,13 +1,13 @@
 // The gallery: every effect playing live from its own code. Tiles start when they scroll into view; a click
 // opens one effect with its options, a sprite sheet and the code to use it.
 
-import { effects, categories } from "../src/fx/index.js";
+import { effects, categories, provenance } from "../src/fx/index.js";
 import { createFrame, clearFrame, createFx, createAct, actBounds, composite, backdrop, drawActor, painterFor, stockActor, actorAlphaOf, PAL, BACKDROPS } from "../src/core/index.js";
 
 const REPO = "https://github.com/patch-gg/pixelfx";
 const FX = Object.entries(effects).map(([id, mod]) => {
   const meta = { fps: 30, bg: "dark", loop: false, duration: 1, tags: [], options: {}, ...mod.meta };
-  return { id, cat: id.split("/")[0], name: meta.name, mod: { ...mod, meta }, meta };
+  return { id, cat: id.split("/")[0], name: meta.name, prov: provenance[id] ?? "original", mod: { ...mod, meta }, meta };
 });
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 // full-screen effects (transitions, weather, impact frames) fill a 16:9 stage edge to edge instead of floating in it
@@ -121,7 +121,13 @@ function build() {
       const b = fx.mod.act ? actBounds(fx.mod) : null, [fw, fh] = b ? [b.x1 - b.x0, b.y1 - b.y0] : fx.meta.size;
       const fig = el("figure", { className: isScreen(fx) ? "tile big screen" : fw > 200 || fh > 170 || (b && (fw > 130 || fx.mod.act.target || fx.mod.act.targets)) ? "tile big" : "tile", tabIndex: 0 }, [
         el("div", { className: "stage" }, cv),
-        el("figcaption", {}, [el("b", { textContent: fx.name }), el("small", { textContent: fx.meta.loop ? "loop" : `${+fx.meta.duration.toFixed(2)}s` })]),
+        el("figcaption", {}, [
+          el("b", { textContent: fx.name }),
+          el("span", { className: "tile-meta" }, [
+            ...(fx.prov === "new" ? [el("em", { className: "origin-tag new", textContent: "new" })] : []),
+            el("small", { textContent: fx.meta.loop ? "loop" : `${+fx.meta.duration.toFixed(2)}s` }),
+          ]),
+        ]),
       ]);
       const t = { fx, fig, cv, player: null, visible: false, hover: false };
       fig.addEventListener("click", () => openDetail(fx));
@@ -147,7 +153,8 @@ function build() {
 }
 
 // ---- filters
-const state = { cat: "all", q: "" };
+const initialSource = new URLSearchParams(location.search).get("source");
+const state = { cat: "all", q: "", prov: ["original", "new"].includes(initialSource) ? initialSource : "all" };
 function chips() {
   const box = $("#chips");
   const mk = (id, label, n) => {
@@ -158,13 +165,37 @@ function chips() {
   };
   mk("all", "all", FX.length);
   for (const s of sections) mk(s.c.id, s.c.name, s.list.length);
+  box.append(el("span", { className: "chip-label", textContent: "source" }));
+  const mkSource = (id, label, n) => {
+    const b = el("button", { className: "chip origin", type: "button" }, [label, el("span", { textContent: n })]);
+    b.dataset.origin = id;
+    b.setAttribute("aria-pressed", String(id === state.prov));
+    b.addEventListener("click", () => setProv(id));
+    box.append(b);
+  };
+  mkSource("all", "all", FX.length);
+  mkSource("original", "original", FX.filter((f) => f.prov === "original").length);
+  mkSource("new", "new", FX.filter((f) => f.prov === "new").length);
 }
 function setCat(id, fromHash = false) {
   state.cat = sections.some((s) => s.c.id === id) ? id : "all";
-  document.querySelectorAll(".chip").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.cat === state.cat)));
-  if (!fromHash) history.replaceState(null, "", state.cat === "all" ? location.pathname : "#" + state.cat);
+  document.querySelectorAll(".chip[data-cat]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.cat === state.cat)));
+  if (!fromHash) {
+    const url = new URL(location.href);
+    url.hash = state.cat === "all" ? "" : state.cat;
+    history.replaceState(null, "", url);
+  }
   filter();
   if (!fromHash) window.scrollTo({ top: 0 });
+}
+function setProv(id) {
+  state.prov = ["all", "original", "new"].includes(id) ? id : "all";
+  document.querySelectorAll(".chip[data-origin]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.origin === state.prov)));
+  const url = new URL(location.href);
+  if (state.prov === "all") url.searchParams.delete("source");
+  else url.searchParams.set("source", state.prov);
+  history.replaceState(null, "", url);
+  filter();
 }
 function filter() {
   const q = state.q.trim().toLowerCase();
@@ -173,7 +204,7 @@ function filter() {
     let any = false;
     for (const fx of s.list) {
       const t = tiles.find((x) => x.fx === fx);
-      const hit = (state.cat === "all" || state.cat === s.c.id) && (!q || [fx.id, fx.name, fx.meta.desc, ...fx.meta.tags].join(" ").toLowerCase().includes(q));
+      const hit = (state.cat === "all" || state.cat === s.c.id) && (state.prov === "all" || fx.prov === state.prov) && (!q || [fx.id, fx.name, fx.prov, fx.meta.desc, ...fx.meta.tags].join(" ").toLowerCase().includes(q));
       t.fig.hidden = !hit;
       any ||= hit;
       shown += hit;
@@ -196,7 +227,7 @@ function openDetail(fx) {
   $("#d-desc").textContent = m.desc;
   const frames = Math.round(m.duration * m.fps) + (m.loop ? 0 : 1);
   $("#d-facts").replaceChildren(
-    ...[["kind", m.loop ? "loop" : "one-shot"], ["length", `${+m.duration.toFixed(2)} s, ${frames} frames at ${m.fps} fps`], ...(fx.mod.act ? [["acted", actFacts(fx.mod)]] : []), ["canvas", `${m.size[0]} × ${m.size[1]} px`], ["tags", m.tags.join(", ")]].flatMap(([k, v]) => [el("dt", { textContent: k }), el("dd", { textContent: v })]),
+    ...[["source", fx.prov], ["kind", m.loop ? "loop" : "one-shot"], ["length", `${+m.duration.toFixed(2)} s, ${frames} frames at ${m.fps} fps`], ...(fx.mod.act ? [["acted", actFacts(fx.mod)]] : []), ["canvas", `${m.size[0]} × ${m.size[1]} px`], ["tags", m.tags.join(", ")]].flatMap(([k, v]) => [el("dt", { textContent: k }), el("dd", { textContent: v })]),
   );
   // controls
   $("#d-bg").replaceChildren(...BACKDROPS.concat("none").map((b) => btn(b, () => detail.setBg(b), b === m.bg, "bg")));

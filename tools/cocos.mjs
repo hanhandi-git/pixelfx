@@ -12,6 +12,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { ROOT, allIds, resolveIds, loadEffect, renderFrames, canvas, save } from "./lib/fxlib.mjs";
 import { actTiming } from "../src/core/index.js";
+import { originOf } from "../src/fx/provenance.js";
 
 const args = process.argv.slice(2), patterns = [], flags = {};
 for (let i = 0; i < args.length; i++) {
@@ -55,6 +56,8 @@ for (const id of ids) {
     save(`${base}.json`, JSON.stringify(sheet.json, null, 1));
     index.push({
       id,
+      source: originOf(id),
+      kind: fx.meta.kind ?? "effect",
       name: fx.meta.name,
       desc: fx.meta.desc,
       tags: fx.meta.tags,
@@ -128,7 +131,7 @@ function cocosSheet(fx, r, name, maxSize) {
         app: "https://github.com/patch-gg/pixelfx", version: "1", image: pages[0].image, format: "RGBA8888",
         size: { w: pages[0].width, h: pages[0].height }, scale: "1",
         frameTags: [{ name, from: 0, to: frames.length - 1, direction: "forward" }],
-        pixelfx: { id: fx.id, name: m.name, fps, loop: m.loop, frames: frames.length, frameSize: [w, h], pivot: m.origin, columns: pages[0].columns, ...(fx.mod.act ? { act: actTiming(fx.mod) } : {}) },
+        pixelfx: { id: fx.id, source: originOf(fx.id), kind: m.kind ?? "effect", name: m.name, fps, loop: m.loop, frames: frames.length, frameSize: [w, h], pivot: m.origin, columns: pages[0].columns, ...(fx.mod.act ? { act: actTiming(fx.mod) } : {}) },
       },
     },
   };

@@ -4,16 +4,20 @@
 
 # pixelfx.
 
-**<!-- count -->246<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
+**<!-- count -->256<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
 explosions, magic, weather, UI, pickups, critters and more. Play them live, recolor and mirror them, drop them into
-a browser game, or export sprite sheets for any engine. Plus a Claude Code skill that makes new ones the way a
-picky pixel artist would: draft, render, look, refine.
+a browser game, or export sprite sheets for any engine. Plus a **fantasy game kit** — battle maps, minion units,
+telegraphed boss attacks and choreographed encounters — and a Claude Code skill that makes new ones the way a picky
+pixel artist would: draft, render, look, refine.
+
+The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->12<!-- /new-count --> new ones**. The workbench marks every item `original` or `new` and filters by it.
 
 Every effect that involves a character is **acted out**: he winds up, lets go, freezes on contact and recovers, and a
 target takes the hit. Twelve whole moves chain the effects into attacks from wind-up to recovery.
 
-**[open the gallery](https://patch-gg.github.io/pixelfx/)** · [catalog](docs/CATALOG.md) · [acting](#acting) ·
-[the skill](#the-skill) · [make your own](#make-your-own) · [how it works](#how-it-works)
+**[open the gallery](https://patch-gg.github.io/pixelfx/)** · [fantasy encounters](https://patch-gg.github.io/pixelfx/fantasy.html) ·
+[catalog](docs/CATALOG.md) · [fantasy kit](docs/FANTASY.md) · [acting](#acting) · [the skill](#the-skill) ·
+[make your own](#make-your-own) · [how it works](#how-it-works)
 
 The method is [Hugo Duprez](https://x.com/HugoDuprez)'s, from [How to make (good) pixel art effects with
 Claude](https://www.spritefusion.com/blog/how-to-make-good-pixel-art-effects-with-claude): code is clay, trust your
@@ -47,9 +51,46 @@ the idea at library scale, with a skill to keep going.
 | **pickups** | 11 | chest open, coin spin, collect burst, crystal shard, gem spin, heart pickup… |
 | **transitions** | 10 | blinds, burn away, crt off, diamond wipe, glitch wipe, iris… |
 | **critters** | 12 | bat, bird, butterfly, eyeball, fish school, flying skull… |
+| **world** | 2 | ember depths, mossy ruins |
+| **mobs** | 4 | goblin jab, goblin raider, spore puff, sporeling |
+| **boss** | 4 | phase roar, root quake, thorn king, thorn volley |
 <!-- /catalog -->
 
 Every effect is a file in `src/fx/<category>/<name>.js`. The [catalog](docs/CATALOG.md) lists them all.
+
+## fantasy game kit.
+
+The library also carries the things a fantasy game needs around its effects. They use the same files, buffers,
+palette options and tooling, and add one export each:
+
+| piece | folder | what it carries |
+|---|---|---|
+| **maps** | `src/fx/world/` | 320×180 looping arenas with a `map` export: `groundY`, walkable spans, platforms, hero/mob/boss spawns |
+| **minions** | `src/fx/mobs/` | looping units with `hp`, radius, speed and a list of attacks; their attack effects are separate modules |
+| **bosses** | `src/fx/boss/` | large loops with health, phases and a suite of telegraphed attacks |
+| **boss attacks** | `src/fx/boss/` | screen-wide telegraphs, quakes, volleys and phase transitions, with hit timings |
+| **encounters** | `src/encounters/` | a map, a hero, minions, a boss and its attacks on one timeline, from 14 s skirmishes to 30 s two-phase fights |
+
+Play the two sample encounters: **[Ashfall Skirmish](https://patch-gg.github.io/pixelfx/fantasy.html?enc=ember-skirmish)** and
+**[The Verdant Throne](https://patch-gg.github.io/pixelfx/fantasy.html?enc=verdant-throne)**. The browser page and the render tools share the
+same `createEncounter` runtime.
+
+```bash
+node tools/new.mjs world/mossy-crypt --map       # a battle map with a layout
+node tools/new.mjs mobs/rat-scout --mob          # a looping minion
+node tools/new.mjs mobs/rat-bite --mob-attack    # its attack effect
+node tools/new.mjs boss/bog-witch --boss         # a boss unit
+node tools/new.mjs boss/bog-nova --boss-attack   # a telegraphed move
+node tools/new.mjs bog-witch --encounter         # the timeline that plays them
+
+node tools/map.mjs world/mossy-ruins             # contact + layout + gameplay images
+node tools/encounter.mjs verdant-throne --mp4    # contact sheet, timeline JSON and video
+```
+
+Every new piece is checked like an effect: `npm run check` verifies the map's floor and spawns, the boss's phases,
+hit timings inside their effects, timeline order and that the encounter can actually finish. `node tools/index.mjs`
+regenerates the registries and [catalog](docs/CATALOG.md)/[encounter catalog](docs/ENCOUNTERS.md). The full data contract,
+design checklists and integration snippet are in [docs/FANTASY.md](docs/FANTASY.md).
 
 ## use one.
 
@@ -108,6 +149,11 @@ npm run workbench
 ```
 
 Open [http://localhost:8080/gallery/workbench.html](http://localhost:8080/gallery/workbench.html). It imports the effect modules directly, supports category filtering and search, and provides play, pause, replay, previous/next and speed controls. `npm run build:web` emits the static page under `dist/gallery/workbench.html`.
+
+The workbench marks every effect `original` or `new` and filters by source; `?source=new` opens the 12 additions
+directly. The standalone gallery has the same source filter. For the fantasy kit, the same server plays the encounter timeline at
+[http://localhost:8080/gallery/fantasy.html](http://localhost:8080/gallery/fantasy.html): choose an encounter, jump to a
+phase, replay it and change speed. `npm run build:web` also copies it to `dist/gallery/fantasy.html`.
 
 Link to a specific effect with `?fx=<category>/<name>`, for example
 [Storm sigil](http://localhost:8080/gallery/workbench.html?fx=lightning/storm-sigil). Selecting an effect updates
@@ -177,7 +223,7 @@ The body is yours to use too: `skeleton(pose)` gives you every joint of a pose i
 
 ## the skill.
 
-The `pixelfx` skill teaches Claude Code to find, use, export and make effects. Install it as a plugin:
+The `pixelfx` skill teaches Claude Code to find, use, export and make effects — and to build the fantasy kit around them. Install it as a plugin:
 
 ```
 /plugin marketplace add patch-gg/pixelfx
@@ -191,6 +237,9 @@ or copy `skills/pixelfx` into `~/.claude/skills/`. Then ask for what you want:
 - "Export the fire and explosions categories as sprite sheets for Godot."
 - "This hit effect feels floaty. Make it punchier."
 - "Give this spell a wind-up and make the enemy react to it."
+- "Lay out a moonlit ruins arena for a two-phase boss fight."
+- "Make a goblin minion, its dagger attack and a wave encounter."
+- "Design a forest boss with a root quake, a thorn volley and a phase roar."
 
 ## make your own.
 
@@ -198,6 +247,15 @@ or copy `skills/pixelfx` into `~/.claude/skills/`. Then ask for what you want:
 node tools/new.mjs arcane/my-spell       # a working starting point (add --loop for a loop)
 node tools/render.mjs arcane/my-spell    # records/arcane/my-spell/contact.png: look at it
 node tools/check.mjs arcane/my-spell     # spills, seams, unseeded randomness, slow frames
+```
+
+For a fantasy scene, start from a role template and preview the piece that matters:
+
+```bash
+node tools/new.mjs world/my-arena --map        # then: node tools/map.mjs world/my-arena
+node tools/new.mjs mobs/my-slime --mob         # then: node tools/new.mjs mobs/my-slime-bite --mob-attack
+node tools/new.mjs boss/my-warden --boss       # then: node tools/new.mjs boss/my-warden-quake --boss-attack
+node tools/new.mjs my-fight --encounter        # then: node tools/encounter.mjs my-fight --mp4
 ```
 
 Then go round: look at the contact sheet, fix the worst thing, render again. `--gif` and `--mp4` show the motion,
@@ -221,6 +279,9 @@ bar. `node tools/serve.mjs` runs the gallery locally with your effects in it.
   steps, the way hand-drawn sprites do, while particles run at full rate.
 - **Same frame shape as Sprite Fusion's VFX** (`{ w, h, ox, oy, color, light }`), so both libraries can draw into
   one frame.
+- **Fantasy roles are data, not a second runtime.** A map is a 320×180 loop with a layout export; a mob/boss is a unit
+  loop with stats; an attack is a one-shot with hit timings; an encounter places them on a timeline. `createEncounter`
+  draws the fight and the boss bar, and the same timeline powers the tools and the browser page.
 
 ## license.
 

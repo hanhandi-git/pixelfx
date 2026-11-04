@@ -22,4 +22,7 @@ export const categories = [
   { id: "pickups", name: "pickups", blurb: "coins, gems, chests, potions" },
   { id: "transitions", name: "transitions", blurb: "wipes, irises, dissolves" },
   { id: "critters", name: "critters", blurb: "slimes, bats, ghosts, frogs" },
+  { id: "world", name: "world", blurb: "battle maps: moonlit ruins, lava caverns, arenas with a layout" },
+  { id: "mobs", name: "mobs", blurb: "minions and their attacks: goblins, sporelings, jabs, puffs" },
+  { id: "boss", name: "boss", blurb: "boss units, telegraphed attacks and phase transitions" },
 ];

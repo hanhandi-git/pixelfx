@@ -68,6 +68,28 @@ that loop come from `cycle`, motion from `fly`, noise from `loopNoise`/`tileFbm`
   `// ... adapted from Sprite Fusion's open-source <name> (https://www.spritefusion.com/pixel-art-vfx/<name>),`
   `// MIT License, Copyright (c) 2026 Hugo Duprez.`
 
+## Fantasy roles: maps, mobs, bosses and attacks
+
+The same file format carries the fantasy kit. Add a `meta.kind` and one extra export; everything else — size, origin,
+duration, loop, fps, bg, options, deterministic drawing, the two buffers — is unchanged.
+
+| `kind` | folder | extra export | contract |
+|---|---|---|---|
+| `map` | `world/` | `map` | `{ groundY, bounds, walk, platforms, spawns, arena }`; 320 x 180 loop at origin `[0, 0]` |
+| `mob` | `mobs/` | `mob` | `{ hp, radius, height, speed, xp, loot, attacks }`; loop at the feet |
+| `mob-attack` | `mobs/` | `attack` | `{ telegraph, hits: [{ t, amp, shake, damage, range, target }] }`; one-shot |
+| `boss` | `boss/` | `boss` | `{ hp, radius, height, phases, attacks, loot }`; loop, big canvas |
+| `boss-attack` | `boss/` | `attack` | same as a mob attack; 320 x 180, `origin: [160, 150]` |
+
+`src/core/encounter.js` places these on a timeline; `src/encounters/<id>.js` exports `meta` and `encounter` and is
+rendered with `node tools/encounter.mjs <id>`. `createEncounter` draws the map, units, effects, boss bar and phase
+banner. Map, mob, boss and attack files stay ordinary effects for `render`, `check`, `sheets`, the workbench and
+Cocos export.
+
+Author the roles with `node tools/new.mjs <id> --map|--mob|--mob-attack|--boss|--boss-attack|--encounter`. The full
+data shapes, design checklists and command sequence are in [FANTASY.md](FANTASY.md); the skill carries the Chinese
+workflow in `skills/pixelfx/references/fantasy-game.md`.
+
 ## Acts
 
 An effect shows what the magic does. Its act shows what the character does. Without one, the best effect looks like a
@@ -123,6 +145,14 @@ export const create = chain([
 
 Judge acts by their motion: `node tools/act.mjs <id>` shows consecutive 12 fps steps, `--mp4` plays it, and `tools/check.mjs` catches keys out of
 order, unknown pose fields, loop seams and hands that teleport.
+
+## Source tags
+
+The workbench and gallery mark every effect as `original` or `new` and expose a source filter. The baseline lives in
+`src/fx/provenance.js`: `ORIGINAL_EFFECTS` is the 244-effect library from before the additions, and any id not in that
+set is `new`. Adding an effect therefore tags it automatically; do not edit generated registries or individual
+`meta.tags` for this. Regenerate the registry/catalog with `node tools/index.mjs` so `src/fx/index.js` exports the
+`provenance` map and `docs/CATALOG.md` gets its `source` column.
 
 ## The toolkit (`src/core/sim.js`, from Sprite Fusion's code)
 

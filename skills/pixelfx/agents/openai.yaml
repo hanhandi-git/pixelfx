@@ -1,4 +1,4 @@
 interface:
-  display_name: "PixelFX 素材生成与预览"
-  short_description: "Create pixel VFX and preview in the workbench"
-  default_prompt: "用 $pixelfx 生成一个与现有库风格一致的像素特效，入库并在 gallery/workbench.html 预览。"
+  display_name: "PixelFX 素材与奇幻战斗设计"
+  short_description: "Create pixel VFX, maps, minions and boss encounters, then preview them"
+  default_prompt: "用 $pixelfx 设计一个奇幻场景/小怪/Boss 战斗特效，入库并在 workbench 或 fantasy gallery 预览。"

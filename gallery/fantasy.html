@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>pixelfx fantasy</title>
+<link rel="icon" href="data:,">
+<meta name="description" content="Play the pixelfx fantasy encounters: maps, minions and boss fights made of code.">
+<link rel="stylesheet" href="fantasy.css">
+</head>
+<body>
+<header class="fg-head">
+  <div>
+    <a class="back" href="index.html">← gallery</a>
+    <h1>pixelfx fantasy</h1>
+    <p>Maps, minions and boss fights, played live from the same effects as the library.</p>
+  </div>
+  <nav class="fg-nav">
+    <a href="index.html">library</a>
+    <a href="workbench.html">workbench</a>
+    <a href="https://github.com/patch-gg/pixelfx" target="_blank" rel="noopener">github</a>
+  </nav>
+</header>
+<main class="fg-layout">
+  <aside class="fg-list" aria-label="Encounters">
+    <div class="fg-list-head">
+      <h2>encounters</h2>
+      <span id="enc-count">0</span>
+    </div>
+    <div id="encounter-list"></div>
+    <p class="hint">An encounter is a map, a hero, minions, a boss and the boss's attacks on one timeline. Choose one to play it, or open the source to cut your own.</p>
+  </aside>
+  <section class="fg-main" aria-label="Encounter preview">
+    <div class="fg-stage"><canvas id="stage" width="320" height="180" aria-label="Live encounter"></canvas><div class="status" id="status">playing</div></div>
+    <div class="fg-controls">
+      <button class="control primary" id="play" type="button">pause</button>
+      <button class="control" id="again" type="button">replay</button>
+      <button class="control" id="prev" type="button">previous</button>
+      <button class="control" id="next" type="button">next</button>
+      <label class="speed">speed <select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label>
+    </div>
+    <div class="fg-track" id="track" aria-label="Encounter timeline">
+      <div class="fg-track-fill" id="track-fill"></div>
+      <div class="fg-track-marks" id="track-marks"></div>
+    </div>
+    <div class="fg-info">
+      <div class="fg-title">
+        <div>
+          <div class="eyebrow">selected encounter</div>
+          <h2 id="enc-name">loading…</h2>
+          <div class="enc-id" id="enc-id"></div>
+        </div>
+        <div class="phase-label" id="phase-label"></div>
+      </div>
+      <p id="enc-desc"></p>
+      <div class="fg-phases" id="phases"></div>
+      <dl class="fg-facts" id="facts"></dl>
+    </div>
+  </section>
+</main>
+<script type="module" src="fantasy.js"></script>
+</body>
+</html>

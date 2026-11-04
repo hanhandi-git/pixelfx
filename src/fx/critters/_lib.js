@@ -76,6 +76,22 @@ export class Grid {
     const i = this.idx(x, y);
     if (i >= 0) this.c[i] = 0;
   }
+  /** One cell, the same as set() with a friendlier shape for small details. */
+  px(x, y, c, a = 1, tag = 0) { this.set(x, y, c, a, tag); }
+  /** A filled rectangle in cells. */
+  rect(x, y, w, h, c, a = 1) {
+    for (let yy = Math.floor(y); yy < Math.floor(y + h); yy++)
+      for (let xx = Math.floor(x); xx < Math.floor(x + w); xx++) this.set(xx, yy, c, a);
+  }
+  /** A ring from radius r - w to r, on the cell grid. */
+  ring(cx, cy, r, w, c, a = 1) {
+    const r0 = Math.max(0, r - w);
+    for (let yy = Math.floor(cy - r); yy <= Math.ceil(cy + r); yy++)
+      for (let xx = Math.floor(cx - r); xx <= Math.ceil(cx + r); xx++) {
+        const d2 = (xx + 0.5 - cx) ** 2 + (yy + 0.5 - cy) ** 2;
+        if (d2 <= r * r && d2 >= r0 * r0) this.set(xx, yy, c, a);
+      }
+  }
   /**
    * fn(x, y, out) at each cell center in the box returns a color (or 0 / undefined to leave it); it may set
    * out.a (alpha) and out.t (tag).

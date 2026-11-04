@@ -9,9 +9,9 @@
     {
       "name": "pixelfx",
       "source": "./",
-      "description": "A skill for pixel art effects and sprite animations: use, recolor and export the library's effects, or draft, render, look at and refine new ones until they look hand-animated.",
+      "description": "A skill for pixel art effects, maps, minions and boss encounters: use, recolor and export the library, or draft, render, look at and refine new content until it looks hand-animated.",
       "category": "gamedev",
-      "tags": ["pixel-art", "vfx", "animation", "sprite-sheet", "gamedev"]
+      "tags": ["pixel-art", "vfx", "animation", "sprite-sheet", "gamedev", "fantasy", "boss-fight"]
     }
   ]
 }

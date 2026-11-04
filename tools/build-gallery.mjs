@@ -19,6 +19,8 @@ writeFileSync(join(OUT, "style.css"), readFileSync(join(G, "style.css")));
 writeFileSync(join(OUT, "index.html"), readFileSync(join(G, "index.html")));
 await build({ entryPoints: [join(G, "workbench.js")], bundle: true, format: "esm", minify: true, outfile: join(OUT, "workbench.js"), legalComments: "none" });
 for (const file of ["workbench.html", "workbench.css"]) cpSync(join(G, file), join(OUT, file));
+await build({ entryPoints: [join(G, "fantasy.js")], bundle: true, format: "esm", minify: true, outfile: join(OUT, "fantasy.js"), legalComments: "none" });
+for (const file of ["fantasy.html", "fantasy.css"]) cpSync(join(G, file), join(OUT, file));
 
 // the one-page version: <title> and <style> first, then the body markup, the font as a data URI
 const html = readFileSync(join(G, "index.html"), "utf8");

@@ -1,7 +1,7 @@
 {
   "name": "pixelfx",
-  "version": "0.3.0",
-  "description": "Code-driven pixel art effects and animations, and a Claude Code skill to make your own.",
+  "version": "0.4.0",
+  "description": "Code-driven pixel art effects, fantasy maps, minions, bosses and encounters, and a Claude Code skill to make your own.",
   "type": "module",
   "license": "MIT",
   "engines": {
@@ -10,7 +10,8 @@
   "exports": {
     ".": "./src/core/index.js",
     "./fx/*": "./src/fx/*.js",
-    "./core/*": "./src/core/*.js"
+    "./core/*": "./src/core/*.js",
+    "./encounters/*": "./src/encounters/*.js"
   },
   "scripts": {
     "render": "node tools/render.mjs",
@@ -18,7 +19,9 @@
     "gallery": "node tools/serve.mjs",
     "workbench": "node tools/serve.mjs",
     "build:web": "node tools/build-gallery.mjs",
-    "cocos": "node tools/cocos.mjs"
+    "cocos": "node tools/cocos.mjs",
+    "map": "node tools/map.mjs",
+    "encounter": "node tools/encounter.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.10"

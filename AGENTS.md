@@ -12,10 +12,17 @@ new native implementation.
 
 ## Repository map
 
-- `src/core/`: frame buffers, painter, particles, actors, acts, color and math helpers.
+- `src/core/`: frame buffers, painter, particles, actors, acts, encounters, color and math helpers.
 - `src/fx/<category>/<effect>.js`: effect modules. Each exports `meta` and either `draw()` or `create()`.
+- `src/fx/world/`: battle maps (`meta.kind: "map"`, `map` layout export, helpers in `_lib.js`).
+- `src/fx/mobs/`: minion loops (`kind: "mob"`, `mob` stats) and their one-shot attacks (`kind: "mob-attack"`).
+- `src/fx/boss/`: boss loops (`kind: "boss"`, phases) and screen-wide attacks (`kind: "boss-attack"`).
+- `src/encounters/<id>.js`: encounter choreography (map, hero, units, attacks, phases, timeline).
 - `src/fx/index.js`: generated effect registry. Regenerate it with `node tools/index.mjs`.
-- `tools/`: rendering, checking, sprite-sheet export and gallery tooling.
+- `src/fx/provenance.js`: the 244-effect original baseline; anything not listed is `new` in the workbench/gallery source filter.
+- `src/encounters/index.js`: generated encounter registry.
+- `tools/`: rendering, checking, sprite-sheet export, map/encounter previews and gallery tooling.
+- `gallery/fantasy.html`: live encounter player (the same timeline the tools render).
 - `cocos/runtime/PixelfxSprite.ts`: reusable Cocos Creator 3.x playback component.
 - `assets/scripts/pixelfx/PixelfxSprite.ts`: the copy used by the local Cocos project.
 - `assets/scenes/Main.scene`: Cocos preview scene; it plays the exported effects in sequence.
@@ -55,6 +62,20 @@ npm run build:web              # build static gallery + workbench into dist/gall
 npm run cocos -- fire/torch \
   --out assets/resources/pixelfx
 npm run cocos -- --out assets/resources/pixelfx  # export all effects
+
+npm run map -- world/mossy-ruins                 # map contact, layout and gameplay images
+npm run encounter -- verdant-throne --mp4        # encounter contact sheet, timeline JSON and video
+```
+
+Fantasy content starters:
+
+```bash
+node tools/new.mjs world/<name> --map
+node tools/new.mjs mobs/<name> --mob
+node tools/new.mjs mobs/<name> --mob-attack
+node tools/new.mjs boss/<name> --boss
+node tools/new.mjs boss/<name> --boss-attack
+node tools/new.mjs <encounter-name> --encounter
 ```
 
 For Cocos changes, also compile the runtime component when possible:
@@ -67,13 +88,21 @@ node_modules/.bin/esbuild assets/scripts/pixelfx/PixelfxSprite.ts \
 
 After changing source effects, run `npm run check` and regenerate Cocos assets when the preview
 needs the changed effect. A full export writes hundreds of generated files and can take time.
-The H5 workbench imports source effects directly, so it needs no Cocos export step.
+The H5 workbench and fantasy encounter page import source modules directly, so they need no Cocos export step.
 
 ## Effect authoring rules
 
 - Preserve deterministic output. Never use `Math.random`; use the seeded helpers in `src/core/`.
 - Respect each effect's `meta` contract: `name`, `desc`, `tags`, `size`, `origin`, `duration`, `bg`,
-  and `options` where applicable.
+  and `options` where applicable. Fantasy roles add `meta.kind` and exactly one of `map`, `mob`, `boss` or
+  `attack`; keep the shape documented in `docs/FANTASY.md` because tools and `createEncounter` read it.
+- Keep maps engine-independent: they draw with `Painter` and export layout data, not game logic. Units, attacks and
+  encounters compose effects; they do not move effect implementations into the runtime.
+- Keep attacks separate from units. A mob's `mob.attacks[].fx` and a boss's `boss.attacks` reference effect modules;
+  an `attack.hits[].t` must line up with the on-screen contact frame.
+- Keep the source tag automatic: new effects are tagged `new` because they are absent from `ORIGINAL_EFFECTS` in
+  `src/fx/provenance.js`. Only edit that list when deliberately reclassifying an old effect; do not add a `new` tag to
+  individual effect files.
 - Use `createFx()` for standalone playback and `createAct()` for acted effects with poses, hits and
   freeze timing.
 - Draw through `Painter` and keep color and additive light in their separate frame buffers.

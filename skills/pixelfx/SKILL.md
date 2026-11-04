@@ -1,6 +1,6 @@
 ---
 name: pixelfx
-description: 使用 pixelfx 的 JavaScript/Painter 生成、修改像素风特效与精灵动画，遵循现有库的像素、配色、光照和动作风格，注册到素材库、渲染检查、导出 PNG/JSON，并在 gallery/workbench.html 实测预览。适用于新增像素素材、魔法/打击/粒子特效、sprite sheet、素材复用换色和 Cocos Creator 资源导出；普通插画与照片生成不适用。
+description: 使用 pixelfx 的 JavaScript/Painter 生成、修改像素风特效、地图、小怪、Boss 和遭遇战，遵循现有库的像素、配色、光照和动作风格，注册到素材库、渲染检查、导出 PNG/JSON，并在 gallery/workbench.html 或 gallery/fantasy.html 实测预览。适用于新增像素素材、魔法/打击/粒子特效、奇幻地图与敌人、Boss 阶段与战斗编排、sprite sheet、素材复用换色和 Cocos Creator 资源导出；普通插画与照片生成不适用。
 license: MIT
 metadata:
   runtime: Node 18 or newer; npm for the static build; ffmpeg optional for GIF/MP4 previews.
@@ -63,6 +63,72 @@ scorch and sparks cool away; ground ellipse behind/in front, deterministic seed.
 验证后，交付指向新素材的工作台直达链接。不要只生成临时预览文件就结束。
 
 典型请求：`用 $pixelfx 制作一个冰火爆炸素材，放入现有素材库，并打开 workbench 预览。`
+
+新增素材会自动标记为 `new`：`src/fx/provenance.js` 只列出 244 个原有素材，未列出的 ID 都算新增；workbench 和 gallery
+都有 `original` / `new` 来源筛选，并支持 `workbench.html?source=new`。不要为来源去改每个素材的 `meta.tags`。
+
+## Fantasy game kit: maps, minions, bosses and encounters
+
+The library also carries the pieces a fantasy game needs around its effects. They are ordinary effect modules with a
+`meta.kind` and one extra exported object, so render, check, sprite sheets, the workbench and Cocos export all keep
+working. Use the smallest piece that answers the request:
+
+| the request | the piece | starter command |
+|---|---|---|
+| a place to fight in | **map** (`world/`) | `node tools/new.mjs world/<name> --map` |
+| a small enemy that idles | **mob** (`mobs/`) | `node tools/new.mjs mobs/<name> --mob` |
+| a small enemy's attack | **mob attack** (`mobs/`) | `node tools/new.mjs mobs/<name> --mob-attack` |
+| a big enemy with phases | **boss** (`boss/`) | `node tools/new.mjs boss/<name> --boss` |
+| a telegraphed boss move | **boss attack** (`boss/`) | `node tools/new.mjs boss/<name> --boss-attack` |
+| a whole fight on a timeline | **encounter** (`src/encounters/`) | `node tools/new.mjs <name> --encounter` |
+
+Read [references/fantasy-game.md](references/fantasy-game.md) for the full Chinese workflow, data shapes and command
+sequences. The short version:
+
+1. **Map.** A 320 x 180 loop at `origin: [0, 0]` with `kind: "map"` and a `map` export:
+   `{ groundY, bounds, walk, platforms, spawns: { hero, mobs, boss }, arena }`. Bake the static sky, distance,
+   masonry, floor and foreground once with `bake()`/`blit()` from `src/fx/world/_lib.js`; animate only mist, motes,
+   fireflies, leaves and embers. Leave a low-contrast combat strip at `groundY`; keep detail at the edges.
+   Validate with `node tools/check.mjs world/<name>` and `node tools/map.mjs world/<name>`; look at
+   `records/world/<name>/layout.png` and `gameplay.png`.
+2. **Mob.** A loop at `origin` near the feet, `kind: "mob"` and a `mob` export with `hp`, `radius`, `height`, `speed`,
+   `xp`, `loot` and `attacks: [{ fx, range, windup, cooldown, damage }]`. Draw with `Grid` (from
+   `src/fx/mobs/_lib.js`), outline once, shadow with `drawBack`. The idle must read at 1x; the tell belongs in the
+   attack effect, not the idle.
+3. **Mob attack.** A one-shot `kind: "mob-attack"` file exporting `attack = { telegraph, hits: [{ t, amp, shake,
+   damage, range, target }] }`. Put the hit on the same frame as the contact flash and the hit star. Keep it small
+   and grounded to the mob's hand or mouth.
+4. **Boss.** A 96-140 px wide loop, `kind: "boss"`, with `boss = { hp, radius, height, phases, attacks, loot }`.
+   Silhouette first: antlers, crown, staff, cloak, a glowing core. `phases` lose health in order; a
+   `phase-roar`-style attack changes light, ground and mood. Boss attacks are full-screen one-shots
+   (`320 x 180`, `origin: [160, 150]`, `kind: "boss-attack"`) with a **0.8-1.6 s telegraph**, a 1-2 frame white
+   hero frame, then 2-5 s of debris and dust. The telegraph must be visible in a contact-sheet sample.
+5. **Encounter.** `src/encounters/<name>.js` exports `meta` and `encounter = { map, hero, boss, mobs, phases,
+   timeline }`. Every timeline cue is data: `attack`, `phase`, `text`, `shake`, `hit`, `defeat`, `summon`. Attack
+   cues automatically trigger the shake and hero flash from `attack.hits`, and defeat hides a unit. Render and check
+   with `node tools/encounter.mjs <name> --mp4`, then open
+   `http://localhost:8080/gallery/fantasy.html?enc=<name>`.
+
+Rules that keep the kit coherent:
+
+- **Maps stay engine-independent.** The map draws only through `Painter`; units and the hero are placed by the
+  encounter runtime (`createEncounter` in `src/core/encounter.js`). Never put game logic in a map's draw.
+- **Mobs and bosses know their own numbers.** Attacks are separate modules; the unit exports module references so a
+  real game can read `mob.attacks` / `boss.phases` directly.
+- **One screen, one read.** A map is 320 x 180; a boss attack is 320 x 180; a minion attack is around 112 x 72. A
+  mob does not get a screen-sized effect, and a boss attack does not get a tiny one.
+- **Telegraph before damage.** Boss attacks show the floor mark first; monster attacks show a glint or swell first.
+  A hit that lands before the tell has played is a bug, not difficulty.
+- **Phases change the picture.** A phase banner alone is not a phase change: combine `phase-roar`, a palette or light
+  shift, screen shake and a change in the attack pattern.
+- **Kill cleanly.** Give each mob an `until` time and play a death effect (`spawn/poof`, `spawn/soul-rise`,
+  `spawn/shatter-death`) on the same beat; do not let a dead unit keep idling.
+- **End the encounter.** Hide the boss, play its death or a victory burst, and hold the empty arena for a beat.
+  Trim `meta.duration` to the last cue; an empty tail reads as a broken demo.
+
+The templates are intentionally working, not finished art: they pass `check`, render, and have the right exports.
+Replace their shapes, palettes and timeline with the specific design; then run `node tools/index.mjs` and
+`npm run check`.
 
 ## 1. Look for an existing effect first
 
@@ -168,6 +234,10 @@ What to look for, and the usual fix:
 | seam when a loop wraps | `cycle`, `loopNoise(phase)`, whole-cell `tileNoise` scrolls, `sin(phase * TAU * n)` |
 | a one-shot that pops off | let it shrink, dither out or fall away before t = duration |
 | a great effect on a dead character | give it an act: wind-up, release pose, freeze on contact, a target that reacts, recovery |
+| a map with a character floating above the floor | `map.groundY` and the spawns disagree; fix both and look at `layout.png` |
+| a boss that reads as a big blob | fewer features, bigger antlers/crown/weapon, one hot core, a stronger silhouette |
+| a boss attack nobody dodges | the telegraph is invisible or under 0.8 s; draw a thick floor seal and hold it |
+| a minion attack that lands off the body | the effect's local hand/mouth offset does not match the unit; align the cue and the effect |
 | the act feels weightless | a wind-up the opposite way to the blow, a longer freeze (up to 0.2 s), a bigger silhouette change, shake |
 | the hit lands out of sync | move the hit key to the effect's own constant, not to a time you eyeballed |
 | he holds the weapon badly | keep a bend in the elbow, shafts in front of the chest; on a swing the blade lags the hand; arms reach about 15 px and don't stretch, so step the body in |
