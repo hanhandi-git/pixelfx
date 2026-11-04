@@ -18,7 +18,12 @@ The command writes transparent PNG/JSON assets for every effect plus `index.json
 
 In the Cocos project, copy [`runtime/PixelfxSprite.ts`](runtime/PixelfxSprite.ts) into `assets/scripts/pixelfx/`. The component targets the public Cocos Creator 3.x runtime APIs (including 3.8.x).
 
-This repository now includes a ready-to-preview scene at `assets/scenes/Main.scene` and a showcase component at `assets/scripts/pixelfx/PixelfxShowcase.ts`. Open `Main.scene` in Creator 3.8.8, press **Preview**, and the page will play the effects from `resources/pixelfx/index.json` in order. If the preview page was already open before the scene was added, refresh it after opening `Main.scene`.
+This repository includes a ready-to-preview workbench at `assets/scenes/Main.scene` and
+`assets/scripts/pixelfx/PixelfxWorkbench.ts`. Open `Main.scene` in Creator 3.8.8, press
+**Preview**, then choose a category and effect from the library. The workbench supports play,
+pause, replay, previous/next selection and shows the exported frame metadata. Use the Preview
+toolbar's desktop device or Rotate control for the full wide layout; the default phone simulator
+intentionally shows only a narrow responsive viewport.
 
 ## Use the component
 

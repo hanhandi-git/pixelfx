@@ -325,13 +325,19 @@ function frameLoop(now) {
   requestAnimationFrame(frameLoop);
 }
 
-build();
-chips();
-wireDetail();
-$("#q").addEventListener("input", (e) => {
-  state.q = e.target.value;
-  filter();
-});
-setCat(location.hash.slice(1) || "all", true);
-addEventListener("hashchange", () => setCat(location.hash.slice(1) || "all", true));
-requestAnimationFrame(frameLoop);
+// The original gallery owns the page when its grid exists. The H5 workbench imports this
+// module for the same live Player and effect registry without booting the gallery DOM.
+if ($("#grid")) {
+  build();
+  chips();
+  wireDetail();
+  $("#q").addEventListener("input", (e) => {
+    state.q = e.target.value;
+    filter();
+  });
+  setCat(location.hash.slice(1) || "all", true);
+  addEventListener("hashchange", () => setCat(location.hash.slice(1) || "all", true));
+  requestAnimationFrame(frameLoop);
+}
+
+export { FX, Player, categories, isScreen };

@@ -97,7 +97,17 @@ node tools/cocos.mjs fire ice moves/sword-combo --out ../my-cocos/assets/resourc
 
 Copy [`cocos/runtime/PixelfxSprite.ts`](cocos/runtime/PixelfxSprite.ts) into `assets/scripts/pixelfx/`, attach it next to a Cocos `Sprite`, and set `effectId` to an id such as `fire/campfire`. It handles loading, nearest-neighbour filtering, the exported pivot, playback speed, looping and auto-destroy. See [`cocos/README.md`](cocos/README.md) for the full setup and API.
 
-This repository also includes a Cocos preview scene at `assets/scenes/Main.scene`. Open that scene in Creator 3.8.8 and press **Preview** to play all exported effects in sequence.
+This repository also includes a Cocos resource workbench at `assets/scenes/Main.scene`. Open that scene in Creator 3.8.8 and press **Preview** to filter by category, select an effect, and control its playback. Use the Preview toolbar's desktop device or Rotate control for the full workbench layout.
+
+### Standalone H5 workbench
+
+For a browser-only preview with no Cocos Creator dependency, run:
+
+```bash
+npm run workbench
+```
+
+Open [http://localhost:8080/gallery/workbench.html](http://localhost:8080/gallery/workbench.html). It imports the effect modules directly, supports category filtering and search, and provides play, pause, replay, previous/next and speed controls. `npm run build:web` emits the static page under `dist/gallery/workbench.html`.
 
 Any effect takes a `palette` (a dark-to-bright ramp of hex colors), so a fire can burn blue and a heal can glow
 pink without touching its code:

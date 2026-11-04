@@ -16,6 +16,8 @@
     "render": "node tools/render.mjs",
     "check": "node tools/check.mjs",
     "gallery": "node tools/serve.mjs",
+    "workbench": "node tools/serve.mjs",
+    "build:web": "node tools/build-gallery.mjs",
     "cocos": "node tools/cocos.mjs"
   },
   "devDependencies": {
