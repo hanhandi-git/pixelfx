@@ -18,35 +18,62 @@
 
 方法来自 [Hugo Duprez](https://x.com/HugoDuprez) 的 [How to make (good) pixel art effects with Claude](https://www.spritefusion.com/blog/how-to-make-good-pixel-art-effects-with-claude)：代码是粘土，相信眼睛，喂好参考。Sprite Fusion 的 [开源特效](https://www.spritefusion.com/pixel-art-vfx) 是标杆；`src/core/sim.js` 及文件头注明处适配了相关代码。本仓库是在库规模上延续这一思路，并用 skill 持续产出。
 
-## 里面有什么
+## 新增内容
+
+以下 **<!-- new-count -->16<!-- /new-count -->** 条不在原始 244 特效基线内：奇幻地图、小怪、Boss 等。可在 [Workbench（`?source=new`）](http://localhost:8080/gallery/workbench.html?source=new) 优先浏览，或在 Gallery 里按 **new** 筛选。
+
+<!-- new-catalog -->
+| 分类 | 特效 | id |
+|---|---|---|
+| **world** | Aurora Pass | `world/aurora-pass` |
+| **world** | Crystal Hollow | `world/crystal-hollow` |
+| **world** | Ember Depths | `world/ember-depths` |
+| **world** | Mossy Ruins | `world/mossy-ruins` |
+| **world** | Sunscar Temple | `world/sunscar-temple` |
+| **world** | Wisp Marsh | `world/wisp-marsh` |
+| **mobs** | Goblin Jab | `mobs/goblin-jab` |
+| **mobs** | Goblin Raider | `mobs/goblin-raider` |
+| **mobs** | Spore Puff | `mobs/spore-puff` |
+| **mobs** | Sporeling | `mobs/sporeling` |
+| **boss** | Phase Roar | `boss/phase-roar` |
+| **boss** | Root Quake | `boss/root-quake` |
+| **boss** | Thorn King | `boss/thorn-king` |
+| **boss** | Thorn Volley | `boss/thorn-volley` |
+| **spawn** | Shanhaijing summon | `spawn/shanhaijing-summon` |
+| **lightning** | Storm sigil | `lightning/storm-sigil` |
+<!-- /new-catalog -->
+
+## 全部目录
+
+含新增内容的分类排在前面；示例名称会**优先列出 new 素材**。
 
 <!-- catalog -->
-| 分类 | 数量 | 举例 |
+| category | effects | some of them |
 |---|---|---|
-| **moves** | 12 | arrow shot, dash strike, earth stomp, fireball throw… |
-| **fire** | 12 | brazier, campfire, candle, fire breath… |
-| **explosions** | 12 | barrel explosion, big explosion, cartoon pow… |
-| **water** | 12 | bubbles, drip, fountain, geyser… |
-| **ice** | 10 | blizzard vortex, freeze, frost breath, frost nova… |
-| **lightning** | 12 | ball lightning, chain lightning, plasma ball… |
-| **sci-fi** | 12 | emp blast, energy core, force field, hologram… |
-| **melee** | 12 | claw swipe, dagger flurry, double slash… |
-| **impacts** | 11 | blunt hit, bullet impact, critical hit… |
-| **projectiles** | 13 | arrow, bullet tracer, cannon shot… |
-| **spawn & death** | 11 | coin drop, disintegrate, respawn beam… |
-| **arcane** | 12 | arcane beam, arcane missiles, magic circle cast… |
-| **holy** | 10 | blessing, divine shield, heal, healing ring… |
-| **shadow** | 12 | black hole, dark explosion, eclipse… |
-| **status** | 13 | bleeding, burning, frozen… |
-| **nature** | 13 | acid splash, leaf storm, poison cloud… |
-| **weather** | 12 | aurora, blizzard, rain, snow… |
-| **ui** | 12 | achievement, confetti, level-up… |
-| **pickups** | 11 | chest open, coin spin, heart pickup… |
-| **transitions** | 10 | blinds, burn away, diamond wipe, iris… |
-| **critters** | 12 | bat, bird, butterfly, flying skull… |
-| **world** | 6 | aurora pass, crystal hollow, mossy ruins… |
-| **mobs** | 4 | goblin jab, goblin raider, sporeling… |
-| **boss** | 4 | phase roar, root quake, thorn king… |
+| **world** | 6 | aurora pass, crystal hollow, ember depths, mossy ruins, sunscar temple, wisp marsh |
+| **mobs** | 4 | goblin jab, goblin raider, spore puff, sporeling |
+| **boss** | 4 | phase roar, root quake, thorn king, thorn volley |
+| **lightning** | 12 | storm sigil, ball lightning, chain lightning, charge up, electrified, lightning strike… |
+| **spawn & death** | 11 | shanhaijing summon, coin drop, disintegrate, dissolve burn, egg hatch, poof… |
+| **moves** | 12 | arrow shot, dash strike, earth stomp, fireball throw, ground pound, holy smite… |
+| **fire** | 12 | brazier, campfire, candle, fire breath, fire ring, fire tornado… |
+| **explosions** | 12 | barrel explosion, big explosion, cartoon pow, dirt explosion, firework burst, firework rocket… |
+| **water** | 12 | bubbles, drip, fountain, geyser, rain splash, ripples… |
+| **ice** | 10 | blizzard vortex, freeze, frost breath, frost nova, ice crystal, ice lance… |
+| **sci-fi** | 12 | emp blast, energy core, force field, glitch, hologram, jetpack… |
+| **melee** | 12 | claw swipe, dagger flurry, double slash, hammer smash, heavy cleave, scythe reap… |
+| **impacts** | 11 | blunt hit, bullet impact, critical hit, ground slam, heavy landing, hit flash… |
+| **projectiles** | 13 | arrow, bullet tracer, cannon shot, energy disc, signal flare, homing missile… |
+| **arcane** | 12 | arcane beam, arcane missiles, arcane orb, blink in, blink out, magic circle cast… |
+| **holy** | 10 | blessing, divine shield, feather burst, halo, heal, healing ring… |
+| **shadow** | 12 | black hole, curse, dark explosion, eclipse, grasping hands, hex sigil… |
+| **status** | 13 | bleeding, burning, charmed, confused, cursed, frozen… |
+| **nature** | 13 | acid splash, boulder, earth spike, healing bloom, leaf storm, poison cloud… |
+| **weather** | 12 | aurora, blizzard, cherry blossoms, clouds, falling leaves, fireflies… |
+| **ui** | 12 | achievement, coin collect, combo counter, confetti, countdown, crit number… |
+| **pickups** | 11 | chest open, coin spin, collect burst, crystal shard, gem spin, heart pickup… |
+| **transitions** | 10 | blinds, burn away, crt off, diamond wipe, glitch wipe, iris… |
+| **critters** | 12 | bat, bird, butterfly, eyeball, fish school, flying skull… |
 <!-- /catalog -->
 
 每个特效是 `src/fx/<category>/<name>.js` 中的一个文件。[目录](docs/CATALOG.md) 有完整列表。

@@ -100,16 +100,54 @@ writeFileSync(join(ROOT, "docs", "ENCOUNTERS.md"), encMd.join("\n"));
 console.log(`${ids.length} effects (${ids.length - newCount} original, ${newCount} new) -> src/fx/index.js, docs/CATALOG.md`);
 console.log(`${encs.length} encounters -> src/encounters/index.js, docs/ENCOUNTERS.md`);
 
-// README: the count and the category table
-const readme = join(ROOT, "README.md");
-const rows = categories
+// README: counts, a new-effects table, and the category table (new categories and names first)
+function sampleNames(list, max = 6) {
+  const fresh = list.filter((m) => m.provenance === "new");
+  const rest = list.filter((m) => m.provenance !== "new");
+  const pick = [...fresh, ...rest].slice(0, max);
+  const tail = list.length > max ? "…" : "";
+  return `${pick.map((m) => m.name.toLowerCase()).join(", ")}${tail}`;
+}
+const catRows = categories
   .map((c) => [c, metas.filter((m) => m.id.startsWith(c.id + "/"))])
-  .filter(([, list]) => list.length)
-  .map(([c, list]) => `| **${c.name}** | ${list.length} | ${list.slice(0, 6).map((m) => m.name.toLowerCase()).join(", ")}${list.length > 6 ? "…" : ""} |`);
+  .filter(([, list]) => list.length);
+catRows.sort((a, b) => {
+  const an = a[1].filter((m) => m.provenance === "new").length;
+  const bn = b[1].filter((m) => m.provenance === "new").length;
+  if (an !== bn) return bn - an;
+  return rank(a[0].id) - rank(b[0].id);
+});
+const rows = catRows.map(([c, list]) => `| **${c.name}** | ${list.length} | ${sampleNames(list)} |`);
 const table = ["| category | effects | some of them |", "|---|---|---|", ...rows].join("\n");
-let text = readFileSync(readme, "utf8");
-text = text.replace(/<!-- count -->[\s\S]*?<!-- \/count -->/, `<!-- count -->${ids.length}<!-- /count -->`);
-text = text.replace(/<!-- original-count -->[\s\S]*?<!-- \/original-count -->/, `<!-- original-count -->${ids.length - newCount}<!-- /original-count -->`);
-text = text.replace(/<!-- new-count -->[\s\S]*?<!-- \/new-count -->/, `<!-- new-count -->${newCount}<!-- /new-count -->`);
-text = text.replace(/<!-- catalog -->[\s\S]*?<!-- \/catalog -->/, `<!-- catalog -->\n${table}\n<!-- /catalog -->`);
-writeFileSync(readme, text);
+const newMetas = metas.filter((m) => m.provenance === "new");
+const fantasyFirst = new Map(["world", "mobs", "boss", "spawn", "lightning"].map((c, i) => [c, i]));
+newMetas.sort((a, b) => {
+  const ca = a.id.split("/")[0], cb = b.id.split("/")[0];
+  const fa = fantasyFirst.get(ca) ?? 99, fb = fantasyFirst.get(cb) ?? 99;
+  if (fa !== fb) return fa - fb;
+  return a.id.localeCompare(b.id);
+});
+function patchReadme(path, lang = "en") {
+  let text;
+  try {
+    text = readFileSync(path, "utf8");
+  } catch {
+    return;
+  }
+  if (!text.includes("<!-- new-catalog -->")) return;
+  const newBlock = newMetas.length
+    ? [
+        lang === "zh" ? "| 分类 | 特效 | id |" : "| category | effect | id |",
+        "|---|---|---|",
+        ...newMetas.map((m) => `| **${m.id.split("/")[0]}** | ${m.name} | \`${m.id}\` |`),
+      ].join("\n")
+    : lang === "zh" ? "_暂无新增特效。_" : "_No new effects yet._";
+  text = text.replace(/<!-- count -->[\s\S]*?<!-- \/count -->/, `<!-- count -->${ids.length}<!-- /count -->`);
+  text = text.replace(/<!-- original-count -->[\s\S]*?<!-- \/original-count -->/, `<!-- original-count -->${ids.length - newCount}<!-- /original-count -->`);
+  text = text.replace(/<!-- new-count -->[\s\S]*?<!-- \/new-count -->/, `<!-- new-count -->${newCount}<!-- /new-count -->`);
+  text = text.replace(/<!-- new-catalog -->[\s\S]*?<!-- \/new-catalog -->/, `<!-- new-catalog -->\n${newBlock}\n<!-- /new-catalog -->`);
+  text = text.replace(/<!-- catalog -->[\s\S]*?<!-- \/catalog -->/, `<!-- catalog -->\n${table}\n<!-- /catalog -->`);
+  writeFileSync(path, text);
+}
+patchReadme(join(ROOT, "README.md"), "en");
+patchReadme(join(ROOT, "README.zh-CN.md"), "zh");

@@ -27,22 +27,52 @@ eyes, feed your references. His [open-source effects](https://www.spritefusion.c
 set the bar, and `src/core/sim.js` and the effects that say so at the top adapt his code. This repo is our take on
 the idea at library scale, with a skill to keep going.
 
+## new additions.
+
+These **<!-- new-count -->16<!-- /new-count -->** pieces are not in the original 244-effect baseline: fantasy maps, minions, bosses and more. Browse them first in the [workbench (`?source=new`)](http://localhost:8080/gallery/workbench.html?source=new) or filter by **new** in the gallery.
+
+<!-- new-catalog -->
+| category | effect | id |
+|---|---|---|
+| **world** | Aurora Pass | `world/aurora-pass` |
+| **world** | Crystal Hollow | `world/crystal-hollow` |
+| **world** | Ember Depths | `world/ember-depths` |
+| **world** | Mossy Ruins | `world/mossy-ruins` |
+| **world** | Sunscar Temple | `world/sunscar-temple` |
+| **world** | Wisp Marsh | `world/wisp-marsh` |
+| **mobs** | Goblin Jab | `mobs/goblin-jab` |
+| **mobs** | Goblin Raider | `mobs/goblin-raider` |
+| **mobs** | Spore Puff | `mobs/spore-puff` |
+| **mobs** | Sporeling | `mobs/sporeling` |
+| **boss** | Phase Roar | `boss/phase-roar` |
+| **boss** | Root Quake | `boss/root-quake` |
+| **boss** | Thorn King | `boss/thorn-king` |
+| **boss** | Thorn Volley | `boss/thorn-volley` |
+| **spawn** | Shanhaijing summon | `spawn/shanhaijing-summon` |
+| **lightning** | Storm sigil | `lightning/storm-sigil` |
+<!-- /new-catalog -->
+
 ## what's in it.
+
+Categories with new content appear first; samples list **new** effects before original ones.
 
 <!-- catalog -->
 | category | effects | some of them |
 |---|---|---|
+| **world** | 6 | aurora pass, crystal hollow, ember depths, mossy ruins, sunscar temple, wisp marsh |
+| **mobs** | 4 | goblin jab, goblin raider, spore puff, sporeling |
+| **boss** | 4 | phase roar, root quake, thorn king, thorn volley |
+| **lightning** | 12 | storm sigil, ball lightning, chain lightning, charge up, electrified, lightning strike… |
+| **spawn & death** | 11 | shanhaijing summon, coin drop, disintegrate, dissolve burn, egg hatch, poof… |
 | **moves** | 12 | arrow shot, dash strike, earth stomp, fireball throw, ground pound, holy smite… |
 | **fire** | 12 | brazier, campfire, candle, fire breath, fire ring, fire tornado… |
 | **explosions** | 12 | barrel explosion, big explosion, cartoon pow, dirt explosion, firework burst, firework rocket… |
 | **water** | 12 | bubbles, drip, fountain, geyser, rain splash, ripples… |
 | **ice** | 10 | blizzard vortex, freeze, frost breath, frost nova, ice crystal, ice lance… |
-| **lightning** | 12 | ball lightning, chain lightning, charge up, electrified, lightning strike, plasma ball… |
 | **sci-fi** | 12 | emp blast, energy core, force field, glitch, hologram, jetpack… |
 | **melee** | 12 | claw swipe, dagger flurry, double slash, hammer smash, heavy cleave, scythe reap… |
 | **impacts** | 11 | blunt hit, bullet impact, critical hit, ground slam, heavy landing, hit flash… |
 | **projectiles** | 13 | arrow, bullet tracer, cannon shot, energy disc, signal flare, homing missile… |
-| **spawn & death** | 11 | coin drop, disintegrate, dissolve burn, egg hatch, poof, respawn beam… |
 | **arcane** | 12 | arcane beam, arcane missiles, arcane orb, blink in, blink out, magic circle cast… |
 | **holy** | 10 | blessing, divine shield, feather burst, halo, heal, healing ring… |
 | **shadow** | 12 | black hole, curse, dark explosion, eclipse, grasping hands, hex sigil… |
@@ -53,9 +83,6 @@ the idea at library scale, with a skill to keep going.
 | **pickups** | 11 | chest open, coin spin, collect burst, crystal shard, gem spin, heart pickup… |
 | **transitions** | 10 | blinds, burn away, crt off, diamond wipe, glitch wipe, iris… |
 | **critters** | 12 | bat, bird, butterfly, eyeball, fish school, flying skull… |
-| **world** | 6 | aurora pass, crystal hollow, ember depths, mossy ruins, sunscar temple, wisp marsh |
-| **mobs** | 4 | goblin jab, goblin raider, spore puff, sporeling |
-| **boss** | 4 | phase roar, root quake, thorn king, thorn volley |
 <!-- /catalog -->
 
 Every effect is a file in `src/fx/<category>/<name>.js`. The [catalog](docs/CATALOG.md) lists them all.
