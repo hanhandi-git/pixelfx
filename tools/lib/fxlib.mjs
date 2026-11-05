@@ -4,6 +4,16 @@ import { readdirSync, existsSync, statSync, writeFileSync, mkdirSync } from "nod
 import { join, dirname, relative, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { spawnSync } from "node:child_process";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+function ffmpegBin() {
+  try {
+    return require("ffmpeg-static");
+  } catch {
+    return "ffmpeg";
+  }
+}
 import { createFrame, clearFrame, createFx, createAct, createEncounter, actBounds, actTiming, composite, painterFor, drawActor, stockActor, backdrop, actorAlphaOf } from "../../src/core/index.js";
 import { rasterText, textWidth } from "../../src/core/font.js";
 import { encodePNG } from "./png.mjs";
@@ -311,7 +321,7 @@ export function writeVideo(file, r, k, { loops = 1 } = {}) {
   else args.push("-loop", "0");
   args.push(file);
   mkdirSync(dirname(file), { recursive: true });
-  const res = spawnSync("ffmpeg", args, { input: Buffer.concat(parts), maxBuffer: 1 << 30 });
+  const res = spawnSync(ffmpegBin(), args, { input: Buffer.concat(parts), maxBuffer: 1 << 30 });
   if (res.error) return false;
   if (res.status !== 0) throw new Error(`ffmpeg failed: ${res.stderr}`);
   return true;

@@ -22,9 +22,11 @@
     "cocos": "node tools/cocos.mjs",
     "cocos:export": "node tools/cocos.mjs --out ../pixelfx-cocos/assets/resources/pixelfx",
     "map": "node tools/map.mjs",
-    "encounter": "node tools/encounter.mjs"
+    "encounter": "node tools/encounter.mjs",
+    "montage:new": "node tools/montage.mjs docs/readme/montage-new.gif --provenance new --cols 4 --rows 4 --cell 160x90 --seconds 5 --scale 2"
   },
   "devDependencies": {
-    "esbuild": "^0.25.10"
+    "esbuild": "^0.25.10",
+    "ffmpeg-static": "^5.3.0"
   }
 }

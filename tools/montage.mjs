@@ -12,6 +12,7 @@ import { join } from "node:path";
 import { allIds, loadEffect, writeVideo, save } from "./lib/fxlib.mjs";
 import { createFrame, clearFrame, createFx, composite, backdrop, drawActor, painterFor, stockActor, rand, actorAlphaOf, createAct, actBounds } from "../src/core/index.js";
 import { categories } from "../src/fx/categories.js";
+import { originOf } from "../src/fx/provenance.js";
 import { encodePNG } from "./lib/png.mjs";
 
 const args = process.argv.slice(2), flags = {};
@@ -28,6 +29,17 @@ const cols = +(flags.cols ?? 6), rows = +(flags.rows ?? 3), [CW, CH] = (flags.ce
 const fps = +(flags.fps ?? 30), seconds = +(flags.seconds ?? 5), gap = +(flags.gap ?? 2), stagger = +(flags.stagger ?? 0.35), rest = +(flags.rest ?? 0.35);
 let ids;
 if (flags.ids) ids = flags.ids.split(",");
+else if (flags.provenance === "new") {
+  const fantasyFirst = new Map(["world", "mobs", "boss", "spawn", "lightning"].map((c, i) => [c, i]));
+  ids = allIds()
+    .filter((id) => originOf(id) === "new")
+    .sort((a, b) => {
+      const ca = a.split("/")[0], cb = b.split("/")[0];
+      const fa = fantasyFirst.get(ca) ?? 99, fb = fantasyFirst.get(cb) ?? 99;
+      if (fa !== fb) return fa - fb;
+      return a.localeCompare(b);
+    });
+}
 else if (flags.category) ids = allIds().filter((id) => id.startsWith(flags.category + "/"));
 else {
   // a spread: round-robin over categories so every one shows up

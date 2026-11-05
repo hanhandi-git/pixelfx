@@ -8,7 +8,7 @@
 
 **<!-- count -->260<!-- /count --> 个像素特效与动画，每一个都是一小段代码。** 火焰、爆炸、魔法、天气、UI、拾取物、小动物等。可实时播放、换色与镜像，嵌入浏览器游戏，或导出精灵图给任意引擎。另有 **奇幻游戏套件** —— 战斗地图、小怪单位、带预警的 Boss 技能与编排好的遭遇战 —— 以及 Claude Code skill，用像素画师那套「起草 → 渲染 → 眼看 → 精修」流程做新内容。
 
-库内 **<!-- original-count -->244<!-- /original-count -->** 个原始特效与 **<!-- new-count -->16<!-- /new-count -->** 个新增。Workbench 会把每条资源标为 `original` 或 `new`，并支持按来源筛选。
+库内 **<!-- original-count -->244<!-- /original-count -->** 个原始特效与 **<!-- new-count -->16<!-- /new-count -->** 个新增。[Gallery](gallery/index.html) 会把每条资源标为 `original` 或 `new`，并支持按来源筛选。
 
 凡涉及角色的特效都会 **演出来**：蓄力、出手、命中定格、收招，目标会受击反馈。12 套完整 **moves** 把特效串成从 wind-up 到 recovery 的攻击。
 
@@ -20,7 +20,11 @@
 
 ## 新增内容
 
-以下 **<!-- new-count -->16<!-- /new-count -->** 条不在原始 244 特效基线内：奇幻地图、小怪、Boss 等。可在 [Workbench（`?source=new`）](http://localhost:8080/gallery/workbench.html?source=new) 优先浏览，或在 Gallery 里按 **new** 筛选。
+以下 **<!-- new-count -->16<!-- /new-count -->** 条不在原始 244 特效基线内：奇幻地图、小怪、Boss 等。在 [Gallery（`?source=new`）](gallery/index.html?source=new) 浏览。
+
+<p align="center">
+  <img src="docs/readme/montage-new.gif" width="800" alt="新增素材网格预览：奇幻地图、哥布林与孢子小怪、Boss、召唤与风暴符印等。">
+</p>
 
 <!-- new-catalog -->
 | 分类 | 特效 | id |

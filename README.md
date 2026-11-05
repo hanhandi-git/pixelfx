@@ -12,7 +12,7 @@ a browser game, or export sprite sheets for any engine. Plus a **fantasy game ki
 telegraphed boss attacks and choreographed encounters — and a Claude Code skill that makes new ones the way a picky
 pixel artist would: draft, render, look, refine.
 
-The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->16<!-- /new-count --> new ones**. The workbench marks every item `original` or `new` and filters by it.
+The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->16<!-- /new-count --> new ones**. The [gallery](gallery/index.html) marks every item `original` or `new` and filters by it.
 
 Every effect that involves a character is **acted out**: he winds up, lets go, freezes on contact and recovers, and a
 target takes the hit. Twelve whole moves chain the effects into attacks from wind-up to recovery.
@@ -29,7 +29,11 @@ the idea at library scale, with a skill to keep going.
 
 ## new additions.
 
-These **<!-- new-count -->16<!-- /new-count -->** pieces are not in the original 244-effect baseline: fantasy maps, minions, bosses and more. Browse them first in the [workbench (`?source=new`)](http://localhost:8080/gallery/workbench.html?source=new) or filter by **new** in the gallery.
+These **<!-- new-count -->16<!-- /new-count -->** pieces are not in the original 244-effect baseline: fantasy maps, minions, bosses and more. Browse them in the [gallery (`?source=new`)](gallery/index.html?source=new).
+
+<p align="center">
+  <img src="docs/readme/montage-new.gif" width="800" alt="A grid of new pixelfx additions: fantasy battle maps, goblin and spore minions, boss units, a summon effect and storm sigil.">
+</p>
 
 <!-- new-catalog -->
 | category | effect | id |
