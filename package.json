@@ -23,7 +23,7 @@
     "cocos:export": "node tools/cocos.mjs --out ../pixelfx-cocos/assets/resources/pixelfx",
     "map": "node tools/map.mjs",
     "encounter": "node tools/encounter.mjs",
-    "montage:new": "node tools/montage.mjs docs/readme/montage-new.gif --provenance new --cols 4 --rows 4 --cell 160x90 --seconds 5 --scale 2"
+    "montage:new": "node tools/montage.mjs docs/readme/montage-new.gif --category world --cols 3 --rows 2 --cell 320x180 --seconds 6 --scale 1"
   },
   "devDependencies": {
     "esbuild": "^0.25.10",

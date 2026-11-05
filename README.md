@@ -34,7 +34,7 @@ the idea at library scale, with a skill to keep going.
 These **<!-- new-count -->16<!-- /new-count -->** pieces are not in the original 244-effect baseline: fantasy maps, minions, bosses and more. Browse them in the [gallery (`?source=new`)](gallery/index.html?source=new).
 
 <p align="center">
-  <img src="docs/readme/montage-new.gif" width="800" alt="A grid of new pixelfx additions: fantasy battle maps, goblin and spore minions, boss units, a summon effect and storm sigil.">
+  <img src="docs/readme/montage-new.gif" width="800" alt="Six looping fantasy battle maps at full 320×180 resolution: aurora pass, crystal hollow, ember depths, mossy ruins, sunscar temple and wisp marsh.">
 </p>
 
 <!-- new-catalog -->

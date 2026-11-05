@@ -25,7 +25,7 @@
 以下 **<!-- new-count -->16<!-- /new-count -->** 条不在原始 244 特效基线内：奇幻地图、小怪、Boss 等。在 [Gallery（`?source=new`）](gallery/index.html?source=new) 浏览。
 
 <p align="center">
-  <img src="docs/readme/montage-new.gif" width="800" alt="新增素材网格预览：奇幻地图、哥布林与孢子小怪、Boss、召唤与风暴符印等。">
+  <img src="docs/readme/montage-new.gif" width="800" alt="六张 320×180 奇幻战斗地图循环预览：极光隘口、水晶洞窟、余烬深渊、苔痕遗迹、日痕神殿与磷火沼泽。">
 </p>
 
 <!-- new-catalog -->
