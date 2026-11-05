@@ -4,7 +4,9 @@
 
 **语言 / Languages:** [English](README.md) · [简体中文](README.zh-CN.md)
 
-# pixelfx.
+# pixelfx-extended.
+
+在 [**pixelfx**](https://github.com/patch-gg/pixelfx) 原版 244 特效基线之上，额外增加 **<!-- new-count -->16<!-- /new-count -->** 条地图、小怪、Boss 等素材的扩展仓库。
 
 **<!-- count -->260<!-- /count --> 个像素特效与动画，每一个都是一小段代码。** 火焰、爆炸、魔法、天气、UI、拾取物、小动物等。可实时播放、换色与镜像，嵌入浏览器游戏，或导出精灵图给任意引擎。另有 **奇幻游戏套件** —— 战斗地图、小怪单位、带预警的 Boss 技能与编排好的遭遇战 —— 以及 Claude Code skill，用像素画师那套「起草 → 渲染 → 眼看 → 精修」流程做新内容。
 

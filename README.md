@@ -4,7 +4,9 @@
 
 **Languages / 语言:** [English](README.md) · [简体中文](README.zh-CN.md)
 
-# pixelfx.
+# pixelfx-extended.
+
+An extended [**pixelfx**](https://github.com/patch-gg/pixelfx) fork with **<!-- new-count -->16<!-- /new-count -->** additional maps, minions, bosses and effects beyond the original 244-effect baseline.
 
 **<!-- count -->260<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
 explosions, magic, weather, UI, pickups, critters and more. Play them live, recolor and mirror them, drop them into
