@@ -4,8 +4,9 @@
 
 `pixelfx` is a code driven pixel art VFX library. The canonical effect definitions live in
 `src/fx/`; the renderer and simulation runtime live in `src/core/`. Cocos Creator preview and
-exported PNG/JSON resources live in the sibling repository **`pixelfx-cocos`** (same parent folder
-as this checkout). This repo keeps only the export tool and copy-paste runtime adapter.
+exported PNG/JSON resources live in the sibling repository
+[**pixelfx-cocos**](https://github.com/hanhandi-git/pixelfx-cocos) (clone as `../pixelfx-cocos` beside
+this checkout). This repo keeps only the export tool and copy-paste runtime adapter.
 
 Keep the source effect library engine independent. Cocos support is an export and runtime adapter;
 do not move the effect implementations into Cocos scripts unless the task explicitly asks for a
@@ -25,7 +26,7 @@ new native implementation.
 - `tools/`: rendering, checking, sprite-sheet export, map/encounter previews and gallery tooling.
 - `gallery/fantasy.html`: live encounter player (the same timeline the tools render).
 - `cocos/runtime/PixelfxSprite.ts`: reusable Cocos Creator 3.x playback component (copy into a game or `pixelfx-cocos`).
-- `../pixelfx-cocos/`: Cocos Creator 3.8.8 project — scenes, workbench scripts, generated `assets/resources/pixelfx/`.
+- [pixelfx-cocos](https://github.com/hanhandi-git/pixelfx-cocos) (`../pixelfx-cocos/`): Cocos Creator 3.8.8 project — scenes, workbench scripts, generated `assets/resources/pixelfx/`.
 - `gallery/workbench.html`: standalone browser-only H5 workbench; it does not use Cocos Creator.
 - `docs/`: catalog and authoring documentation.
 

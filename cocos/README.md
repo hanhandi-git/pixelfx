@@ -4,8 +4,15 @@ The Cocos integration uses baked sprite sheets. The source effects are simulated
 
 ## Export resources
 
-From this repository, write into a Cocos Creator project's `assets/resources` directory. The local
-preview project is the sibling checkout **`pixelfx-cocos`**:
+From this repository, write into a Cocos Creator project's `assets/resources` directory. The official
+preview project is [**pixelfx-cocos**](https://github.com/hanhandi-git/pixelfx-cocos). Clone it next to
+this repo so the default export path resolves:
+
+```bash
+git clone https://github.com/hanhandi-git/pixelfx-cocos.git ../pixelfx-cocos
+```
+
+Export commands (sibling checkout **`../pixelfx-cocos`**):
 
 ```bash
 npm run cocos:export -- fire/torch

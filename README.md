@@ -139,7 +139,13 @@ node tools/cocos.mjs --out ../my-game/assets/resources/pixelfx
 
 Copy [`cocos/runtime/PixelfxSprite.ts`](cocos/runtime/PixelfxSprite.ts) into your Cocos project's `assets/scripts/pixelfx/`, attach it next to a Cocos `Sprite`, and set `effectId` to an id such as `fire/campfire`. It handles loading, nearest-neighbour filtering, the exported pivot, playback speed, looping and auto-destroy. See [`cocos/README.md`](cocos/README.md) for the full setup and API.
 
-The companion repo **[pixelfx-cocos](../pixelfx-cocos)** holds the Creator 3.8.8 preview workbench (`assets/scenes/Main.scene`). Open that project in Creator and press **Preview** to filter by category, select an effect, and control playback. Generated PNG/JSON live only under `pixelfx-cocos/assets/resources/pixelfx/`, not in this library checkout.
+The companion repo [**pixelfx-cocos**](https://github.com/hanhandi-git/pixelfx-cocos) holds the Creator 3.8.8 preview workbench (`assets/scenes/Main.scene`). Clone it as a sibling of this checkout so `npm run cocos:export` writes to `../pixelfx-cocos/assets/resources/pixelfx/`:
+
+```bash
+git clone https://github.com/hanhandi-git/pixelfx-cocos.git ../pixelfx-cocos
+```
+
+Open that project in Creator and press **Preview** to filter by category, select an effect, and control playback. Generated PNG/JSON live only under `pixelfx-cocos/assets/resources/pixelfx/`, not in this library checkout.
 
 ### Standalone H5 workbench
 

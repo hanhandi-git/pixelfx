@@ -36,7 +36,7 @@ A normal effect module plus a regenerated registry is enough for the workbench t
 
 ## 4. Sync the local resource folder
 
-Cocos Creator preview lives in the sibling **pixelfx-cocos** repo. When the user wants assets beside existing ones, export incrementally:
+Cocos Creator preview lives in the sibling [**pixelfx-cocos**](https://github.com/hanhandi-git/pixelfx-cocos) repo (`../pixelfx-cocos`). When the user wants assets beside existing ones, export incrementally:
 
 ```bash
 npm run cocos:export -- lightning/storm-sigil
