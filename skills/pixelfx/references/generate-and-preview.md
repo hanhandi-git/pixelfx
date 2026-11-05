@@ -1,19 +1,17 @@
-# 素材生成、入库与预览
+# Generate assets, register and preview
 
-以下命令在用户的 pixelfx 项目根目录执行。用实际素材 ID 替换示例
-`lightning/storm-sigil`；ID 始终为 `<category>/<kebab-case-name>`，不依赖展示序号。
+Run commands from the user's pixelfx project root. Replace the example ID `lightning/storm-sigil` with the real effect ID. IDs are always `<category>/<kebab-case-name>`, not display order numbers.
 
-## 1. 明确设计并编写源码
+## 1. Lock the design and write source
 
-先读 `docs/AUTHORING.md`，查看 `docs/CATALOG.md`，再读取、渲染两三个最接近的已有效果。
-用一句话确定主体、锚点、配色、蓄力/爆发/余波节奏和结束方式。采用主 skill 的风格约束；已有合适素材
-可复用技术，但用户要求新增素材时应有独立的视觉设计和 ID。
+Read `docs/AUTHORING.md`, skim `docs/CATALOG.md`, then read and render two or three closest existing effects.
+Summarize subject, anchor, palette, charge/release/decay timing and end state in one line. Follow the main skill's style rules; reuse techniques from neighbors when appropriate, but a requested **new** asset needs its own look and ID.
 
-源码放 `src/fx/<category>/<name>.js`，导出 `meta` 与 `create(o)` 或 `draw(p, t, o)`。
-通过 `src/core/index.js` 的 Painter、Particles、Lights、Rng 等实现；随机形状和粒子受 `o.seed` 控制。
-主配色使用 `fit(o.palette, n)`；固体像素与加法光分离。涉及角色时添加 `act`，命中时刻与效果阶段常量对齐。
+Source lives at `src/fx/<category>/<name>.js`, exporting `meta` plus `create(o)` or `draw(p, t, o)`.
+Use Painter, Particles, Lights, Rng from `src/core/index.js`; shape and particle variation use `o.seed`.
+Main colors via `fit(o.palette, n)`; keep solid pixels and additive light separate. Add `act` when a character is involved; hit times must match effect phase constants.
 
-## 2. 定向验证并目视迭代
+## 2. Targeted checks and visual iteration
 
 ```bash
 node tools/check.mjs lightning/storm-sigil
@@ -21,81 +19,74 @@ node tools/render.mjs lightning/storm-sigil --zoom 3
 node tools/act.mjs lightning/storm-sigil
 ```
 
-仅当导出 `act` 时运行 act 命令。打开实际生成的 contact sheet 和动作帧，修正轮廓、层次、曝光、
-时间节奏及裁切；命令成功不能代替看图。GIF/MP4 是可选输出，依赖 ffmpeg。
-修正新素材自身的警告，包括多种随机种子的越界、循环接缝和结尾残留。
+Run the act command only when the module exports `act`. Open the generated contact sheet and act frames; fix silhouette, layering, exposure, timing and cropping—passing commands is not a substitute for looking. GIF/MP4 are optional and need ffmpeg.
+Fix warnings on the new asset itself, including out-of-bounds across seeds, loop seams and tail residue.
 
-## 3. 注册到所有预览入口
+## 3. Register for every preview entry point
 
 ```bash
 node tools/index.mjs
 npm run check
 ```
 
-`tools/index.mjs` 自动更新 `src/fx/index.js`、`docs/CATALOG.md` 和 README 的数量与分类表，
-不要手写这些生成内容。完成后检查实际数量增加，并通过注册表按 ID 加载新模块。
+`tools/index.mjs` updates `src/fx/index.js`, `docs/CATALOG.md`, and README counts/tables—do not hand-edit generated files. Confirm the count increased and the registry loads the new module by ID.
 
-H5 数据链是 `gallery/workbench.js` → `gallery/app.js` → `src/fx/index.js`。
-新增正常的效果模块并重新生成注册表后，工作台会自动发现它，通常不需要修改 HTML 或硬编码素材列表。
+The H5 chain is `gallery/workbench.js` → `gallery/app.js` → `src/fx/index.js`.
+A normal effect module plus a regenerated registry is enough for the workbench to discover it; you usually do not edit HTML or hard-coded asset lists.
 
-## 4. 同步本地资源目录
+## 4. Sync the local resource folder
 
-当前项目包含 Cocos Creator 3.8.8 预览集成。用户要求放到其他素材同一位置时，增量导出到：
+This project includes Cocos Creator 3.8.8 preview integration. When the user wants assets beside existing ones, export incrementally:
 
 ```bash
 npm run cocos -- lightning/storm-sigil --out assets/resources/pixelfx
 ```
 
-得到 `assets/resources/pixelfx/lightning/storm-sigil.json`、主 PNG 和需要时的 `-1.png` 等分页。
-当前导出工具按 ID 合并已有 `index.json`；确认其他条目仍在、新条目仅出现一次、页文件存在、帧矩形未越界。
-不指定 ID 的导出会重建全库索引；仅在需要全量重建时使用。
+That writes `assets/resources/pixelfx/lightning/storm-sigil.json`, the main PNG, and paginated `-1.png` when needed.
+The exporter merges into the existing `index.json` per ID; confirm other entries remain, the new entry appears once, page files exist, and frame rects stay in bounds.
+Export without IDs rebuilds the full index—use only when you need a full rebuild.
 
-保持 atlas 的 top-left 坐标、pivot、30 FPS 等素材自身元数据和最近邻过滤。
-Cocos PNG 通过 `resources.load('<id>/texture', Texture2D)` 加载；JSON 通过
-`resources.load('<id>', JsonAsset)` 加载。效果逻辑仍保存在 `src/fx/`。
-若修改了 Cocos 运行时组件，镜像到 `cocos/runtime/` 并按 AGENTS.md 编译；普通新增素材无需修改运行时。
+Keep atlas top-left coordinates, pivot, 30 FPS metadata and nearest-neighbour filtering.
+Cocos loads PNGs with `resources.load('<id>/texture', Texture2D)` and JSON with `resources.load('<id>', JsonAsset)`. Effect logic stays in `src/fx/`.
+If you change Cocos runtime components, mirror to `cocos/runtime/` and compile per AGENTS.md; a plain new asset does not require runtime edits.
 
-## 5. 打开并实测浏览器工作台
+## 5. Open and exercise the browser workbench
 
-先检查是否已有服务在运行，确认其返回当前 checkout 的文件。没有服务时启动：
+Check whether a server is already running and serving this checkout. If not:
 
 ```bash
 npm run workbench
 ```
 
-默认地址是 `http://localhost:8080/gallery/workbench.html?fx=lightning/storm-sigil`。
-端口占用且服务不属于当前项目时，使用 `npm run workbench -- 8081` 等空闲端口，并同步交付链接。
-通过 HTTP 打开页面，浏览器 ES 模块需要服务器。
+Default URL: `http://localhost:8080/gallery/workbench.html?fx=lightning/storm-sigil`.
+If the port is taken by another project, use `npm run workbench -- 8081` (or another free port) and deliver the matching link.
+Open over HTTP; browser ES modules need a server.
 
-用可用的浏览器工具实际验证：素材名和 ID 正确、总数更新、分类与搜索能找到素材、播放时画布发生变化、
-暂停与重播可用、切换速度正常、控制台无相关错误。刷新 URL 后仍应选中指定效果。
-素材会按 `original` / `new` 标记；工作台来源筛选支持 `workbench.html?source=new`，gallery 支持
-`gallery/?source=new`。新增素材自动算 `new`，不需要逐个改 `meta.tags`。
-若具备 Codex 打开面板的工具，显示这条新素材直达链接，方便用户直接查看。
+Verify with browser tools when available: correct name and ID, updated total count, category/search finds the asset, canvas animates on play, pause/replay and speed work, no relevant console errors. After refresh, the URL should still select the effect.
+Assets are tagged `original` / `new`; workbench source filter supports `workbench.html?source=new`, gallery supports `gallery/?source=new`. New assets are `new` automatically—do not edit every `meta.tags` for provenance.
+When you have a tool to open panels for the user, surface the direct workbench link.
 
-工作台按分类排列，新增第 N 种素材不代表其列表排序是 N；以 ID 和名称核实。
-纯 H5 直接执行源码，不需要依赖 Cocos 导出的 PNG。
+The workbench lists by category; being the Nth new asset does not mean list position N—confirm by ID and name.
+Pure H5 runs source modules directly; it does not require Cocos PNG export.
 
-本地若也使用静态构建页，更新它：
+When you also use the static build:
 
 ```bash
 npm run build:web
 ```
 
-静态预览地址为同一服务器的 `/dist/gallery/workbench.html?fx=lightning/storm-sigil`。
-验证构建页也能发现新素材，避免旧 bundle 的列表仍停在先前数量。
+Static preview: `/dist/gallery/workbench.html?fx=lightning/storm-sigil` on the same server.
+Confirm the build page sees the new asset so an old bundle does not stick at the previous count.
 
-## 6. 交付
+## 6. Delivery
 
-交付源码路径、资源路径、浏览器直达链接，以及真实运行的检查结果。
-遵循项目约定保留 `records/`、`assets/resources/pixelfx/`、`dist/` 为生成产物，
-不要把它们或 Cocos `.meta`、缓存添加到源码提交。
-注明实际无法验证的环节，例如仅验证了导出而未在 Creator 内播放。
+Deliver source paths, resource paths, the browser deep link, and checks you actually ran.
+Keep `records/`, `assets/resources/pixelfx/`, and `dist/` as generated output per project convention; do not commit them, Cocos `.meta`, or caches with source.
+Call out anything you could not verify (e.g. export only, not played in Creator).
 
+## 7. Fantasy content (maps, minions, bosses, encounters)
 
-## 7. 奇幻内容（地图、小怪、Boss、遭遇战）
-
-地图、小怪、Boss 和遭遇战的完整流程在 [fantasy-game.md](fantasy-game.md)。它们的注册、检查和预览命令不同：
+Full workflow for maps, minions, bosses and encounters is in [fantasy-game.md](fantasy-game.md). Registration, checks and preview differ:
 
 ```bash
 node tools/check.mjs world/<name> mobs/<name> boss/<name>
@@ -105,6 +96,5 @@ node tools/index.mjs && npm run check
 npm run build:web
 ```
 
-浏览器入口是 `http://localhost:8080/gallery/fantasy.html?enc=<name>`；静态构建后为
-`/dist/gallery/fantasy.html?enc=<name>`。地图和单位的源码仍在 `src/fx/`，不要放进 Cocos 运行时。
-Cocos 导出对普通单位/攻击同样适用；地图是全屏循环，按 sprite sheet 导出时帧数和图集会很大，通常只在游戏确实需要图片时导出。
+Browser entry: `http://localhost:8080/gallery/fantasy.html?enc=<name>`; after static build, `/dist/gallery/fantasy.html?enc=<name>`. Map and unit source remain in `src/fx/`—do not move implementations into Cocos scripts.
+Cocos export applies to units and attacks like any effect; full-screen looping maps produce huge sheets—export only when the game truly needs bitmaps.

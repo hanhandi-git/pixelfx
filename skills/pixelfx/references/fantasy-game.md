@@ -1,33 +1,33 @@
-# 奇幻游戏：地图、小怪、Boss 与遭遇战
+# Fantasy game kit: maps, minions, bosses and encounters
 
-以下命令在 pixelfx 项目根目录执行。四种新内容都建立在同一个像素特效运行时上：
+Run the commands below from the pixelfx project root. All four content types share the same pixel VFX runtime:
 
-- **地图** `src/fx/world/<name>.js`：320×180 的循环战场，导出 `map` 布局。
-- **小怪** `src/fx/mobs/<name>.js`：循环单位，导出 `mob` 数值和攻击列表。
-- **Boss** `src/fx/boss/<name>.js`：大单位，导出 `boss` 血量和阶段。
-- **战斗特效** `mobs/*-attack.js`、`boss/*-attack.js`：一次性攻击/预警，导出 `attack` 命中数据。
-- **遭遇战** `src/encounters/<name>.js`：把地图、主角、小怪、Boss 和特效排成时间轴，导出 `encounter`。
+- **Map** `src/fx/world/<name>.js`: a 320×180 looping arena that exports a `map` layout.
+- **Minion** `src/fx/mobs/<name>.js`: a looping unit that exports `mob` stats and an attack list.
+- **Boss** `src/fx/boss/<name>.js`: a large unit that exports `boss` HP and phases.
+- **Combat VFX** `mobs/*-attack.js`, `boss/*-attack.js`: one-shot attacks and telegraphs that export `attack` hit data.
+- **Encounter** `src/encounters/<name>.js`: timeline choreography of map, hero, minions, boss and effects; exports `encounter`.
 
-先读 `docs/FANTASY.md` 了解完整契约，再用 `node tools/list.mjs fantasy` 找现有素材。
+Read `docs/FANTASY.md` for the full contract, then `node tools/list.mjs fantasy` to find existing assets.
 
-## 1. 选择正确的内容类型
+## 1. Pick the right content type
 
-| 需求 | 类型 | 命令 |
+| need | type | command |
 |---|---|---|
-| 一个可战斗的场景/背景 | 地图 | `node tools/new.mjs world/<name> --map` |
-| 会呼吸、会走位的小敌人 | 小怪单位 | `node tools/new.mjs mobs/<name> --mob` |
-| 小怪的一次攻击 | 小怪攻击 | `node tools/new.mjs mobs/<name> --mob-attack` |
-| 巨大敌人和分阶段战斗 | Boss 单位 | `node tools/new.mjs boss/<name> --boss` |
-| 全屏预警、地裂、弹幕、转阶段 | Boss 攻击 | `node tools/new.mjs boss/<name> --boss-attack` |
-| 把以上内容排成一场戏 | 遭遇战 | `node tools/new.mjs <name> --encounter` |
+| a fightable scene / backdrop | map | `node tools/new.mjs world/<name> --map` |
+| a small enemy that breathes and moves | minion unit | `node tools/new.mjs mobs/<name> --mob` |
+| one minion attack | minion attack | `node tools/new.mjs mobs/<name> --mob-attack` |
+| a huge enemy with phased combat | boss unit | `node tools/new.mjs boss/<name> --boss` |
+| full-screen telegraph, ground break, volley, phase change | boss attack | `node tools/new.mjs boss/<name> --boss-attack` |
+| choreograph the above into one fight | encounter | `node tools/new.mjs <name> --encounter` |
 
-先做主单位，再做攻击，最后做遭遇战。不要先写 20 秒时间轴，再回头补素材：每个命中时刻都要和特效自身的常量对齐。
+Build the main unit first, then attacks, then the encounter. Do not write a 20 s timeline first and backfill assets later: every hit time must align with constants inside the effect module.
 
-## 2. 地图
+## 2. Maps
 
-一句话设计：**这是什么地方、主角和 Boss 站在哪、什么在动、玩家第一眼看到什么。**
+One-line design: **where is this, where do the hero and boss stand, what moves, and what does the player read first.**
 
-地图必须是 320×180、`origin: [0, 0]`、`loop: true`。把静态层烘焙一次，动态只留环境粒子：
+Maps must be 320×180, `origin: [0, 0]`, `loop: true`. Bake static layers once; animate only ambient particles:
 
 ```js
 import { fit, hex } from "../../core/index.js";
@@ -35,16 +35,16 @@ import { bake, blit, sky, stars, ground, tufts, mist, fireflies, leaves, motes }
 
 export const meta = {
   name: "Mossy Ruins",
-  desc: "一句话画面描述。",
+  desc: "One-line visual description.",
   tags: ["map", "forest", "fantasy", "arena", "loop"],
   kind: "map",
   size: [320, 180], origin: [0, 0],
   duration: 10, loop: true, fps: 30, bg: "dark",
-  options: { palette: [/* 暗到亮 8 阶 */], seed: 1 },
+  options: { palette: [/* 8 steps dark to bright */], seed: 1 },
 };
 
 export const map = {
-  groundY: 150,                       // 脚踩的线，必须与画面一致
+  groundY: 150,                       // foot line; must match the art
   bounds: [8, 312],
   walk: [[8, 312]],
   platforms: [],                      // [x, y, width]
@@ -53,37 +53,49 @@ export const map = {
 };
 ```
 
-实现建议：
+Implementation notes:
 
-1. `bake(W, H, fn)` 只调用一次，画天空、远景、废墟、地面、前景五层；`blit(p, layer)` 每帧贴回去。不要每帧重画 5 万像素。
-2. 地面线要清楚：顶边 1 px 亮边，下面 2–3 px 暗带；角色脚下和彼此之间留一条低对比的“战斗带”。
-3. 深度：后景暗、低饱和，近景亮、有细节；用藤蔓、雾、萤火、落叶让边缘活起来。
-4. 所有随机用 `o.seed`；所有循环用 `t % D` 或 `cycle`、`sin(phase * TAU * n)`、`tileNoise`。
-5. 出生点必须落在 `walk` 上、贴 `groundY`；平台 `platforms` 在 `groundY` 之上。
-6. 不写 `meta.actor`。单位由遭遇战放置，地图只负责场景。
+1. Call `bake(W, H, fn)` once for sky, distance, ruins, floor and foreground; `blit(p, layer)` each frame. Do not redraw 50k pixels every frame.
+2. Make the ground line readable: 1 px bright top edge, 2–3 px darker band below; leave a low-contrast **combat strip** under the characters.
+3. Depth: rear layers darker and less saturated; foreground brighter and detailed; vines, mist, fireflies and leaves at the edges.
+4. Seed all randomness with `o.seed`; loop with `t % D`, `cycle`, `sin(phase * TAU * n)`, or `tileNoise`.
+5. Spawn points must sit on `walk` at `groundY`; `platforms` are above `groundY`.
+6. Do not set `meta.actor`. The encounter places units; the map only draws the scene.
 
-验收：
+<a id="natural-forms"></a>
+
+### Natural silhouettes and materials
+
+For natural scenery, establish volume and growth structure before fog, particles and glow. Long straight rock facets and 1 px branch polylines still read as placeholders even with extra cracks and particles. Hard edges suit crystals, built structures and deliberate rock cuts; eroded edges, trunks and roots need richer contour rhythm. Do not smooth every material into the same curve language.
+
+- **Contour at multiple scales.** Large scale sets cave mouths, trunk direction and rock masses; medium scale handles block faces, root swell, forks and canopy gaps; only then 1–3 px notches. Avoid per-pixel jitter and rows of identical stalactites or copy-pasted Y trees.
+- **Rocks read as volume.** Build walls from overlapping irregular blocks; lit face, shadow side and ground contact shadows stay continuous. Cracks follow structural breaks; fine texture clusters on masses. Keep crystal facets straight so crystals differ from host rock.
+- **Trees read as growth.** Trunks bend and taper; thick limbs join the trunk, thin limbs branch off; roots spread on the ground. Vary fork angle, length and height; bark follows bend; foliage clusters with gaps. Near trees need thickness; far trees can simplify and lower contrast.
+- **Pick the right abstraction.** `Painter.line/poly` rasterize control points literally; when shapes feel stiff, change control points and scene construction first. Shared builders live in `src/fx/world/_nature.js`, called inside `bake()`: `contour(points)` samples curves; `limb(p, points, width, tip, colors, { seed, bark })` tapered branches; `rock(p, x, y, rx, ry, colors, { seed, moss })` volumetric rocks; `marshTree(p, x, base, h, width, colors, { seed, lean, crown, detail })` marsh trees; `conifer(p, x, base, h, width, colors, { seed, lean, detail })` snow-laden pines; `massif(p, peaks, baseY, colors, { seed, snowline, detail })` snow-capped ranges with one shared skyline (it returns `at(x)` so trees can sit on the crest). `colors` is a dark-to-bright ramp; optional two-step `moss`; curves stay hard-pixel with no antialiasing. Enable only on maps that need it.
+- **Visual acceptance.** Review native 320×180, nearest-neighbour zoom, and frames with characters; then disable glow and motion particles and judge the static layer. You should distinguish rock, crystal, bark and leaves without relying on asset names; check multiple seeds. Keep before/after comparisons at the same time. Keep feet area calm without blanking the whole backdrop.
+
+Verification:
 
 ```bash
 node tools/check.mjs world/<name>
 node tools/map.mjs world/<name>
 ```
 
-打开 `records/world/<name>/layout.png`，确认黄色可行走线覆盖地面、出生点标记落在线内且贴地。再打开 `gameplay.png` 看主角 1× 时是否立在地面上、是否被前景挡住。
+Open `records/world/<name>/layout.png`: yellow walk lines cover the floor; spawn markers sit on walk at ground level. Open `gameplay.png` and confirm the hero stands on the ground at 1× and is not hidden by foreground.
 
-## 3. 小怪
+## 3. Minions
 
-小怪的第一读是**轮廓**，第二读才是细节。16–40 px 高，一个夸张特征（大耳朵、大帽子、大匕首），两三个主色加一个发光强调色。
+First read is **silhouette**, then detail. 16–40 px tall, one exaggerated feature (big ears, hat, dagger), two or three main colors plus one glow accent.
 
 ```js
 export const meta = {
   name: "Goblin Raider",
-  desc: "一句话：它长什么样、怎么待机、攻击前给什么提示。",
+  desc: "One line: look, idle motion, telegraph before the attack.",
   tags: ["mob", "goblin", "fantasy", "minion", "melee", "loop"],
   kind: "mob",
-  size: [64, 72], origin: [32, 58],     // origin 在脚底附近
+  size: [64, 72], origin: [32, 58],     // origin near the feet
   duration: 2.6, loop: true, fps: 30, bg: "ground",
-  options: { palette: [/* 7–8 阶 */], seed: 1 },
+  options: { palette: [/* 7–8 steps */], seed: 1 },
 };
 
 export const mob = {
@@ -93,14 +105,14 @@ export const mob = {
 };
 ```
 
-- 用 `Grid` 在局部坐标画身体，`g.outline` 收 1 px 硬边，最后 `g.draw(p)`。
-- 循环里做呼吸、眨眼、重心移动、武器反光；不要在小怪循环里塞攻击——攻击是单独的一次性特效。
-- `drawBack` 画地面阴影和一点点脚边光。
-- 攻击必须和单位分开：`mobs/<name>-attack.js` 里 `kind: "mob-attack"`，`attack.hits[0].t` 是命中帧。
-- 攻击特效的局部原点应放在小怪的手/嘴附近，`range` 与手臂长度一致；遭遇战会把它放在小怪脚下并选择朝向。
-- 小怪死亡用 `spawn/poof`、`spawn/soul-rise` 等现有素材，在遭遇战里定时播放，然后 `until` 隐藏单位。
+- Draw the body in local space with `Grid`, `g.outline` for a 1 px hard edge, then `g.draw(p)`.
+- Idle loop: breathing, blinks, weight shift, weapon glint; do not embed the attack in the minion loop—that is a separate one-shot.
+- `drawBack` for ground shadow and a little foot rim light.
+- Attacks are separate files: `mobs/<name>-attack.js` with `kind: "mob-attack"`; `attack.hits[0].t` is the hit frame.
+- Place the attack effect origin near hand or mouth; `range` matches arm reach; the encounter positions at the minion's feet and sets facing.
+- On death, play `spawn/poof`, `spawn/soul-rise`, etc. from the encounter timeline, then hide with `until`.
 
-验收：
+Verification:
 
 ```bash
 node tools/check.mjs mobs/<name> mobs/<name>-attack
@@ -108,21 +120,21 @@ node tools/render.mjs mobs/<name> --zoom 5
 node tools/render.mjs mobs/<name>-attack --zoom 5 --all
 ```
 
-看 `records/mobs/<name>/contact.png`，确认 1× 轮廓可读；看攻击特效的每一帧，确认命中帧与 `attack.hits` 对齐，`t = duration` 时为空。
+Check `records/mobs/<name>/contact.png` for a readable 1× silhouette; step through the attack frames and align hits with `attack.hits`; frame empty at `t = duration`.
 
 ## 4. Boss
 
-Boss 是**尺度、阶段和预警**三件事。
+A boss is **scale, phases and telegraphs**.
 
 ```js
 export const meta = {
   name: "Thorn King",
-  desc: "一句话：它是什么、为什么可怕。",
+  desc: "One line: what it is and why it is frightening.",
   tags: ["boss", "fantasy", "forest", "loop"],
   kind: "boss",
   size: [128, 168], origin: [64, 152],
   duration: 3.4, loop: true, fps: 30, bg: "ground",
-  options: { palette: [/* 8 阶 */], seed: 1 },
+  options: { palette: [/* 8 steps */], seed: 1 },
 };
 
 export const boss = {
@@ -133,21 +145,21 @@ export const boss = {
 };
 ```
 
-- 画布 96–140 px 宽、120–170 px 高；脚踩 `y = 0`，`meta.origin` 在脚底。
-- 轮廓优先：角、冠、武器、披风、发光的核心，至少有三样在 1× 时能认出来。
-- 循环只做待机：呼吸、核心脉动、眼睛发亮、叶片落下、藤蔓蠕动。
-- 攻击是独立文件，全屏 320×180、`origin: [160, 150]`、`kind: "boss-attack"`，导出：
+- Canvas 96–140 px wide, 120–170 px tall; feet on `y = 0`; `meta.origin` at the feet.
+- Silhouette first: horns, crown, weapon, cloak, glowing core—at least three readable at 1×.
+- Idle loop only: breathing, core pulse, bright eyes, falling leaves, creeping vines.
+- Attacks are separate full-screen 320×180 files, `origin: [160, 150]`, `kind: "boss-attack"`, exporting:
   ```js
   export const attack = {
-    telegraph: 0.9, // 预警时长，玩家在这段时间里躲
+    telegraph: 0.9, // seconds the player can react
     hits: [{ t: 1.0, amp: 4, shake: 0.45, damage: 120, radius: 136, target: "hero" }],
   };
   ```
-- 一个 Boss 至少两种攻击 + 一个转阶段：近身范围、远程标记/弹幕、全屏怒吼。攻击节奏 0.8–1.6 s 预警、1–2 帧白闪、2–5 s 余波。
-- 阶段按血量或时间切换：`boss.phases` 给出阈值，遭遇战用 `phases` 时间轴在同一秒打横幅、播 `phase-roar`、把血条压到下一段。
-- 转阶段必须改变画面：颜色、光、地面裂纹、叶片风暴或屏幕震动，否则玩家不知道战斗变了。
+- At least two attacks plus one phase change: melee zone, ranged marks/volley, full-screen roar. Rhythm: 0.8–1.6 s telegraph, 1–2 frame white flash, 2–5 s aftermath.
+- Phases by HP or time: `boss.phases` thresholds; encounter `phases` timeline shows banner, plays `phase-roar`, snaps the bar to the next segment.
+- Phase changes must change the picture: color, light, ground cracks, leaf storm or shake—or players will not feel the shift.
 
-验收：
+Verification:
 
 ```bash
 node tools/check.mjs boss/<name> boss/<name>-attack
@@ -155,11 +167,11 @@ node tools/render.mjs boss/<name> --zoom 4
 node tools/render.mjs boss/<name>-attack --zoom 3 --all
 ```
 
-Boss 攻击的预警必须能在 `contact.png` 的采样帧里看到；看不见的预警不算预警。
+The telegraph must appear in contact-sheet samples; an invisible telegraph is not a telegraph.
 
-## 5. 遭遇战
+## 5. Encounters
 
-遭遇战是一份数据，不是另一个渲染器。`src/encounters/<name>.js`：
+An encounter is data, not a second renderer. `src/encounters/<name>.js`:
 
 ```js
 import * as map from "../fx/world/mossy-ruins.js";
@@ -170,7 +182,7 @@ import * as rootQuake from "../fx/boss/root-quake.js";
 
 export const meta = {
   name: "The Verdant Throne",
-  desc: "一句话：这场战斗的起承转合。",
+  desc: "One line: setup, escalation and payoff of this fight.",
   tags: ["encounter", "boss", "fantasy"],
   duration: 27.5, fps: 30, size: [320, 180],
   map: "world/mossy-ruins", boss: "boss/thorn-king", mobs: ["mobs/goblin-raider"],
@@ -195,28 +207,28 @@ export const encounter = {
 };
 ```
 
-时间轴 cue 类型：
+Timeline cue types:
 
-| type | 字段 | 用途 |
+| type | fields | purpose |
 |---|---|---|
-| `attack` | `at, fx, x, y, flip?, options?, until?` | 播一个一次性/循环特效；`attack.hits` 自动带出震屏和主角白闪 |
-| `phase` | `at, name, sub, hp, dur, shake?` | 压血条、显示阶段横幅；也可写在 `phases` 数组里 |
-| `text` | `at, text, sub, dur` | 只出字，不压血条 |
-| `shake` | `at, amp, dur` | 独立震屏 |
-| `hit` | `at, target, amp, shake, dur` | 主角受击白闪 |
-| `defeat` | `at, target: "boss" 或 mob id` | 隐藏单位；Boss 同时清空血条 |
-| `summon` | `at, mod, id, x, y, ...` | 中途召唤一个小怪 |
+| `attack` | `at, fx, x, y, flip?, options?, until?` | Play a one-shot or loop; `attack.hits` drives shake and hero flash |
+| `phase` | `at, name, sub, hp, dur, shake?` | Snap HP bar and show phase banner; can also live in `phases` |
+| `text` | `at, text, sub, dur` | Text only, no HP bar change |
+| `shake` | `at, amp, dur` | Standalone screen shake |
+| `hit` | `at, target, amp, shake, dur` | Hero hit flash |
+| `defeat` | `at, target: "boss" or mob id` | Hide unit; boss also clears the bar |
+| `summon` | `at, mod, id, x, y, ...` | Spawn a minion mid-fight |
 
-设计节奏：
+Pacing template:
 
-1. **开场 0–3 s**：镜头能看清 Boss 和主角；第一阶段横幅；第一个攻击用来教机制。
-2. **教学 3–8 s**：小怪插入，给玩家“先清小怪还是打 Boss”的选择；每次攻击之间留 2–4 s 的走位窗口。
-3. **升级 8–12 s**：第二种攻击；小怪死亡/换位；Boss 血量进入下一段。
-4. **转阶段 12–15 s**：`phase-roar` + 横幅 + 震屏 + 颜色变化；不要在这 2 s 里致命。
-5. **第二阶段 15–23 s**：攻击叠加、地面持续危险、小怪再入场；最后 2–3 s 收束。
-6. **胜利 23 s 之后**：隐藏 Boss、播死亡/掉落/羽毛、`defeat`、胜利横幅；镜头停在空场地 1–2 s。
+1. **Opening 0–3 s**: frame reads boss and hero; phase I banner; first attack teaches a mechanic.
+2. **Tutorial 3–8 s**: minions enter; player chooses adds vs boss; 2–4 s between attacks to reposition.
+3. **Escalation 8–12 s**: second attack pattern; minion deaths or swaps; boss HP enters next segment.
+4. **Phase change 12–15 s**: `phase-roar`, banner, shake, color shift; avoid lethal damage in this window.
+5. **Phase II 15–23 s**: overlapping attacks, persistent floor hazards, minions return; tighten last 2–3 s.
+6. **Victory after ~23 s**: hide boss, death/loot/feathers, `defeat`, victory banner; hold empty arena 1–2 s.
 
-验收：
+Verification:
 
 ```bash
 node tools/encounter.mjs <name> --mp4
@@ -224,18 +236,18 @@ node tools/index.mjs
 npm run check
 ```
 
-打开 `records/encounters/<name>/contact.png` 看采样帧，`timeline.json` 看每个命中时刻。再看浏览器里的实时播放：
+Review `records/encounters/<name>/contact.png` and `timeline.json` for hit times. Play back in the browser:
 
 ```bash
 npm run workbench
 open http://localhost:8080/gallery/fantasy.html?enc=<name>
 ```
 
-检查：Boss 血条、阶段横幅、震屏、主角白闪、召唤物出现/消失、特效不遮挡血条、GIF/MP4 中没有空白尾帧。
+Check: boss HP bar, phase banners, shake, hero flash, summons appear/disappear, VFX do not cover the bar, no empty tail in GIF/MP4.
 
-## 6. 接入游戏
+## 6. Integrating in a game
 
-浏览器/JS 游戏直接使用运行时：
+Browser/JS games use the runtime directly:
 
 ```js
 import { createFrame, clearFrame, createEncounter, composite } from "pixelfx";
@@ -249,16 +261,16 @@ function tick(dt) {
   encounter.update(dt);
   clearFrame(frame);
   encounter.draw(frame);
-  composite(frame, img.data, null);      // 地图不透明，不需要背景
+  composite(frame, img.data, null);      // map is opaque; no backdrop needed
   ctx.putImageData(img, 0, 0);
-  const [sx, sy] = encounter.shake;      // 用整数像素震屏，保持像素对齐
+  const [sx, sy] = encounter.shake;      // integer-pixel shake keeps pixels crisp
   if (sx || sy) ctx.translate(sx, sy);
 }
 ```
 
-敌人/攻击的数值在 `mob.attacks`、`boss.attacks`、`attack.hits` 里；游戏自己的战斗系统可以直接读，不必依赖运行时的演示 UI。
+Combat numbers live in `mob.attacks`, `boss.attacks`, and `attack.hits`; your game can read them without the demo UI.
 
-其他引擎按普通特效导出 sprite sheet：
+Other engines export sprite sheets like any effect:
 
 ```bash
 node tools/render.mjs world/mossy-ruins --sheet
@@ -266,28 +278,28 @@ node tools/render.mjs mobs/goblin-raider --sheet
 node tools/render.mjs boss/root-quake --sheet
 ```
 
-遭遇战不是单个 sprite：用 `timeline.json` 里的时间和 `--mp4`/contact sheet 做美术验收，然后把每个特效按自己的 ID 导出，由游戏引擎重新编排。
+Encounters are not one sprite: use `timeline.json` and `--mp4`/contact sheets for art review, export each effect by ID, and re-choreograph in your engine.
 
-## 7. 常见错误
+## 7. Common mistakes
 
-| 现象 | 原因 | 修法 |
+| symptom | cause | fix |
 |---|---|---|
-| 主角像浮在地面上 | 地图 `groundY` 与画面地面不一致，或出生点 `y` 不在 `groundY` | 改 `map.groundY` / `spawns`，重新看 `layout.png` |
-| 角色被前景挡住 | 前景画到了战斗带 | 把前景压到 `groundY + 2` 以下，或移除中央前景 |
-| 地图太花，角色看不清 | 战斗带对比过高、细节太多 | 降低地面中间 40–80 px 的对比，把细节移到边缘 |
-| 小怪像贴纸 | 没有阴影/脚边光、待机只有上下浮动 | 加 `shadow`、呼吸、眨眼、武器反光；加一点点环境光 |
-| Boss 不像 Boss | 轮廓不够大、特征分散 | 放大 1.5–2 倍，合并成 2–3 个剪影特征；加角和发光核心 |
-| 预警看不见 | 预警太暗/太细，或只画了一帧 | 用地面亮线、粗环、中心 sigil；持续 0.8–1.6 s；在 contact sheet 里检查 |
-| 命中不同步 | `attack.hits[].t` 与画面白闪帧不一致 | 把白闪/命中星移到 `hits[0].t`，震屏用同一个常量 |
-| 阶段切换很突然 | 只有血条变化 | 加 `phase-roar`、横幅、震屏、颜色/地面变化 |
-| 遭遇战结尾空太久 | `meta.duration` 大于最后一个 cue 的结束 | 缩短 duration，或在结尾加胜利/掉落/镜头停留 |
-| 特效盖住 Boss 血条 | 特效画到屏幕顶部 | 攻击特效的顶点留在 y ≥ 0；血条区域保持干净 |
+| hero floats above ground | `groundY` disagrees with art or spawn `y` ≠ `groundY` | fix `map.groundY` / `spawns`, re-check `layout.png` |
+| character hidden by foreground | foreground crosses the combat strip | push foreground below `groundY + 2` or remove center foreground |
+| map too busy | high contrast or detail in the combat strip | lower contrast in the center 40–80 px; detail at edges |
+| minion feels like a sticker | no shadow/rim light; only bobbing idle | add `shadow`, breathing, blinks, weapon glint, ambient rim |
+| boss does not read as boss | small silhouette, scattered features | scale up 1.5–2×, merge to 2–3 silhouette features; horns and hot core |
+| telegraph invisible | too dark/thin or one frame only | bright floor ring, thick seal, center sigil; hold 0.8–1.6 s; check contact sheet |
+| hit out of sync | `attack.hits[].t` ≠ white flash frame | move flash/hit star to `hits[0].t`; reuse same constant for shake |
+| phase change feels abrupt | HP bar only | add `phase-roar`, banner, shake, color/ground change |
+| long empty tail | `meta.duration` past last cue | shorten duration or add victory/loot/hold at end |
+| VFX covers boss bar | effect draws into top of screen | keep attack apex at y ≥ 0; keep bar region clean |
 
-## 8. 交付清单
+## 8. Delivery checklist
 
-- 源码：`src/fx/world|mobs|boss/<name>.js`、`src/encounters/<name>.js`。
-- 注册：`node tools/index.mjs` 生成的 `src/fx/index.js`、`src/encounters/index.js`、`docs/CATALOG.md`、`docs/ENCOUNTERS.md`。
-- 验证：`node tools/check.mjs <ids>` 和 `npm run check` 通过；地图 `map.mjs` layout/gameplay 正常；遭遇战 contact sheet/时间轴/浏览器实时播放正常。
-- 资源：需要 Cocos 时 `npm run cocos -- <id> --out assets/resources/pixelfx`；只导出实际要用的单位/攻击，不要默认全量重导。
-- 浏览器直达链接：`http://localhost:8080/gallery/fantasy.html?enc=<name>`。
-- 未验证的环节写清楚，例如未在 Cocos Creator 里播放、未导出 MP4（缺 ffmpeg）。
+- Source: `src/fx/world|mobs|boss/<name>.js`, `src/encounters/<name>.js`.
+- Registry: `node tools/index.mjs` updates `src/fx/index.js`, `src/encounters/index.js`, `docs/CATALOG.md`, `docs/ENCOUNTERS.md`.
+- Verification: `node tools/check.mjs <ids>` and `npm run check` pass; map `map.mjs` layout/gameplay OK; encounter contact/timeline/browser playback OK.
+- Assets: when Cocos is needed, `npm run cocos -- <id> --out assets/resources/pixelfx`; export only used units/attacks, not a full library by default.
+- Browser link: `http://localhost:8080/gallery/fantasy.html?enc=<name>`.
+- State unverified steps explicitly (e.g. not played in Cocos Creator, no MP4 without ffmpeg).

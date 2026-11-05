@@ -4,13 +4,13 @@
 
 # pixelfx.
 
-**<!-- count -->256<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
+**<!-- count -->260<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
 explosions, magic, weather, UI, pickups, critters and more. Play them live, recolor and mirror them, drop them into
 a browser game, or export sprite sheets for any engine. Plus a **fantasy game kit** — battle maps, minion units,
 telegraphed boss attacks and choreographed encounters — and a Claude Code skill that makes new ones the way a picky
 pixel artist would: draft, render, look, refine.
 
-The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->12<!-- /new-count --> new ones**. The workbench marks every item `original` or `new` and filters by it.
+The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->16<!-- /new-count --> new ones**. The workbench marks every item `original` or `new` and filters by it.
 
 Every effect that involves a character is **acted out**: he winds up, lets go, freezes on contact and recovers, and a
 target takes the hit. Twelve whole moves chain the effects into attacks from wind-up to recovery.
@@ -51,7 +51,7 @@ the idea at library scale, with a skill to keep going.
 | **pickups** | 11 | chest open, coin spin, collect burst, crystal shard, gem spin, heart pickup… |
 | **transitions** | 10 | blinds, burn away, crt off, diamond wipe, glitch wipe, iris… |
 | **critters** | 12 | bat, bird, butterfly, eyeball, fish school, flying skull… |
-| **world** | 2 | ember depths, mossy ruins |
+| **world** | 6 | aurora pass, crystal hollow, ember depths, mossy ruins, sunscar temple, wisp marsh |
 | **mobs** | 4 | goblin jab, goblin raider, spore puff, sporeling |
 | **boss** | 4 | phase roar, root quake, thorn king, thorn volley |
 <!-- /catalog -->

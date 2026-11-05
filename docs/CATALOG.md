@@ -1,6 +1,6 @@
 # Catalog
 
-256 effects in 24 categories: 244 original and 12 new. Every one is a file in
+260 effects in 24 categories: 244 original and 16 new. Every one is a file in
 `src/fx/<category>/<name>.js`; render any of them with `node tools/render.mjs <id> --gif`.
 
 ## moves
@@ -402,8 +402,12 @@ battle maps: moonlit ruins, lava caverns, arenas with a layout.
 
 | effect | id | source | kind | play | size | what it does |
 |---|---|---|---|---|---|---|
+| Aurora Pass | `world/aurora-pass` | new | map | loop 12s | 320×180 | A frozen mountain pass beneath green aurora curtains: snow-bound massifs catch the sky, frosted conifers climb the shoulders and wind lifts loose snow across a quiet shelf. |
+| Crystal Hollow | `world/crystal-hollow` | new | map | loop 10s | 320×180 | An underground reservoir framed by violet crystal clusters: cyan facets breathe with light, a narrow waterfall feeds the pool and drops open small rings in the dark. |
 | Ember Depths | `world/ember-depths` | new | map | loop 9s | 320×180 | A basalt arena under a volcano: lava falls pour down both walls, a broken bridge smoulders in the dark, heat haze drifts over glowing fissures and ash falls. |
 | Mossy Ruins | `world/mossy-ruins` | new | map | loop 10s | 320×180 | A moonlit clearing inside broken elven ruins: mist drifts over a cracked flagstone floor, fireflies wander the arch and leaves fall through the cold light. |
+| Sunscar Temple | `world/sunscar-temple` | new | map | loop 12s | 320×180 | A sandstone sanctuary half buried in sunset dunes: wind carries sand through broken columns, torn banners sway and a sun seal glows above the distant temple door. |
+| Wisp Marsh | `world/wisp-marsh` | new | map | loop 12s | 320×180 | A flooded twilight marsh crossed by a stone causeway: ghost lights drift between crooked roots, luminous mushrooms shed spores and bubbles spread rings across the black water. |
 
 ## mobs
 

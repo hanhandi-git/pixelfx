@@ -64,6 +64,17 @@ export const map = {
   scenery.
 - `mist`, `fireflies`, `leaves`, `embers`, `motes`, `shaft` for loop-safe ambience.
 
+`src/fx/world/_nature.js` adds static natural forms for maps that need more than geometric primitives:
+
+- `contour(points)` samples a curved path through control points without antialiasing.
+- `limb(p, points, width, tip, colors, { seed, bark })` sweeps a solid, tapered branch along that path; widths are diameters.
+- `rock(p, x, y, rx, ry, colors, { seed, moss })` builds an irregular mass with broad lit planes and connected fractures.
+- `marshTree(p, x, base, h, width, colors, { seed, lean, crown, detail })` joins tapered branches, trunk and roots.
+
+Use these inside `bake()`, with dark-to-light palettes. Keep straight facets for crystals and masonry; give eroded
+stone and organic growth varied outlines. Inspect the static layer with glow and ambience disabled: particles
+cannot make a thin branch into a trunk or a flat polygon into a readable rock.
+
 **The floor is the contract.** `groundY` is a screen row, not a suggestion: feet, spawns, platforms, the floor rim and
 the boss's local origin all agree with it. Keep a quiet 40–80 px combat strip there; put noise and contrast at the
 edges. The map must not use `meta.actor`.
@@ -76,6 +87,23 @@ node tools/map.mjs world/mossy-ruins
 `map.mjs` writes `records/world/<id>/contact.png`, `layout.png` (walk span, ground line, spawns, platforms) and
 `gameplay.png` (the map at 1x with the stock hero standing at the hero spawn). If the layout and the picture disagree,
 `check` or the layout image will show it.
+
+The `world` category contains six arenas. Each is 320 × 180 at 30 fps, with a continuous floor at y = 150,
+hero/mob/boss spawns and a quiet combat strip. The four new environments use seeded ambience and periodic motion;
+their main material palette can be replaced through `options.palette`.
+
+| map | environment and motion | loop |
+|---|---|---|
+| `world/mossy-ruins` | Moonlit ruins, mist, fireflies and falling leaves | 10 s |
+| `world/ember-depths` | Basalt cavern, lava falls, glowing fissures and embers | 9 s |
+| `world/aurora-pass` | Layered snow massifs, aurora curtains, snow-laden conifers and drifting snow | 12 s |
+| `world/crystal-hollow` | Faceted crystals, pulsing light, waterfall, drops and reservoir ripples | 10 s |
+| `world/sunscar-temple` | Sunset dunes, broken sandstone columns, blowing sand and torn banners | 12 s |
+| `world/wisp-marsh` | Flooded roots, ghost lights, mushroom spores, bubbles and water rings | 12 s |
+
+Open `/gallery/workbench.html?fx=world/aurora-pass&source=new` and choose **world** to browse all six.
+H5 previews run the source modules directly. Full-screen maps only need Cocos sprite-sheet export when a game
+needs baked images; their full-resolution loops produce large atlases.
 
 ## Mob units
 

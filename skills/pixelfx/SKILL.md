@@ -1,6 +1,6 @@
 ---
 name: pixelfx
-description: 使用 pixelfx 的 JavaScript/Painter 生成、修改像素风特效、地图、小怪、Boss 和遭遇战，遵循现有库的像素、配色、光照和动作风格，注册到素材库、渲染检查、导出 PNG/JSON，并在 gallery/workbench.html 或 gallery/fantasy.html 实测预览。适用于新增像素素材、魔法/打击/粒子特效、奇幻地图与敌人、Boss 阶段与战斗编排、sprite sheet、素材复用换色和 Cocos Creator 资源导出；普通插画与照片生成不适用。
+description: Generate and edit pixel VFX, maps, minions, bosses and encounters with pixelfx JavaScript/Painter, matching the library's pixel, palette, lighting and motion language; register effects, run render/check, export PNG/JSON, and verify in gallery/workbench.html or gallery/fantasy.html. Use for new pixel assets, magic/hit/particle effects, fantasy maps and enemies, boss phases and fight choreography, sprite sheets, palette recolors and Cocos Creator export—not for generic illustration or photos.
 license: MIT
 metadata:
   runtime: Node 18 or newer; npm for the static build; ffmpeg optional for GIF/MP4 previews.
@@ -37,6 +37,9 @@ corpus, not a replacement for the runtime contract in `docs/AUTHORING.md`.
   muzzle or spell target).
 - **Material cues:** use translucent `SMOKE`, `VAPOUR` and `DUST` for volumes; stepped ramps for solid pixels;
   crackles, forks and cooling traces for electricity; scorch, debris and small aftersparks for impacts.
+- **Natural scenery:** establish rock masses, branch thickness and irregular silhouettes before adding ambience.
+  For maps, read the natural-form guidance in [references/fantasy-game.md](references/fantasy-game.md#natural-forms).
+  Judge rocks and trees with glow and particles disabled; technical checks do not establish material readability.
 - **Timing and finish:** one-shots must be empty at `t = duration`; loops must match at the seam. Fast attacks and
   white flashes sell force, while follow-through, embers, motes or smoke sell persistence. Keep frames within the
   declared canvas and use seeded randomness only.
@@ -56,16 +59,16 @@ scorch and sparks cool away; ground ellipse behind/in front, deterministic seed.
 2. Check it runs: `node tools/render.mjs fire/torch` writes `records/fire/torch/contact.png`. Open that PNG with
    your image-reading tool. That contact sheet is how you see every effect from now on.
 
-## 生成素材并在工作台预览
+## Generate assets and preview in the workbench
 
-当任务包含新增素材、放入现有素材库、浏览器预览或同步 Cocos 资源时，读取
-[references/generate-and-preview.md](references/generate-and-preview.md)。完成源码、注册表、资源导出和浏览器
-验证后，交付指向新素材的工作台直达链接。不要只生成临时预览文件就结束。
+When the task adds assets to the library, needs browser preview, or Cocos export, read
+[references/generate-and-preview.md](references/generate-and-preview.md). After source, registry, export and browser
+verification, deliver a workbench deep link to the new asset—not only ad-hoc preview files.
 
-典型请求：`用 $pixelfx 制作一个冰火爆炸素材，放入现有素材库，并打开 workbench 预览。`
+Example request: “Use $pixelfx to make an ice-fire explosion, add it to the library, and open it in the workbench.”
 
-新增素材会自动标记为 `new`：`src/fx/provenance.js` 只列出 244 个原有素材，未列出的 ID 都算新增；workbench 和 gallery
-都有 `original` / `new` 来源筛选，并支持 `workbench.html?source=new`。不要为来源去改每个素材的 `meta.tags`。
+New assets are tagged `new` automatically: `src/fx/provenance.js` lists the original 244; any other ID is `new`. Workbench and gallery
+expose `original` / `new` source filters and `workbench.html?source=new`. Do not edit every effect's `meta.tags` for provenance.
 
 ## Fantasy game kit: maps, minions, bosses and encounters
 
@@ -82,7 +85,7 @@ working. Use the smallest piece that answers the request:
 | a telegraphed boss move | **boss attack** (`boss/`) | `node tools/new.mjs boss/<name> --boss-attack` |
 | a whole fight on a timeline | **encounter** (`src/encounters/`) | `node tools/new.mjs <name> --encounter` |
 
-Read [references/fantasy-game.md](references/fantasy-game.md) for the full Chinese workflow, data shapes and command
+Read [references/fantasy-game.md](references/fantasy-game.md) for the full workflow, data shapes and command
 sequences. The short version:
 
 1. **Map.** A 320 x 180 loop at `origin: [0, 0]` with `kind: "map"` and a `map` export:
