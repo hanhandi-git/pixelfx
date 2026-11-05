@@ -36,19 +36,19 @@ A normal effect module plus a regenerated registry is enough for the workbench t
 
 ## 4. Sync the local resource folder
 
-This project includes Cocos Creator 3.8.8 preview integration. When the user wants assets beside existing ones, export incrementally:
+Cocos Creator preview lives in the sibling **pixelfx-cocos** repo. When the user wants assets beside existing ones, export incrementally:
 
 ```bash
-npm run cocos -- lightning/storm-sigil --out assets/resources/pixelfx
+npm run cocos:export -- lightning/storm-sigil
 ```
 
-That writes `assets/resources/pixelfx/lightning/storm-sigil.json`, the main PNG, and paginated `-1.png` when needed.
+That writes `../pixelfx-cocos/assets/resources/pixelfx/lightning/storm-sigil.json`, the main PNG, and paginated `-1.png` when needed.
 The exporter merges into the existing `index.json` per ID; confirm other entries remain, the new entry appears once, page files exist, and frame rects stay in bounds.
 Export without IDs rebuilds the full index—use only when you need a full rebuild.
 
 Keep atlas top-left coordinates, pivot, 30 FPS metadata and nearest-neighbour filtering.
 Cocos loads PNGs with `resources.load('<id>/texture', Texture2D)` and JSON with `resources.load('<id>', JsonAsset)`. Effect logic stays in `src/fx/`.
-If you change Cocos runtime components, mirror to `cocos/runtime/` and compile per AGENTS.md; a plain new asset does not require runtime edits.
+If you change Cocos runtime components, edit `cocos/runtime/` and copy into `pixelfx-cocos/assets/scripts/pixelfx/`; compile per AGENTS.md. A plain new asset does not require runtime edits.
 
 ## 5. Open and exercise the browser workbench
 
@@ -81,7 +81,7 @@ Confirm the build page sees the new asset so an old bundle does not stick at the
 ## 6. Delivery
 
 Deliver source paths, resource paths, the browser deep link, and checks you actually ran.
-Keep `records/`, `assets/resources/pixelfx/`, and `dist/` as generated output per project convention; do not commit them, Cocos `.meta`, or caches with source.
+Keep `records/`, `dist/`, and `pixelfx-cocos/assets/resources/pixelfx/` as generated output; do not commit them or Cocos caches with pixelfx source.
 Call out anything you could not verify (e.g. export only, not played in Creator).
 
 ## 7. Fantasy content (maps, minions, bosses, encounters)

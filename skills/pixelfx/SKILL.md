@@ -51,9 +51,8 @@ scorch and sparks cool away; ground ellipse behind/in front, deterministic seed.
 
 ## Before anything
 
-1. Work in the user's pixelfx checkout and read its `AGENTS.md`. On this machine the project is
-   `/Users/michiyang/Desktop/code/develop/game_dev/pixelfx`; prefer an explicitly provided checkout when different.
-   All project-relative paths below refer to that checkout, not the installed skill directory. Keep effect
+1. Work in the user's pixelfx checkout and read its `AGENTS.md`. Use the workspace path or any path the user
+   provides. All project-relative paths below refer to that checkout, not the installed skill directory. Keep effect
    definitions in `src/fx/`; Cocos is an export/playback adapter. Core tools use Node; run `npm ci` if build
    dependencies are missing. Create a new checkout only when the user needs a separate one.
 2. Check it runs: `node tools/render.mjs fire/torch` writes `records/fire/torch/contact.png`. Open that PNG with

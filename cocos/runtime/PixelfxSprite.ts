@@ -46,7 +46,7 @@ type AtlasJson = {
 /**
  * Plays a pixelfx PNG/JSON export on a Cocos Creator 3.x Sprite.
  *
- * Run `node tools/cocos.mjs --out <project>/assets/resources/pixelfx` first,
+ * Run `npm run cocos:export` from pixelfx (or `node tools/cocos.mjs --out …/assets/resources/pixelfx`) first,
  * then attach this component to a node with a Sprite. `effectId` uses the
  * source id, for example `fire/campfire` or `moves/sword-combo`.
  */

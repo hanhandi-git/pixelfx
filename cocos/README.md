@@ -4,26 +4,28 @@ The Cocos integration uses baked sprite sheets. The source effects are simulated
 
 ## Export resources
 
-From this repository, write directly into a Cocos Creator project's `assets/resources` directory:
+From this repository, write into a Cocos Creator project's `assets/resources` directory. The local
+preview project is the sibling checkout **`pixelfx-cocos`**:
 
 ```bash
-node tools/cocos.mjs --out ../my-cocos/assets/resources/pixelfx
+npm run cocos:export -- fire/torch
+node tools/cocos.mjs --out ../pixelfx-cocos/assets/resources/pixelfx
 # or export only selected categories/effects
-node tools/cocos.mjs fire ice moves/sword-combo --out ../my-cocos/assets/resources/pixelfx
+node tools/cocos.mjs fire ice moves/sword-combo --out ../pixelfx-cocos/assets/resources/pixelfx
 # use a larger limit on platforms that support it
-node tools/cocos.mjs weather --max-size 4096 --out ../my-cocos/assets/resources/pixelfx
+node tools/cocos.mjs weather --max-size 4096 --out ../pixelfx-cocos/assets/resources/pixelfx
 ```
 
 The command writes transparent PNG/JSON assets for every effect plus `index.json`. The default 2048px page limit keeps the output safe for mobile targets; long animations are split into `effect.png`, `effect-1.png`, and so on, with a `pages` list in the JSON. The JSON uses the same frame metadata as the existing sprite-sheet exporter and adds `meta.pixelfx.cocos.coordinateSystem = "top-left"` so the runtime can convert atlas rectangles correctly.
 
 In the Cocos project, copy [`runtime/PixelfxSprite.ts`](runtime/PixelfxSprite.ts) into `assets/scripts/pixelfx/`. The component targets the public Cocos Creator 3.x runtime APIs (including 3.8.x).
 
-This repository includes a ready-to-preview workbench at `assets/scenes/Main.scene` and
-`assets/scripts/pixelfx/PixelfxWorkbench.ts`. Open `Main.scene` in Creator 3.8.8, press
-**Preview**, then choose a category and effect from the library. The workbench supports play,
-pause, replay, previous/next selection and shows the exported frame metadata. Use the Preview
-toolbar's desktop device or Rotate control for the full wide layout; the default phone simulator
-intentionally shows only a narrow responsive viewport.
+The **pixelfx-cocos** project includes a ready-to-preview workbench at `assets/scenes/Main.scene` and
+`assets/scripts/pixelfx/PixelfxWorkbench.ts`. Open that project in Creator 3.8.8, press **Preview**,
+then choose a category and effect from the library. The workbench supports play, pause, replay,
+previous/next selection and shows the exported frame metadata. Use the Preview toolbar's desktop
+device or Rotate control for the full wide layout; the default phone simulator intentionally shows
+only a narrow responsive viewport.
 
 ## Use the component
 

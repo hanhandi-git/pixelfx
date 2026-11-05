@@ -3,8 +3,9 @@
 ## Project overview
 
 `pixelfx` is a code driven pixel art VFX library. The canonical effect definitions live in
-`src/fx/`; the renderer and simulation runtime live in `src/core/`. The repository also contains
-a Cocos Creator 3.8.8 preview integration that plays exported sprite sheets.
+`src/fx/`; the renderer and simulation runtime live in `src/core/`. Cocos Creator preview and
+exported PNG/JSON resources live in the sibling repository **`pixelfx-cocos`** (same parent folder
+as this checkout). This repo keeps only the export tool and copy-paste runtime adapter.
 
 Keep the source effect library engine independent. Cocos support is an export and runtime adapter;
 do not move the effect implementations into Cocos scripts unless the task explicitly asks for a
@@ -23,28 +24,24 @@ new native implementation.
 - `src/encounters/index.js`: generated encounter registry.
 - `tools/`: rendering, checking, sprite-sheet export, map/encounter previews and gallery tooling.
 - `gallery/fantasy.html`: live encounter player (the same timeline the tools render).
-- `cocos/runtime/PixelfxSprite.ts`: reusable Cocos Creator 3.x playback component.
-- `assets/scripts/pixelfx/PixelfxSprite.ts`: the copy used by the local Cocos project.
-- `assets/scenes/Main.scene`: Cocos preview scene; it plays the exported effects in sequence.
-- `assets/scripts/pixelfx/PixelfxWorkbench.ts`: Cocos preview workbench with category filters,
-  effect list, playback controls and metadata.
-- `assets/resources/pixelfx/`: generated Cocos PNG/JSON resources.
+- `cocos/runtime/PixelfxSprite.ts`: reusable Cocos Creator 3.x playback component (copy into a game or `pixelfx-cocos`).
+- `../pixelfx-cocos/`: Cocos Creator 3.8.8 project — scenes, workbench scripts, generated `assets/resources/pixelfx/`.
 - `gallery/workbench.html`: standalone browser-only H5 workbench; it does not use Cocos Creator.
 - `docs/`: catalog and authoring documentation.
 
 ## Runtime and engine contract
 
 - Use Node.js 18 or newer and npm.
-- Use Cocos Creator **3.8.8** for the local project and preview server.
-- The Cocos project root is this repository root. Open it with:
+- Use Cocos Creator **3.8.8** with **`pixelfx-cocos`**, not this repository root. Open it with:
 
   ```bash
+  cd /path/to/pixelfx-cocos
   /Applications/Cocos/Creator/3.8.8/CocosCreator.app/Contents/MacOS/CocosCreator \
-    --project /Users/michiyang/Desktop/code/develop/game_dev/pixelfx
+    --project .
   ```
 
 - The Cocos preview is normally available at `http://localhost:7456/` after pressing Preview in
-  Creator. Open `assets/scenes/Main.scene` before previewing if the page is empty.
+  Creator. Open `assets/scenes/Main.scene` in **pixelfx-cocos** before previewing if the page is empty.
 - Cocos PNGs are loaded as Texture2D sub-assets using `resources.load('<effect>/texture', Texture2D)`;
   JSON metadata is loaded from `resources.load('<effect>', JsonAsset)`. Preserve this distinction.
 - Cocos uses the generated atlas metadata and pivot. Keep nearest-neighbour filtering and the
@@ -59,9 +56,8 @@ npm run render -- fire/torch   # render a contact sheet
 npm run gallery                # start the browser gallery
 npm run workbench              # serve the same repo; open /gallery/workbench.html
 npm run build:web              # build static gallery + workbench into dist/gallery
-npm run cocos -- fire/torch \
-  --out assets/resources/pixelfx
-npm run cocos -- --out assets/resources/pixelfx  # export all effects
+npm run cocos:export -- fire/torch
+npm run cocos:export           # export all effects into pixelfx-cocos
 
 npm run map -- world/mossy-ruins                 # map contact, layout and gameplay images
 npm run encounter -- verdant-throne --mp4        # encounter contact sheet, timeline JSON and video
@@ -78,16 +74,18 @@ node tools/new.mjs boss/<name> --boss-attack
 node tools/new.mjs <encounter-name> --encounter
 ```
 
-For Cocos changes, also compile the runtime component when possible:
+For Cocos runtime component changes, compile when possible:
 
 ```bash
-node_modules/.bin/esbuild assets/scripts/pixelfx/PixelfxSprite.ts \
+node_modules/.bin/esbuild cocos/runtime/PixelfxSprite.ts \
   --loader:.ts=ts --format=esm --bundle --external:cc \
   --outfile=/tmp/PixelfxSprite.js
 ```
 
-After changing source effects, run `npm run check` and regenerate Cocos assets when the preview
-needs the changed effect. A full export writes hundreds of generated files and can take time.
+Copy intentional runtime edits from `cocos/runtime/` into `pixelfx-cocos/assets/scripts/pixelfx/`.
+
+After changing source effects, run `npm run check` and regenerate Cocos assets in **pixelfx-cocos** when
+the Creator preview needs the changed effect. A full export writes hundreds of generated files and can take time.
 The H5 workbench and fantasy encounter page import source modules directly, so they need no Cocos export step.
 
 ## Effect authoring rules
@@ -112,22 +110,19 @@ The H5 workbench and fantasy encounter page import source modules directly, so t
 
 ## Generated and ignored files
 
-Do not hand edit or commit Cocos editor state, caches or build output:
+Do not hand edit or commit build output in this repository:
 
-- `library/`, `temp/`, `profiles/`, `settings/`
-- `assets/**/*.meta`
-- `assets/resources/pixelfx/` and other generated resource pages
-- `records/`, `sheets/`, `dist/`, `node_modules/`
+- `records/`, `sheets/`, `dist/`, `node_modules/`, `cocos/resources/`
 
-The Cocos editor may recreate these files. If a fresh checkout needs a preview, open the project in
-Creator 3.8.8, let AssetDB import the project, export resources with `npm run cocos`, then open
-`assets/scenes/Main.scene`.
+Cocos editor caches (`library/`, `temp/`, etc.) must not live in this checkout; use **pixelfx-cocos**.
+If a fresh **pixelfx-cocos** checkout needs a preview, open it in Creator 3.8.8, run `npm run export` from
+that project (or `npm run cocos:export` from pixelfx), then open `assets/scenes/Main.scene`.
 
 ## Change discipline
 
 - Make the smallest change that satisfies the task and preserve unrelated worktree changes.
-- Keep reusable Cocos code in `assets/scripts/pixelfx/` and mirror intentional runtime changes in
-  `cocos/runtime/` so the documented integration remains copyable.
+- Keep the portable runtime in `cocos/runtime/` and copy into `pixelfx-cocos/assets/scripts/pixelfx/` when
+  the Creator project should pick up the change.
 - Do not add large generated PNGs to a source change unless the task explicitly requests checked-in
-  assets; the normal workflow regenerates them into `assets/resources/pixelfx/`.
+  assets; the normal workflow exports into `pixelfx-cocos/assets/resources/pixelfx/`.
 - Report the exact commands run and any limitation that could not be verified in Creator.

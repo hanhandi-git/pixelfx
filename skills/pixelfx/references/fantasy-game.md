@@ -300,6 +300,6 @@ Encounters are not one sprite: use `timeline.json` and `--mp4`/contact sheets fo
 - Source: `src/fx/world|mobs|boss/<name>.js`, `src/encounters/<name>.js`.
 - Registry: `node tools/index.mjs` updates `src/fx/index.js`, `src/encounters/index.js`, `docs/CATALOG.md`, `docs/ENCOUNTERS.md`.
 - Verification: `node tools/check.mjs <ids>` and `npm run check` pass; map `map.mjs` layout/gameplay OK; encounter contact/timeline/browser playback OK.
-- Assets: when Cocos is needed, `npm run cocos -- <id> --out assets/resources/pixelfx`; export only used units/attacks, not a full library by default.
+- Assets: when Cocos is needed, `npm run cocos:export -- <id>` into **pixelfx-cocos**; export only used units/attacks, not a full library by default.
 - Browser link: `http://localhost:8080/gallery/fantasy.html?enc=<name>`.
 - State unverified steps explicitly (e.g. not played in Cocos Creator, no MP4 without ffmpeg).

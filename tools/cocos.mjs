@@ -21,7 +21,10 @@ for (let i = 0; i < args.length; i++) {
   else flags[arg.slice(2)] = args[i + 1]?.startsWith("--") ? true : (args[++i] ?? true);
 }
 
-const output = resolve(flags.out ? String(flags.out) : join(ROOT, "cocos", "resources", "pixelfx"));
+const siblingCocos = join(ROOT, "..", "pixelfx-cocos", "assets", "resources", "pixelfx");
+const localFallback = join(ROOT, "cocos", "resources", "pixelfx");
+const defaultOutput = existsSync(join(ROOT, "..", "pixelfx-cocos")) ? siblingCocos : localFallback;
+const output = resolve(flags.out ? String(flags.out) : defaultOutput);
 const ids = patterns.length ? resolveIds(patterns) : allIds();
 const maxTextureSize = flags["max-size"] === undefined ? 2048 : Number(flags["max-size"]);
 const fps = flags.fps === undefined ? undefined : Number(flags.fps);

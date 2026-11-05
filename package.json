@@ -20,14 +20,11 @@
     "workbench": "node tools/serve.mjs",
     "build:web": "node tools/build-gallery.mjs",
     "cocos": "node tools/cocos.mjs",
+    "cocos:export": "node tools/cocos.mjs --out ../pixelfx-cocos/assets/resources/pixelfx",
     "map": "node tools/map.mjs",
     "encounter": "node tools/encounter.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.10"
-  },
-  "creator": {
-    "version": "3.8.8"
-  },
-  "uuid": "5e391d89-7023-4577-8ecb-371108a19383"
+  }
 }

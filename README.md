@@ -132,13 +132,14 @@ and Unity read it. `node tools/sheets.mjs` exports the whole library to `sheets/
 Export the effects directly into a Cocos Creator project's resources folder. This creates transparent PNG/JSON assets for every effect plus an index, splitting long animations into 2048px-safe pages when needed, so all effects use the same runtime component:
 
 ```bash
-node tools/cocos.mjs --out ../my-cocos/assets/resources/pixelfx
-node tools/cocos.mjs fire ice moves/sword-combo --out ../my-cocos/assets/resources/pixelfx
+npm run cocos:export -- fire/torch
+node tools/cocos.mjs fire ice moves/sword-combo --out ../pixelfx-cocos/assets/resources/pixelfx
+node tools/cocos.mjs --out ../my-game/assets/resources/pixelfx
 ```
 
-Copy [`cocos/runtime/PixelfxSprite.ts`](cocos/runtime/PixelfxSprite.ts) into `assets/scripts/pixelfx/`, attach it next to a Cocos `Sprite`, and set `effectId` to an id such as `fire/campfire`. It handles loading, nearest-neighbour filtering, the exported pivot, playback speed, looping and auto-destroy. See [`cocos/README.md`](cocos/README.md) for the full setup and API.
+Copy [`cocos/runtime/PixelfxSprite.ts`](cocos/runtime/PixelfxSprite.ts) into your Cocos project's `assets/scripts/pixelfx/`, attach it next to a Cocos `Sprite`, and set `effectId` to an id such as `fire/campfire`. It handles loading, nearest-neighbour filtering, the exported pivot, playback speed, looping and auto-destroy. See [`cocos/README.md`](cocos/README.md) for the full setup and API.
 
-This repository also includes a Cocos resource workbench at `assets/scenes/Main.scene`. Open that scene in Creator 3.8.8 and press **Preview** to filter by category, select an effect, and control its playback. Use the Preview toolbar's desktop device or Rotate control for the full workbench layout.
+The companion repo **[pixelfx-cocos](../pixelfx-cocos)** holds the Creator 3.8.8 preview workbench (`assets/scenes/Main.scene`). Open that project in Creator and press **Preview** to filter by category, select an effect, and control playback. Generated PNG/JSON live only under `pixelfx-cocos/assets/resources/pixelfx/`, not in this library checkout.
 
 ### Standalone H5 workbench
 
