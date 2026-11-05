@@ -36,6 +36,8 @@ class Player {
     const [w, h] = acted ? [b.x1 - b.x0, b.y1 - b.y0] : this.fx.meta.size, [ox, oy] = acted ? [-b.x0, -b.y0] : this.fx.meta.origin;
     this.W = Math.ceil(Math.max(w * (acted ? Math.min(pad, 1.1) : pad), h * (acted ? Math.min(pad, 1.1) : pad) * aspect));
     this.H = Math.ceil(this.W / aspect);
+    this.artW = w;
+    this.artH = h;
     this.x = Math.floor((this.W - w) / 2) + ox;
     // an act stands near the bottom of its tile, with the room above it
     this.y = acted ? Math.max(oy + 2, this.H - b.y1 - 2) : Math.floor((this.H - h) / 2) + oy;
@@ -58,8 +60,12 @@ class Player {
   get acted() {
     return !!this.fx.mod.act && this.actor;
   }
+  // flip mirrors around local (0, 0); shift the anchor so the art box [0, artW) stays on the stage
+  get anchorX() {
+    return this.flip ? this.x + this.artW - 1 : this.x;
+  }
   restart() {
-    this.inst = (this.acted ? createAct : createFx)(this.fx.mod, { x: this.x, y: this.y, flip: this.flip, ...this.opts });
+    this.inst = (this.acted ? createAct : createFx)(this.fx.mod, { x: this.anchorX, y: this.y, flip: this.flip, ...this.opts });
     this.acc = 0;
     this.wait = 0;
     this.dirty = true;
@@ -96,7 +102,7 @@ class Player {
     }
     this.inst.draw(f, "back");
     const m = this.fx.meta, tt = m.loop ? this.inst.t % m.duration : Math.min(this.inst.t, m.duration);
-    if (m.actor && this.actor) drawActor(painterFor(f).place(this.x, this.y, this.flip), this.inst.options.actor ?? stockActor(), actorAlphaOf(this.fx.mod, tt, this.inst.options));
+    if (m.actor && this.actor) drawActor(painterFor(f).place(this.anchorX, this.y, this.flip), this.inst.options.actor ?? stockActor(), actorAlphaOf(this.fx.mod, tt, this.inst.options));
     this.inst.draw(f, "front");
     composite(f, this.img.data, this.bgBuf);
     this.ctx.putImageData(this.img, 0, 0);
@@ -287,7 +293,8 @@ function sheet() {
   const cols = Math.min(n, Math.max(1, Math.ceil(Math.sqrt((n * h) / w)))), rows = Math.ceil(n / cols);
   const cv = el("canvas", { width: cols * w, height: rows * h }), ctx = cv.getContext("2d");
   const frame = createFrame(w, h), img = ctx.createImageData(w, h);
-  const inst = createFx(fx.mod, { x: m.origin[0], y: m.origin[1], ...detail.opts, flip: detail.flip });
+  const ax = detail.flip ? m.origin[0] + w - 1 : m.origin[0];
+  const inst = createFx(fx.mod, { x: ax, y: m.origin[1], ...detail.opts, flip: detail.flip });
   for (let i = 0; i < n; i++) {
     if (i) inst.update(1 / m.fps);
     inst.draw(clearFrame(frame));

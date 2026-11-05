@@ -2,6 +2,8 @@
   <img src="docs/readme/montage.gif" width="800" alt="A grid of pixel art effects playing at once: a campfire, a burning skull, a waterfall, a plasma ball, a portal, a tornado and more.">
 </p>
 
+**Languages / 语言:** [English](README.md) · [简体中文](README.zh-CN.md)
+
 # pixelfx.
 
 **<!-- count -->260<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
