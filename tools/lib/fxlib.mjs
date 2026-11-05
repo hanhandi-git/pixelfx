@@ -4,12 +4,23 @@ import { readdirSync, existsSync, statSync, writeFileSync, mkdirSync } from "nod
 import { join, dirname, relative, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { spawnSync } from "node:child_process";
-import { createFrame, clearFrame, createFx, createAct, actBounds, actTiming, composite, painterFor, drawActor, stockActor, backdrop, actorAlphaOf } from "../../src/core/index.js";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+function ffmpegBin() {
+  try {
+    return require("ffmpeg-static");
+  } catch {
+    return "ffmpeg";
+  }
+}
+import { createFrame, clearFrame, createFx, createAct, createEncounter, actBounds, actTiming, composite, painterFor, drawActor, stockActor, backdrop, actorAlphaOf } from "../../src/core/index.js";
 import { rasterText, textWidth } from "../../src/core/font.js";
 import { encodePNG } from "./png.mjs";
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 export const FX_DIR = join(ROOT, "src", "fx");
+export const ENCOUNTER_DIR = join(ROOT, "src", "encounters");
 
 /** Every effect id ("fire/torch"), sorted. Files starting with _ are helpers, not effects. */
 export function allIds(dir = FX_DIR) {
@@ -44,6 +55,61 @@ export async function loadEffect(id, dir = FX_DIR) {
   if (!mod.meta) throw new Error(`${id}: no meta export`);
   if (!mod.draw && !mod.create) throw new Error(`${id}: exports neither draw nor create`);
   return { id, file, mod: { ...mod, meta }, meta };
+}
+
+
+/** Every encounter id ("verdant-throne"), sorted. Files starting with _ are helpers, not encounters. */
+export function allEncounterIds(dir = ENCOUNTER_DIR) {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir).filter((f) => f.endsWith(".js") && !f.startsWith("_") && f !== "index.js").sort().map((f) => f.slice(0, -3));
+}
+
+/** Encounter ids matching patterns: "verdant-throne", "*throne*", or a file path. */
+export function resolveEncounterIds(patterns, dir = ENCOUNTER_DIR) {
+  const all = allEncounterIds(dir), out = new Set();
+  for (let p of patterns) {
+    if (p.endsWith(".js")) p = relative(dir, p.startsWith("/") ? p : join(process.cwd(), p)).split(sep).join("/").replace(/\.js$/, "");
+    const re = new RegExp("^" + p.split("*").map((s) => s.replace(/[.+?^${}()|[\]\\]/g, "\\$&")).join(".*") + "$");
+    const hits = all.filter((id) => id === p || re.test(id));
+    if (!hits.length) console.error(`no encounter matches ${p}`);
+    hits.forEach((h) => out.add(h));
+  }
+  return [...out];
+}
+
+/** Import an encounter module fresh. */
+export async function loadEncounter(id, dir = ENCOUNTER_DIR) {
+  const file = join(dir, id + ".js");
+  const mod = await import(pathToFileURL(file).href + `?v=${statSync(file).mtimeMs}`);
+  const meta = { fps: 30, duration: 20, tags: [], size: [320, 180], ...mod.meta };
+  if (!mod.meta) throw new Error(`${id}: no meta export`);
+  if (!mod.encounter) throw new Error(`${id}: no encounter export`);
+  if (!mod.encounter.map) throw new Error(`${id}: encounter.map is missing`);
+  return { id, file, mod: { ...mod, meta }, meta };
+}
+
+/**
+ * Render an encounter's timeline. Returns { w, h, fps, n, frames: [{ t, color, frozen? }], events }.
+ * o: { fps, seed, duration, hold }.
+ */
+export function renderEncounter(fx, opts = {}) {
+  const M = fx.mod ?? fx, meta = fx.meta ?? M.meta, E = M.encounter, fps = opts.fps ?? meta.fps;
+  const W = E.w ?? meta.size?.[0] ?? E.map.meta?.size?.[0] ?? 320;
+  const H = E.h ?? meta.size?.[1] ?? E.map.meta?.size?.[1] ?? 180;
+  const inst = createEncounter(M, { seed: opts.seed ?? 1, ...(opts.options ?? {}) });
+  const frames = [];
+  const total = opts.duration ?? meta.duration ?? inst.duration;
+  const n = Math.max(1, Math.round(total * fps) + 1);
+  const frame = createFrame(W, H);
+  for (let i = 0; i < n; i++) {
+    if (i) inst.update(1 / fps);
+    clearFrame(frame);
+    inst.draw(frame);
+    const rgba = composite(frame, new Uint8ClampedArray(W * H * 4), null);
+    const [sx, sy] = inst.shake;
+    frames.push({ t: inst.t, color: sx || sy ? shifted(rgba, W, H, sx, sy) : rgba, raw: frame.color.slice() });
+  }
+  return { w: W, h: H, fps, n, frames, events: inst.events, duration: total };
 }
 
 /**
@@ -255,7 +321,7 @@ export function writeVideo(file, r, k, { loops = 1 } = {}) {
   else args.push("-loop", "0");
   args.push(file);
   mkdirSync(dirname(file), { recursive: true });
-  const res = spawnSync("ffmpeg", args, { input: Buffer.concat(parts), maxBuffer: 1 << 30 });
+  const res = spawnSync(ffmpegBin(), args, { input: Buffer.concat(parts), maxBuffer: 1 << 30 });
   if (res.error) return false;
   if (res.status !== 0) throw new Error(`ffmpeg failed: ${res.stderr}`);
   return true;
