@@ -129,6 +129,7 @@ import * as spawn_shatter_death from "./spawn/shatter-death.js";
 import * as spawn_soul_rise from "./spawn/soul-rise.js";
 import * as spawn_spawn_portal from "./spawn/spawn-portal.js";
 import * as spawn_summon_rise from "./spawn/summon-rise.js";
+import * as spawn_talisman_suppression from "./spawn/talisman-suppression.js";
 import * as arcane_arcane_beam from "./arcane/arcane-beam.js";
 import * as arcane_arcane_missiles from "./arcane/arcane-missiles.js";
 import * as arcane_arcane_orb from "./arcane/arcane-orb.js";
@@ -394,6 +395,7 @@ export const effects = {
   "spawn/soul-rise": spawn_soul_rise,
   "spawn/spawn-portal": spawn_spawn_portal,
   "spawn/summon-rise": spawn_summon_rise,
+  "spawn/talisman-suppression": spawn_talisman_suppression,
   "arcane/arcane-beam": arcane_arcane_beam,
   "arcane/arcane-missiles": arcane_arcane_missiles,
   "arcane/arcane-orb": arcane_arcane_orb,
@@ -657,6 +659,7 @@ export const provenance = {
   "spawn/soul-rise": "original",
   "spawn/spawn-portal": "original",
   "spawn/summon-rise": "original",
+  "spawn/talisman-suppression": "new",
   "arcane/arcane-beam": "original",
   "arcane/arcane-missiles": "original",
   "arcane/arcane-orb": "original",

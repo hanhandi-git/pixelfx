@@ -6,9 +6,9 @@
 
 # pixelfx-extended.
 
-An extended [**pixelfx**](https://github.com/patch-gg/pixelfx) fork with **<!-- new-count -->16<!-- /new-count -->** additional maps, minions, bosses and effects beyond the original 244-effect baseline.
+An extended [**pixelfx**](https://github.com/patch-gg/pixelfx) fork with **<!-- new-count -->17<!-- /new-count -->** additional maps, minions, bosses and effects beyond the original 244-effect baseline.
 
-**<!-- count -->260<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
+**<!-- count -->261<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
 explosions, magic, weather, UI, pickups, critters and more. Play them live, recolor and mirror them, drop them into
 a browser game, or export sprite sheets for any engine. Plus a **fantasy game kit** — battle maps, minion units,
 telegraphed boss attacks and choreographed encounters — and a Claude Code skill that makes new ones the way a picky
@@ -55,6 +55,7 @@ These **<!-- new-count -->16<!-- /new-count -->** pieces are not in the original
 | **boss** | Thorn King | `boss/thorn-king` |
 | **boss** | Thorn Volley | `boss/thorn-volley` |
 | **spawn** | Shanhaijing summon | `spawn/shanhaijing-summon` |
+| **spawn** | Talisman suppression | `spawn/talisman-suppression` |
 | **lightning** | Storm sigil | `lightning/storm-sigil` |
 <!-- /new-catalog -->
 
@@ -68,8 +69,8 @@ Categories with new content appear first; samples list **new** effects before or
 | **world** | 6 | aurora pass, crystal hollow, ember depths, mossy ruins, sunscar temple, wisp marsh |
 | **mobs** | 4 | goblin jab, goblin raider, spore puff, sporeling |
 | **boss** | 4 | phase roar, root quake, thorn king, thorn volley |
+| **spawn & death** | 12 | shanhaijing summon, talisman suppression, coin drop, disintegrate, dissolve burn, egg hatch… |
 | **lightning** | 12 | storm sigil, ball lightning, chain lightning, charge up, electrified, lightning strike… |
-| **spawn & death** | 11 | shanhaijing summon, coin drop, disintegrate, dissolve burn, egg hatch, poof… |
 | **moves** | 12 | arrow shot, dash strike, earth stomp, fireball throw, ground pound, holy smite… |
 | **fire** | 12 | brazier, campfire, candle, fire breath, fire ring, fire tornado… |
 | **explosions** | 12 | barrel explosion, big explosion, cartoon pow, dirt explosion, firework burst, firework rocket… |

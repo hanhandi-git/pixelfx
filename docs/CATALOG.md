@@ -1,6 +1,6 @@
 # Catalog
 
-260 effects in 24 categories: 244 original and 16 new. Every one is a file in
+261 effects in 24 categories: 244 original and 17 new. Every one is a file in
 `src/fx/<category>/<name>.js`; render any of them with `node tools/render.mjs <id> --gif`.
 
 ## moves
@@ -208,6 +208,7 @@ poofs, portals, souls, shatters.
 | Soul rise | `spawn/soul-rise` | original | effect | one-shot 3.2s | 96×140 | The body's outline flares and dims, then a pale glowing copy of it lifts out, stretching as its legs melt into a rippling wisp, shedding motes until it thins into light. |
 | Spawn portal | `spawn/spawn-portal` | original | effect | one-shot 3.8s | 208×150 | A rift tears open on the floor and swirls, belches violet smoke and sparks, spits a fountain of wisps up out of itself, then twists shut with a pop. |
 | Summon rise | `spawn/summon-rise` | original | effect | one-shot 4.6s | 176×116 | A rune circle burns into the floor, the ground bursts, and a horned brute heaves up out of it through dust and rubble, lit from below, until its eyes flare. |
+| Talisman suppression | `spawn/talisman-suppression` | new | effect | one-shot 4.6s | 256×160 | In a ruined shrine, yellow talismans rise and write themselves in cinnabar, join into a rotating seal, slam down as a taiji shadow, then burn to ash that drifts upward. |
 
 ## arcane
 

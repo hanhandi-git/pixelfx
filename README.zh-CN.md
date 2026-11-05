@@ -6,9 +6,9 @@
 
 # pixelfx-extended.
 
-在 [**pixelfx**](https://github.com/patch-gg/pixelfx) 原版 244 特效基线之上，额外增加 **<!-- new-count -->16<!-- /new-count -->** 条地图、小怪、Boss 等素材的扩展仓库。
+在 [**pixelfx**](https://github.com/patch-gg/pixelfx) 原版 244 特效基线之上，额外增加 **<!-- new-count -->17<!-- /new-count -->** 条地图、小怪、Boss 等素材的扩展仓库。
 
-**<!-- count -->260<!-- /count --> 个像素特效与动画，每一个都是一小段代码。** 火焰、爆炸、魔法、天气、UI、拾取物、小动物等。可实时播放、换色与镜像，嵌入浏览器游戏，或导出精灵图给任意引擎。另有 **奇幻游戏套件** —— 战斗地图、小怪单位、带预警的 Boss 技能与编排好的遭遇战 —— 以及 Claude Code skill，用像素画师那套「起草 → 渲染 → 眼看 → 精修」流程做新内容。
+**<!-- count -->261<!-- /count --> 个像素特效与动画，每一个都是一小段代码。** 火焰、爆炸、魔法、天气、UI、拾取物、小动物等。可实时播放、换色与镜像，嵌入浏览器游戏，或导出精灵图给任意引擎。另有 **奇幻游戏套件** —— 战斗地图、小怪单位、带预警的 Boss 技能与编排好的遭遇战 —— 以及 Claude Code skill，用像素画师那套「起草 → 渲染 → 眼看 → 精修」流程做新内容。
 
 库内 **<!-- original-count -->244<!-- /original-count -->** 个原始特效与 **<!-- new-count -->16<!-- /new-count -->** 个新增。[Gallery](gallery/index.html) 会把每条资源标为 `original` 或 `new`，并支持按来源筛选。
 
@@ -46,6 +46,7 @@
 | **boss** | Thorn King | `boss/thorn-king` |
 | **boss** | Thorn Volley | `boss/thorn-volley` |
 | **spawn** | Shanhaijing summon | `spawn/shanhaijing-summon` |
+| **spawn** | Talisman suppression | `spawn/talisman-suppression` |
 | **lightning** | Storm sigil | `lightning/storm-sigil` |
 <!-- /new-catalog -->
 
@@ -59,8 +60,8 @@
 | **world** | 6 | aurora pass, crystal hollow, ember depths, mossy ruins, sunscar temple, wisp marsh |
 | **mobs** | 4 | goblin jab, goblin raider, spore puff, sporeling |
 | **boss** | 4 | phase roar, root quake, thorn king, thorn volley |
+| **spawn & death** | 12 | shanhaijing summon, talisman suppression, coin drop, disintegrate, dissolve burn, egg hatch… |
 | **lightning** | 12 | storm sigil, ball lightning, chain lightning, charge up, electrified, lightning strike… |
-| **spawn & death** | 11 | shanhaijing summon, coin drop, disintegrate, dissolve burn, egg hatch, poof… |
 | **moves** | 12 | arrow shot, dash strike, earth stomp, fireball throw, ground pound, holy smite… |
 | **fire** | 12 | brazier, campfire, candle, fire breath, fire ring, fire tornado… |
 | **explosions** | 12 | barrel explosion, big explosion, cartoon pow, dirt explosion, firework burst, firework rocket… |
