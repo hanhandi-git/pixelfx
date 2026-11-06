@@ -128,7 +128,7 @@ A boss is **scale, phases and telegraphs**.
 
 ```js
 export const meta = {
-  name: "Thorn King",
+  name: "Your Boss",
   desc: "One line: what it is and why it is frightening.",
   tags: ["boss", "fantasy", "forest", "loop"],
   kind: "boss",
@@ -139,8 +139,8 @@ export const meta = {
 
 export const boss = {
   tier: "boss", hp: 1200, radius: 28, height: 96,
-  phases: [{ hp: 1, name: "The Waking Wood" }, { hp: 0.55, name: "Thorns Unleashed" }],
-  attacks: [rootQuake, thornVolley, phaseRoar],
+  phases: [{ hp: 1, name: "The First Phase" }, { hp: 0.55, name: "The Second Phase" }],
+  attacks: [slam, volley, phaseChange], // your own boss-attack modules
   loot: "pickups/loot-beam",
 };
 ```
@@ -156,7 +156,7 @@ export const boss = {
   };
   ```
 - At least two attacks plus one phase change: melee zone, ranged marks/volley, full-screen roar. Rhythm: 0.8–1.6 s telegraph, 1–2 frame white flash, 2–5 s aftermath.
-- Phases by HP or time: `boss.phases` thresholds; encounter `phases` timeline shows banner, plays `phase-roar`, snaps the bar to the next segment.
+- Phases by HP or time: `boss.phases` thresholds; encounter `phases` timeline shows banner, plays a transition effect, snaps the bar to the next segment.
 - Phase changes must change the picture: color, light, ground cracks, leaf storm or shake—or players will not feel the shift.
 
 Verification:
@@ -174,35 +174,37 @@ The telegraph must appear in contact-sheet samples; an invisible telegraph is no
 An encounter is data, not a second renderer. `src/encounters/<name>.js`:
 
 ```js
-import * as map from "../fx/world/mossy-ruins.js";
-import * as boss from "../fx/boss/thorn-king.js";
-import * as goblin from "../fx/mobs/goblin-raider.js";
-import * as goblinJab from "../fx/mobs/goblin-jab.js";
-import * as rootQuake from "../fx/boss/root-quake.js";
+import * as map from "../fx/world/ember-depths.js";
+import * as myMob from "../fx/mobs/my-mob.js";
+import * as myMobAttack from "../fx/mobs/my-mob-attack.js";
+import * as poof from "../fx/spawn/poof.js";
 
 export const meta = {
-  name: "The Verdant Throne",
+  name: "My Encounter",
   desc: "One line: setup, escalation and payoff of this fight.",
-  tags: ["encounter", "boss", "fantasy"],
-  duration: 27.5, fps: 30, size: [320, 180],
-  map: "world/mossy-ruins", boss: "boss/thorn-king", mobs: ["mobs/goblin-raider"],
+  tags: ["encounter", "mobs", "fantasy"],
+  duration: 14.5, fps: 30, size: [320, 180],
+  map: "world/ember-depths", mobs: ["mobs/my-mob"],
 };
 
 const GROUND = map.map.groundY;
 
 export const encounter = {
-  w: 320, h: 180, duration: 27.5, map,
+  w: 320, h: 180, duration: 14.5, map,
   hero: { x: 52, y: GROUND },
-  boss: { mod: boss, x: 252, y: GROUND, name: "The Thorn King" },
-  mobs: [{ id: "add-a", mod: goblin, x: 118, y: GROUND, hp: 42, until: 10.5 }],
+  mobs: [
+    { id: "mob-a", mod: myMob, x: 128, y: GROUND, hp: 42, until: 8.5 },
+    { id: "mob-b", mod: myMob, x: 172, y: GROUND, hp: 42, until: 10.5 },
+  ],
   phases: [
-    { at: 0.35, hp: 1, name: "The Waking Wood", sub: "THE THORN KING", dur: 2.8 },
-    { at: 13.2, hp: 0.55, name: "Thorns Unleashed", sub: "PHASE II", dur: 2.8 },
+    { at: 0.3, hp: 1, name: "My Encounter", sub: "WAVE I", dur: 2.4 },
+    { at: 13.0, hp: 1, name: "Wave Clear", sub: "ALL QUIET", dur: 3.0 },
   ],
   timeline: [
-    { at: 2.4, type: "attack", fx: rootQuake, x: 160, y: GROUND },
-    { at: 5.6, type: "attack", fx: goblinJab, x: 118, y: GROUND, flip: true },
-    { at: 10.4, type: "attack", fx: poof, x: 118, y: GROUND },
+    { at: 1.6, type: "attack", fx: myMobAttack, x: 128, y: GROUND, flip: true },
+    { at: 5.0, type: "attack", fx: myMobAttack, x: 172, y: GROUND, flip: true },
+    { at: 8.4, type: "attack", fx: poof, x: 128, y: GROUND },
+    { at: 10.4, type: "attack", fx: poof, x: 172, y: GROUND },
   ],
 };
 ```
@@ -221,12 +223,12 @@ Timeline cue types:
 
 Pacing template:
 
-1. **Opening 0–3 s**: frame reads boss and hero; phase I banner; first attack teaches a mechanic.
+1. **Opening 0–3 s**: frame reads the field and the hero; phase I banner; first attack teaches a mechanic.
 2. **Tutorial 3–8 s**: minions enter; player chooses adds vs boss; 2–4 s between attacks to reposition.
 3. **Escalation 8–12 s**: second attack pattern; minion deaths or swaps; boss HP enters next segment.
-4. **Phase change 12–15 s**: `phase-roar`, banner, shake, color shift; avoid lethal damage in this window.
+4. **Phase change 12–15 s**: a transition effect, banner, shake, color shift; avoid lethal damage in this window.
 5. **Phase II 15–23 s**: overlapping attacks, persistent floor hazards, minions return; tighten last 2–3 s.
-6. **Victory after ~23 s**: hide boss, death/loot/feathers, `defeat`, victory banner; hold empty arena 1–2 s.
+6. **Victory after ~23 s**: clear the field, death/loot/feathers, `defeat`, victory banner; hold empty arena 1–2 s.
 
 Verification:
 
@@ -239,7 +241,7 @@ npm run check
 Review `records/encounters/<name>/contact.png` and `timeline.json` for hit times. Play back in the browser:
 
 ```bash
-npm run workbench
+npm run gallery
 open http://localhost:8080/gallery/fantasy.html?enc=<name>
 ```
 
@@ -251,7 +253,7 @@ Browser/JS games use the runtime directly:
 
 ```js
 import { createFrame, clearFrame, createEncounter, composite } from "pixelfx";
-import * as fight from "./src/encounters/verdant-throne.js";
+import * as fight from "./src/encounters/my-encounter.js";
 
 const frame = createFrame(320, 180);
 const img = new ImageData(320, 180);
@@ -274,8 +276,8 @@ Other engines export sprite sheets like any effect:
 
 ```bash
 node tools/render.mjs world/mossy-ruins --sheet
-node tools/render.mjs mobs/goblin-raider --sheet
-node tools/render.mjs boss/root-quake --sheet
+node tools/render.mjs mobs/my-mob --sheet
+node tools/render.mjs mobs/my-mob-attack --sheet
 ```
 
 Encounters are not one sprite: use `timeline.json` and `--mp4`/contact sheets for art review, export each effect by ID, and re-choreograph in your engine.
@@ -291,7 +293,7 @@ Encounters are not one sprite: use `timeline.json` and `--mp4`/contact sheets fo
 | boss does not read as boss | small silhouette, scattered features | scale up 1.5–2×, merge to 2–3 silhouette features; horns and hot core |
 | telegraph invisible | too dark/thin or one frame only | bright floor ring, thick seal, center sigil; hold 0.8–1.6 s; check contact sheet |
 | hit out of sync | `attack.hits[].t` ≠ white flash frame | move flash/hit star to `hits[0].t`; reuse same constant for shake |
-| phase change feels abrupt | HP bar only | add `phase-roar`, banner, shake, color/ground change |
+| phase change feels abrupt | HP bar only | add a transition effect, banner, shake, color/ground change |
 | long empty tail | `meta.duration` past last cue | shorten duration or add victory/loot/hold at end |
 | VFX covers boss bar | effect draws into top of screen | keep attack apex at y ≥ 0; keep bar region clean |
 

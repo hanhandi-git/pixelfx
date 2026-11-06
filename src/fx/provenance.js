@@ -1,6 +1,6 @@
 // Which effects were already in the library before the fantasy kit and the two earlier additions.
 // Everything not listed here is new, so adding an effect automatically tags it "new". Regenerate this list
-// only when you deliberately reclassify an old effect (see tools/index.mjs and the workbench source filter).
+// only when you deliberately reclassify an old effect (see tools/index.mjs and the gallery source filter).
 
 export const ORIGINAL_EFFECTS = new Set([
   // arcane

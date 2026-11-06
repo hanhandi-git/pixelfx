@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Render and check a fantasy encounter: the map, the units and their attack effects on one timeline.
 //
-//   node tools/encounter.mjs verdant-throne
-//   node tools/encounter.mjs ember-skirmish --mp4
+//   node tools/encounter.mjs <name>
+//   node tools/encounter.mjs <name> --mp4
 //
 // Writes records/encounters/<id>/contact.png and timeline.json. A contact sheet is the review tool; --mp4 is for
 // judging timing. The checker fails on modules of the wrong kind, a timeline out of order, an attack whose hit

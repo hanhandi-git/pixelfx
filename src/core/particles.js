@@ -54,10 +54,12 @@ export function stream(t, t0, t1, rate, seed, life, fn) {
   }
 }
 
-/** A simple simulated particle list, for effects that export create() and keep state. */
+/** A simple simulated particle list; optional field(x,y,t) adds local acceleration in px/s². */
 export class Particles {
-  constructor() {
+  constructor({ field = null } = {}) {
     this.list = [];
+    this.field = field;
+    this.t = 0;
   }
   /** p: { x, y, vx, vy, life, g?, drag?, ground?, bounce? } plus anything you want to draw with. */
   add(p) {
@@ -68,11 +70,18 @@ export class Particles {
     return p;
   }
   update(dt) {
+    const t = this.t;
+    this.t += dt;
     for (let i = this.list.length - 1; i >= 0; i--) {
       const p = this.list[i];
       if ((p.age += dt) >= p.life) {
         this.list.splice(i, 1);
         continue;
+      }
+      if (this.field) {
+        const [ax, ay] = this.field(p.x, p.y, t);
+        p.vx += ax * dt;
+        p.vy += ay * dt;
       }
       p.vx -= p.vx * p.drag * dt;
       p.vy += p.g * dt - p.vy * p.drag * dt;

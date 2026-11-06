@@ -24,7 +24,7 @@ const SOFT = new Set([P.VAPOUR, P.DUST, P.SMOKE]);
 
 /**
  * A particle system. opts: { seed, ground: (x) => floor y (local px; sparks bounce on it), sparks: [head..tail]
- * colors for SPARK, haze: color vapour glows with }.
+ * colors for SPARK, haze: color vapour glows with, field: optional (x,y,t) => [ax,ay] in px/s² }.
  * spawn(kind, x, y, vx, vy, life, color, size); update(dt); draw(p, layer): "back" draws the soft kinds
  * (vapour, dust, smoke), "front" the rest, nothing for both.
  */
@@ -37,6 +37,7 @@ export class Particles {
     this.sparks = (opts.sparks ?? HOT).map(hex);
     this.haze = opts.haze === undefined ? null : hex(opts.haze);
     this.onLand = opts.onLand ?? null; // (x, y) when a BRAND hits the floor
+    this.field = opts.field ?? null; // optional local acceleration field(x,y,t) -> [ax,ay]
   }
   /** delay: seconds before it appears; flag: PF bits. col 0 lets FIRE and SMOKE use their own ramps. */
   spawn(k, x, y, vx, vy, life, col = WHITE, size = 1, delay = 0, flag = 0) {
@@ -61,6 +62,11 @@ export class Particles {
         }
         this.list.splice(i, 1);
         continue;
+      }
+      if (this.field) {
+        const [ax, ay] = this.field(p.x, p.y, t - dt);
+        p.vx += ax * dt;
+        p.vy += ay * dt;
       }
       switch (p.k) {
         case P.FIRE:

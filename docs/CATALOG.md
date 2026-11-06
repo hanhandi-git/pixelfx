@@ -1,6 +1,6 @@
 # Catalog
 
-261 effects in 24 categories: 244 original and 17 new. Every one is a file in
+324 effects in 28 categories: 244 original and 80 new. Every one is a file in
 `src/fx/<category>/<name>.js`; render any of them with `node tools/render.mjs <id> --gif`.
 
 ## moves
@@ -106,12 +106,18 @@ strikes, arcs, coils, storms.
 | Chain lightning | `lightning/chain-lightning` | original | effect | one-shot 1.8s | 248×104 | A bolt leaps from the caster's hand through three targets in turn; each flashes, sparks and grounds itself to the floor while the arcs between them flicker, then the chain snaps. |
 | Charge up | `lightning/charge-up` | original | effect | one-shot 2.7s | 272×184 | Sparks streak and arcs whip in to a crackling core at the caster's hand that swells and pulses faster, then it flashes and bursts: bolts every way, a ring, a spray of sparks. |
 | Electrified | `lightning/electrified` | original | effect | loop 2s | 108×92 | Current runs through a character: arcs crawl over and leap across the body, sparks spit off, the body flares to an electric silhouette on each jolt, and the feet ground out. |
+| Forked burst | `lightning/forked-burst` | new | effect | one-shot 1.3s | 224×176 | A compact charge splits into five jagged lightning fingers, sweeping a forward cone before its branching channels cool and break into sparks. |
+| Ground surge | `lightning/ground-surge` | new | effect | one-shot 1.8s | 288×128 | A ground charge races right through branching floor fissures, throwing up successive electric teeth and leaving cooling violet cracks behind. |
 | Lightning strike | `lightning/lightning-strike` | original | effect | one-shot 3s | 240×264 | A targeted strike: a sigil charges on the floor, the scene darkens, a thick bolt slams into it, arcs race out along the cracks it splits, the channel crumbles to a scorch. |
 | Plasma ball | `lightning/plasma-ball` | original | effect | loop 3s | 112×104 | A glass globe on a dark pedestal: wandering plasma tendrils reach from the core to the glass and fan out in bright feet where they touch it, lighting the stand and floor. |
 | Spark arc | `lightning/spark-arc` | original | effect | loop 2s | 124×120 | A climbing arc between two rods: it strikes white at their narrow foot, climbs on rising heat as it stretches and bows, sputters and snaps at the top, then strikes again. |
+| Static cage | `lightning/static-cage` | new | effect | loop 2s | 160×144 | Six electric ribs arch over a ground seal, with current jumping between the bars and orbiting sparks tracing a seamless containment field. |
 | Storm cloud | `lightning/storm-cloud` | original | effect | loop 3s | 168×176 | A storm cloud boils overhead, billows lit from inside by flickering discharges, ragged scud under its flat dark base; rain slants down and once a loop a bolt cracks to the floor. |
 | Storm sigil | `lightning/storm-sigil` | new | effect | one-shot 2.8s | 256×256 | A storm rune writes itself under the target, a charged core gathers overhead, then a forked lightning pillar slams down and leaves crawling arcs across the fading seal. |
+| Storm vortex | `lightning/storm-vortex` | new | effect | loop 3s | 184×176 | Three braided lightning spirals climb a widening funnel, sweeping motes upward around a dark eye and discharging into a crackling ground ring. |
 | Tesla coil | `lightning/tesla-coil` | original | effect | loop 2.4s | 224×136 | A copper coil under a steel torus throws branching arcs that lash out in volleys and now and then strike the floor in a spray of sparks, lighting the metal and the ground. |
+| Thunder rain | `lightning/thunder-rain` | new | effect | one-shot 2.5s | 288×224 | Five warning marks light in sequence; staggered bolts hammer the marked area, each strike scattering sparks and a small electric shock ring. |
+| Thunder spear | `lightning/thunder-spear` | new | effect | one-shot 1.5s | 256×128 | A pointed lightning lance condenses, shoots right with braided electric trails, then shatters into a starburst and falling sparks. |
 | Thunderclap | `lightning/thunderclap` | original | effect | one-shot 1.9s | 288×156 | A thunderclap round the caster: a white flash, forked bolts burst out and stab the floor, a heavy shock ring tears across the ground raising dust and grit, sparks streak away. |
 | Zap hit | `lightning/zap-hit` | original | effect | one-shot 0.9s | 144×112 | A contact zap: an arc snaps in from the left, the hit point overloads into a knot of tiny crackling zigzags, a fern of burn marks glows outward, sparks jink away, ozone puffs. |
 
@@ -145,13 +151,34 @@ slashes, smears, cleaves, combos.
 | Double slash | `melee/double-slash` | original | effect | one-shot 0.8s | 164×108 | A down cut, then an up cut that crosses it: the moment the X closes both strokes flash white, the crossing bursts with light and sparks, and a dotted X lingers. |
 | Hammer smash | `melee/hammer-smash` | original | effect | one-shot 2s | 208×112 | A hammer drops in front in a wedge of motion: a white slam with rays, a dome of force, a dent with cracks, rocks thrown up that bounce and settle, and dust. |
 | Heavy cleave | `melee/heavy-cleave` | original | effect | one-shot 1.9s | 208×116 | A glint over the head, then a thick ember arc accelerates over the top into the floor: a white slam, glowing cracks, dust rolling both ways, grit and rising embers. |
+| Holy sword cleave | `melee/holy-sword-cleave` | new | effect | one-shot 1.7s | 208×144 | A wing-guarded holy blade carves a broad ivory-gold crescent, stamps a radiant cross on contact and releases slowly rising golden stars. |
+| Katana draw cut | `melee/katana-draw` | new | effect | one-shot 1.5s | 208×144 | A curved katana snaps through a thin horizontal crescent; a white cutting line hangs for a beat, then cold violet sparks fade. |
+| Knight lance thrust | `melee/lance-thrust` | new | effect | one-shot 1.5s | 208×144 | A long pennoned lance drives forward in two hands; the socket flashes, a narrow pierce ring opens at contact and steel sparks scatter. |
+| War mace crush | `melee/mace-crush` | new | effect | one-shot 1.6s | 208×144 | A flanged spiked mace drops with a thick steel-blue wake, freezes on the crushing blow and throws blocky chips across a spreading ground shock. |
+| Rapier lunge | `melee/rapier-lunge` | new | effect | one-shot 1.5s | 208×144 | A basket-hilt rapier extends in a precise lunge, drawing a needle-white line and a small pierce ring before the point recoils into guard. |
 | Scythe reap | `melee/scythe-reap` | original | effect | one-shot 2.1s | 184×116 | A slow, huge dark crescent reaps round the front with a pale ghostly edge; it hangs, then tears away from the tail into curling wisps and cold vapour. |
 | Spear sweep | `melee/spear-sweep` | original | effect | one-shot 1.5s | 216×84 | A wide low sweep at shin height: a long flat crescent swings from behind the legs round the front, and the wind of it kicks a wake of dust and grit along the floor. |
 | Spin slash | `melee/spin-slash` | original | effect | one-shot 0.8s | 208×104 | The blade whirls once round the waist on a tilted plane, behind the body and back in front; the closed ring flares white, dissolves into a dotted trace and throws sparks. |
+| Banded staff combo | `melee/staff-combo` | new | effect | one-shot 1.6s | 208×144 | A gold-banded wooden staff sweeps low and reverses upward in two hands, trailing amber arcs and showers of small impact splinters. |
 | Sword slash | `melee/sword-slash` | original | effect | one-shot 0.75s | 136×104 | A tilted crescent whips round in two frames, cools from white to deep blue as it trails off, glints at the tip and throws sparks. |
 | Thrust | `melee/thrust` | original | effect | one-shot 0.75s | 196×76 | A piercing stab: a bundle of streaks shoots out from the hand to a point, a long four-point star flares at the tip with a pierce ring, sparks and speed lines. |
 | Uppercut | `melee/uppercut` | original | effect | one-shot 0.85s | 132×128 | A crescent rises from the floor past the face, and at the top a comic impact star bursts: bold outline, hot core, burst lines, twinkles and sparks. |
 | Whip crack | `melee/whip-crack` | original | effect | one-shot 0.85s | 192×80 | A whip rolls out to the right as a loop running down its length, faster and faster, until the tip flips over and cracks: a white pop, a ring of air, sparks and a puff of smoke. |
+
+## thrown
+
+thrown weapon actions: kunai, bombs, boomerangs and talismans.
+
+| effect | id | source | kind | play | size | what it does |
+|---|---|---|---|---|---|---|
+| Binding silk | `thrown/binding-silk-throw` | new | effect | one-shot 2.05s | 280×120 | He flicks a rolled sash loose, then grips it two-handed and hauls: every pull loops the target one more time, four turns in all, before a gold seal cinches and it falls away. |
+| Boomerang throw | `thrown/boomerang-throw` | new | effect | one-shot 1.72s | 280×120 | He whips a hooked boomerang through a high crescent; it clips the target on the way out, curves back through the same gap and snaps into his waiting hand. |
+| Flying sword | `thrown/flying-sword-throw` | new | effect | one-shot 2.2s | 280×120 | One small jian leaves his palm and splits into five that wheel in a ring around him; at his pointing finger they scatter and stab the target one after another, then rise and fade. |
+| Kunai throw | `thrown/kunai-throw` | new | effect | one-shot 1.5s | 280×120 | He draws the ring-pommeled kunai back past his ear and throws it; the blade turns over across the gap, bites into the target and quivers there in a cold spark and a puff of straw. |
+| Pear-blossom needles | `thrown/pear-needles-throw` | new | effect | one-shot 1.6s | 280×120 | A half-turn unwinds into a sleeve flick: five needles cross the gap in a narrow fan and stand quivering at five heights, shedding white pear petals as the venom glints. |
+| Powder bomb throw | `thrown/powder-bomb-throw` | new | effect | one-shot 1.9s | 300×144 | He sparks a black-powder bomb and lobs it high; it bounces once, the fuse spits white sparks, then the shell bursts into a hot ring, smoke and tumbling grit. |
+| Soul bell | `thrown/soul-bell-throw` | new | effect | one-shot 1.85s | 280×120 | He tolls the bronze bell at his chest, then tosses it underarm out of a half-spin; it rings three waves of sound, soul-fire curls off its mouth and it tolls once on the floor. |
+| Talisman throw | `thrown/talisman-throw` | new | effect | one-shot 1.8s | 280×120 | He digs a paper talisman out of his pocket and lets it float; it drifts, the cinnabar seal catches, and it snaps flat onto the target and burns into a column of warding light. |
 
 ## impacts
 
@@ -201,6 +228,7 @@ poofs, portals, souls, shatters.
 | Disintegrate | `spawn/disintegrate` | original | effect | one-shot 3.4s | 176×100 | The character crackles with light, flashes white, then peels away from the head down: each pixel flares white-hot and streams off on the wind as a cooling mote of light. |
 | Dissolve burn | `spawn/dissolve-burn` | original | effect | one-shot 3.6s | 96×112 | An ember seam lights at the feet and climbs the body: above it the body scorches and smoulders, at it flames lick up, below it there's only falling ash, embers and smoke. |
 | Egg hatch | `spawn/egg-hatch` | original | effect | one-shot 3.1s | 120×96 | A speckled egg rocks three times, each rock cracking it further with warm light leaking out, then pops: light pours out of the opening and lit shell halves tumble away. |
+| Ink Unravel | `spawn/ink-unravel` | new | effect | one-shot 2.2s | 128×160 | A departing silhouette comes apart into hanging ink threads, torn paper and slow ash; width and height fit either a small shade guard or the ritualist. |
 | Poof | `spawn/poof` | original | effect | one-shot 1.6s | 112×92 | A cartoon death poof: a white pop, a ring of soft round smoke balls bursting out between speed lines, little stars spinning off, and the cloud lifting and thinning away. |
 | Respawn beam | `spawn/respawn-beam` | original | effect | one-shot 2.5s | 128×150 | A guide line drops, a pillar of light slams onto the spot, and a scan bar climbs from the feet writing the character back in row by row, white-hot lines cooling to its colors. |
 | Shanhaijing summon | `spawn/shanhaijing-summon` | new | effect | one-shot 6.4s | 224×160 | A cinnabar circle inks itself in oracle-bone glyphs, the air drags inward, the floor tears open and an antlered beast heaves up out of the dark, throat and eyes catching fire. |
@@ -221,6 +249,7 @@ portals, runes, missiles, beams.
 | Arcane orb | `arcane/arcane-orb` | original | effect | loop 2.4s | 136×112 | A floating orb of smoky violet glass with a swirl turning round a white-hot heart, two tilted rings of light orbiting behind and in front. |
 | Blink in | `arcane/blink-in` | original | effect | one-shot 1.4s | 136×96 | Glittering bits spiral in to a point of light that opens into a line, then into a white silhouette that cools into the caster. |
 | Blink out | `arcane/blink-out` | original | effect | one-shot 1.6s | 136×96 | The caster crackles with gathering light, flashes white, squeezes into a line of light that collapses and pops away in sparks. |
+| Flow seal | `arcane/flow-seal` | new | effect | loop 4s | 192×156 | A broken arcane seal: a Bezier ribbon writes around a distance-field rune, while motes spiral inward under attraction, vortex and seeded turbulence. |
 | Magic circle cast | `arcane/magic-circle-cast` | original | effect | one-shot 3.9s | 200×220 | A circle draws itself on the floor, runes ignite one by one, it flashes, and a column of light fires up and breaks apart into glints. |
 | Mana burst | `arcane/mana-burst` | original | effect | one-shot 1.8s | 208×150 | Energy rushes into a point and blows out in a white flash and rings, flinging glowing runes that flare and pop into sparks one after another. |
 | Portal | `arcane/portal` | original | effect | loop 2.4s | 152×116 | An upright rift: fibrous spiral arms wind down into the dark, a lit rim wobbles, motes and streaks are pulled in, the floor glows. |
@@ -228,6 +257,38 @@ portals, runes, missiles, beams.
 | Spell charge | `arcane/spell-charge` | original | effect | loop 1.6s | 120×86 | Energy gathers in the caster's hand: streaks and motes spiral in, rings collapse into a swelling orb that crackles with arcs, ready to fire. |
 | Star fall | `arcane/star-fall` | original | effect | one-shot 2.5s | 232×172 | Stars streak down on long trails across an area, each landing with a white flash, a ring across the floor and a kick of sparks. |
 | Time stop | `arcane/time-stop` | original | effect | one-shot 3.6s | 196×136 | A clock face springs open, ticks slower and slower, freezes drained of colour, cracks, then shatters into falling shards. |
+
+## ninjutsu
+
+chakra arts: spiral orbs, lightning blades, fireballs, water dragons, clones.
+
+| effect | id | source | kind | play | size | what it does |
+|---|---|---|---|---|---|---|
+| Amaterasu | `ninjutsu/amaterasu` | new | effect | one-shot 3.4s | 230×170 | His eye catches the target, a crimson pinprick blooms, and black flame erupts — a smoke-heavy black fire with red-edged tongues that will not go out, leaving soot and red embers. |
+| Chidori rush | `ninjutsu/chidori-rush` | new | effect | one-shot 2.7s | 420×160 | A crouch, a palmful of lightning, and he crosses the floor in a streak of after-images — the Chidori opens the target in a white flash, then the trail cools to a scorched line. |
+| Earth wall | `ninjutsu/earth-wall` | new | effect | one-shot 2.8s | 270×170 | He drives both palms into the ground and a rampart of broken stone tears up in front of him — slabs, dust and a cracked floor, holding for a breath before it crumbles. |
+| Great breakthrough | `ninjutsu/great-breakthrough` | new | effect | one-shot 2.4s | 380×180 | He fills his chest, then blows a roaring cone of compressed wind across the field — dust, leaves and grit ride the blast while the target is pinned against a white shock ring. |
+| Great fireball | `ninjutsu/great-fireball` | new | effect | one-shot 4.3s | 348×206 | He draws a breath, embers pulling into his mouth, and breathes out a rolling ball of fire that grows as it flies, bursts on the target and leaves the floor burning. |
+| Kirin | `ninjutsu/kirin` | new | effect | one-shot 3.2s | 420×300 | Storm clouds gather over the field, a stepped leader feels for the target, and a colossal white-blue bolt tears down through it — branches, a shattered floor and a cold afterglow. |
+| Chidori | `ninjutsu/lightning-blade` | new | effect | one-shot 2.8s | 190×146 | A palmful of lightning: jagged arcs gather in the hand, then a short thrust drives a white-blue lance through the target — a flash, a ground ring, sparks and a cooling scorch. |
+| Phoenix flower | `ninjutsu/phoenix-flower` | new | effect | one-shot 2.6s | 380×180 | A breath of fire splits into a fan of six phoenix-fire orbs that arc across the floor and burst one after another, leaving small burns and a scatter of embers. |
+| Shadow clones | `ninjutsu/shadow-clone` | new | effect | one-shot 2.7s | 224×120 | A burst of smoke, and two copies step out of it either side of him — the same body, only semi-transparent — then come apart into smoke again. |
+| Spiral orb | `ninjutsu/spiral-orb` | new | effect | loop 1.4s | 116×84 | Chakra winds into a churning sphere above his palm: three spiral arms turn inside a pressed shell, the heart burns white, and the rim throws a cold pool of light. |
+| Water dragon | `ninjutsu/water-dragon` | new | effect | one-shot 3.9s | 320×200 | He seals, a spiral opens at his feet, and a horned serpent of water rears and lunges: foam crest, a splash across the target, then rain and a spreading puddle. |
+| Water wall | `ninjutsu/water-wall` | new | effect | one-shot 2.6s | 260×170 | A seal, both palms down, and a wall of water erupts in front of him — a translucent sheet with white runnels and a torn foam crest, holding, then collapsing into a spreading pool. |
+
+## senjutsu
+
+sage arts: natural energy, great orbs, wind blades, white light.
+
+| effect | id | source | kind | play | size | what it does |
+|---|---|---|---|---|---|---|
+| Gate of the Great God | `senjutsu/gate-of-the-great-god` | new | effect | one-shot 3.4s | 440×300 | A sage-light pillar opens in the sky and three red torii gates drop through it, the last pinning the target: dust, gold rings, jade motes and old wood shaking on the floor. |
+| Sage art: Goemon | `senjutsu/goemon` | new | effect | one-shot 3.8s | 440×220 | Oil, wind and sage fire braid into one roaring stream. The oil is the body, the wind the drive, the fire the edge; it breaks into a burning wave and a pool that will not go out. |
+| Sage orb | `senjutsu/sage-orb` | new | effect | one-shot 4.4s | 382×238 | Natural energy pours in; a great amber orb of sage chakra swells overhead, then he drives it into the ground: a dome of light, cracked earth and rising green motes. |
+| Thousand wood dragons | `senjutsu/true-thousand-hands` | new | effect | one-shot 4.2s | 480×300 | A root opens and three wooden dragons pour out like currents, coil round each other and bite the target in a three-beat: bark, moss, amber sap and a cage of roots. |
+| White flash | `senjutsu/white-flash` | new | effect | one-shot 3s | 300×232 | Sage energy gathers in his hands, then goes off as a blinding dome of white light: a flat shock ring, cracked ground, and a slow rain of dust and gold embers. |
+| Wind shuriken | `senjutsu/wind-shuriken` | new | effect | one-shot 3.5s | 340×192 | A four-bladed shuriken of compressed wind spins up in his hand, is thrown flat across the field, and opens into a grinding sphere that shreds the ground before bursting outward. |
 
 ## holy
 
@@ -345,21 +406,72 @@ level ups, numbers, toasts, countdowns.
 
 ## pickups
 
-coins, gems, chests, potions.
+coins, gems, chests, potions, jade, lanterns and flying blades.
 
 | effect | id | source | kind | play | size | what it does |
 |---|---|---|---|---|---|---|
+| Cash coin | `pickups/cash-coin` | new | effect | loop 1.8s | 56×56 | A square-holed bronze cash coin turns on its edge over its shadow: patina and struck marks catch the light, a flash runs over the face as it squares, and pale motes wink around it. |
 | Chest open | `pickups/chest-open` | original | effect | one-shot 4.6s | 176×112 | A banded chest rattles with gold light leaking from its seam, the lid kicks open, rays fan up, and coins and gems arc out, bounce, glint and get collected. |
 | Coin spin | `pickups/coin-spin` | original | effect | loop 1.6s | 56×56 | A thick gold coin turning on its edge: an embossed star face, a reeded rim showing as it goes edge-on, a flash sweeping the face, bobbing over its shadow. |
 | Collect burst | `pickups/collect-burst` | original | effect | one-shot 1.35s | 112×108 | The moment of pickup: a white flash and a cross of light, a thin ring snapping out ahead of a softer one, twinkles thrown wide on curving paths that brake, hang and wink out. |
 | Crystal shard | `pickups/crystal-shard` | original | effect | loop 3.2s | 64×76 | A broken amber shard hovers and sways: chipped uneven faces, its top sheared off, light pulsing up through glowing cracks and flaring out of the break; splinters orbit it. |
+| Dragon pearl | `pickups/dragon-pearl` | new | effect | loop 3s | 80×80 | A white dragon pearl turns inside a coiling qi-dragon: jade scales catch the light, gold horns trail cloud, lightning curls off the orb, and its reflection breathes on the floor. |
+| Elixir gourd | `pickups/elixir-gourd` | new | effect | loop 2.6s | 56×80 | A double-lobed gourd of glowing elixir rocks on its red waist cord: the brew sloshes, bubbles rise and pop, a gold stopper glints, and warm wisps curl from the mouth. |
+| Flying sword | `pickups/flying-sword` | new | effect | loop 2.2s | 96×64 | A miniature flying sword races a figure-eight on a sword-qi ribbon: the blade banks through the loop, the trail cools to jade, sparks fall, and its light sweeps the floor. |
 | Gem spin | `pickups/gem-spin` | original | effect | loop 2.4s | 64×64 | A brilliant-cut ruby turning on its axis: real facets catch the light in turn, flashes roll over the crown, refracted light slides across the floor, sparkles wink round it. |
+| Gold ingot | `pickups/gold-ingot` | new | effect | loop 2.2s | 64×64 | A stamped gold sycee hovers over its shadow: a raised centre catches a white shine that sweeps across the metal, the two upturned ends glint, and gold dust drifts off the base. |
 | Heart pickup | `pickups/heart-pickup` | original | effect | loop 1.2s | 56×60 | A plump glossy heart hovering over its shadow beats lub-dub: a big squash and stretch, a smaller echo, light and a thin ring pulsing out, tiny hearts drifting off. |
+| Immortal fan | `pickups/immortal-fan` | new | effect | loop 2.4s | 88×80 | A painted silk fan opens above its shadow: gilt ribs catch the light, a mountain-and-cloud painting rides the leaf, wind ribbons curl off the edge, and a red tassel swings below. |
+| Jade pendant | `pickups/jade-pendant` | new | effect | loop 2.8s | 64×80 | A carved jade plaque hovers on its red cord: cloud-scroll relief catches the light, a white band runs down the stone, the silk tassel swings, and jade motes drift off its glow. |
+| Jade slip | `pickups/jade-slip` | new | effect | loop 2.8s | 72×88 | A bundle of jade writing slips fans open on its red binding: gilt characters light down each slat, a cinnabar seal catches the last scripture, and cold motes drift from the text. |
 | Key glint | `pickups/key-glint` | original | effect | loop 2s | 72×60 | An ornate silver key hovering and rocking; a glint runs from its bow down the shaft to the teeth and bursts off the tip as falling sparks. |
 | Loot beam | `pickups/loot-beam` | original | effect | loop 2.4s | 96×176 | A dropped sword in a tall pillar of rarity light: a white core thinning to the sky, rings pulsing across the floor, motes streaming up, a glint racing up the shaft. |
+| Lotus lamp | `pickups/lotus-lamp` | new | effect | one-shot 3.2s | 72×80 | A jade lotus bud opens over dark water into a full bloom: curved petals unfurl, a small flame and gold stamens appear, and the effect ends on the open flower. |
+| Paper lantern | `pickups/paper-lantern` | new | effect | loop 2.8s | 64×88 | A red paper lantern spins slowly on its cord: gold ribs sweep across the lit paper, the flame inside breathes, embers curl up from its wake, and the silk tassel sways below. |
+| Paper talisman | `pickups/paper-talisman` | new | effect | loop 2.4s | 64×80 | A yellow paper talisman flutters on its cord: cinnabar brushwork lights stroke by stroke, the square seal flashes, burned embers fall away, and ink motes drift in the cold light. |
 | Potion | `pickups/potion` | original | effect | loop 2.4s | 56×72 | A round glass flask of glowing brew rocks in the air: the brew sloshes behind the rock, bubbles rise and pop, light glows through the glass, wisps curl off the cork. |
 | Power star | `pickups/power-star` | original | effect | loop 1.6s | 88×84 | A fat bevelled star rocks side to side and swells on each beat, rays of light turning slowly behind it, sparks spinning off its points. |
+| Spirit butterfly | `pickups/spirit-butterfly` | new | effect | loop 2.4s | 80×64 | A jade spirit butterfly darts and banks through a figure-eight: it turns with its flight, wings snap open and shut, speed lines trail its dashes, and its light sweeps the floor. |
+| Spirit stone | `pickups/spirit-stone` | new | effect | loop 3.2s | 64×88 | A cluster of jade-cyan spirit crystals hovers and turns: facets catch the light, a pulse climbs the tall stone, splinters and motes circle it, and its cold glow pools on the floor. |
 | XP orb | `pickups/xp-orb` | original | effect | loop 1.8s | 72×56 | A small glowing orb races a figure-eight, a comet tail tapering behind it along its path, flecks shed from the tail winking out, its light following it over the floor. |
+
+## miku
+
+a virtual idol and her teal song: twin tails, sound rings, notes and a leek.
+
+| effect | id | source | kind | play | size | what it does |
+|---|---|---|---|---|---|---|
+| Encore | `miku/encore` | new | effect | one-shot 4.2s | 320×180 | A full-stage encore: spotlights sweep over a waveform floor mark, equaliser lights and ribbons rise, a neon 39 ignites on the downbeat, then notes and confetti burst on the stage. |
+| Leek smash | `miku/leek-smash` | new | effect | one-shot 1.7s | 224×168 | A giant leek drops from the sky, plants its white bulb in the floor and kicks up a green shock ring, leaf confetti, vegetable bits and a puff of dust. |
+| Song aura | `miku/song-aura` | new | effect | loop 2.4s | 96×128 | A looping idol aura: twin teal ribbons rise and wave behind the singer, music notes orbit the body, a waveform halo turns overhead and a small stage mark glows at the feet. |
+| Sound wave | `miku/sound-wave` | new | effect | one-shot 1.15s | 208×88 | A teal sound bullet: an eighth note rides inside a spinning waveform hoop, leaving echoes and small notes, then bursts into a ring of thrown notes. |
+| Vocal burst | `miku/vocal-burst` | new | effect | one-shot 3s | 288×192 | Notes spiral into a hovering mic, then a sonic nova bursts in three sound rings; giant notes fly off trailing ribbons and sparkles rain on a glowing stage mark. |
+
+## konosuba
+
+crimson explosion magic: a blood-red chant seal, the white-hot blast, its crater and the whole move.
+
+| effect | id | source | kind | play | size | what it does |
+|---|---|---|---|---|---|---|
+| Explosion chant | `konosuba/explosion-chant` | new | effect | loop 4s | 240×180 | A blood-red seal spins under her feet, its runes standing up one by one, crimson threads spiralling off the ring past her head while the chant drags the air inward. |
+| Explosion crater | `konosuba/explosion-crater` | new | effect | one-shot 6.5s | 360×190 | The blow's scar: a burned bowl ringed with charred cracked stone, seams still glowing, smoke columns climbing off it, embers crawling, until the smoke swallows it. |
+| Explosion | `konosuba/explosion-ritual` | new | effect | one-shot 11.8s | 460×340 | The full 爆裂魔法: she holds the chant to its last beat, thrusts the staff down, and the white-hot star takes the field, then drops to her knees in the ash of it. |
+| Explosion | `konosuba/explosion-strike` | new | effect | one-shot 9s | 460×340 | The chant closes to a needle of blood-red light, the frame goes white, and a rayed crimson star tears into a rolling crown of fire, rock and burning ground, cooling to ash. |
+
+## dragonball
+
+ki arts: charged orbs, kamehameha waves, drill beams, spirit bombs, discs and gold auras.
+
+| effect | id | source | kind | play | size | what it does |
+|---|---|---|---|---|---|---|
+| Destructo disc | `dragonball/destructo-disc` | new | effect | one-shot 2.9s | 330×170 | A razor of ki spins up over one palm, then screams across the field flat: a sawblade with hooked teeth and a white hub, leaving a cut that stays white-hot before it cools. |
+| Drill beam | `dragonball/drill-beam` | new | effect | one-shot 4s | 350×200 | Fingers to the forehead, a violet screw of ki tightens, then it fires as a corkscrew: turning ridges, a spinning bit at the tip, and a contact that keeps boring into the target. |
+| Golden aura | `dragonball/golden-aura` | new | effect | loop 1.6s | 180×152 | The power-up stance: gold flame climbs off the whole body, grit lifts out of the floor, charge crawls over the shoulders and the heat haze rises, seamless over the loop. |
+| Ki charge | `dragonball/ki-charge` | new | effect | loop 1.6s | 156×124 | Power pulls in from the air and presses into a blue sphere between cupped hands at the hip: the ball breathes, charge crawls over its shell, and the floor catches cold light. |
+| Ki volley | `dragonball/ki-volley` | new | effect | one-shot 2.7s | 320×150 | Seven small ki blasts leave one palm in a fast rhythm: a muzzle flash on each throw, a short gold comet with a white head, and a pop with dust where each one lands. |
+| Ki wave | `dragonball/ki-wave` | new | effect | one-shot 4.2s | 340×190 | He cups ki at his hip until it swells, drives both palms forward, and a thick blue-white column crosses the field: twisted strands, running pulses, a contact that cracks the floor. |
+| Solar flare | `dragonball/solar-flash` | new | effect | one-shot 2.3s | 280×180 | Light is held at the face for a breath, then let go: a white burst with sixteen rays, a shock ring, and a slow after-image of drifting sparks while the field stays blinded. |
+| Spirit bomb | `dragonball/spirit-bomb` | new | effect | one-shot 5.6s | 386×236 | Light rises out of the whole field, packs itself into a cold blue-green sphere overhead, and is hurled down: a dome of light, a broken floor and a column of dust that keeps rising. |
 
 ## transitions
 
@@ -406,28 +518,7 @@ battle maps: moonlit ruins, lava caverns, arenas with a layout.
 | Aurora Pass | `world/aurora-pass` | new | map | loop 12s | 320×180 | A frozen mountain pass beneath green aurora curtains: snow-bound massifs catch the sky, frosted conifers climb the shoulders and wind lifts loose snow across a quiet shelf. |
 | Crystal Hollow | `world/crystal-hollow` | new | map | loop 10s | 320×180 | An underground reservoir framed by violet crystal clusters: cyan facets breathe with light, a narrow waterfall feeds the pool and drops open small rings in the dark. |
 | Ember Depths | `world/ember-depths` | new | map | loop 9s | 320×180 | A basalt arena under a volcano: lava falls pour down both walls, a broken bridge smoulders in the dark, heat haze drifts over glowing fissures and ash falls. |
+| Inkbound Shrine | `world/inkbound-shrine` | new | map | loop 8s | 320×180 | An abandoned eastern shrine: broken tiled eaves, a sealed altar, soul banners and low mist; phase two stains the stone and loosens the hanging paper wards. |
 | Mossy Ruins | `world/mossy-ruins` | new | map | loop 10s | 320×180 | A moonlit clearing inside broken elven ruins: mist drifts over a cracked flagstone floor, fireflies wander the arch and leaves fall through the cold light. |
 | Sunscar Temple | `world/sunscar-temple` | new | map | loop 12s | 320×180 | A sandstone sanctuary half buried in sunset dunes: wind carries sand through broken columns, torn banners sway and a sun seal glows above the distant temple door. |
 | Wisp Marsh | `world/wisp-marsh` | new | map | loop 12s | 320×180 | A flooded twilight marsh crossed by a stone causeway: ghost lights drift between crooked roots, luminous mushrooms shed spores and bubbles spread rings across the black water. |
-
-## mobs
-
-minions and their attacks: goblins, sporelings, jabs, puffs.
-
-| effect | id | source | kind | play | size | what it does |
-|---|---|---|---|---|---|---|
-| Goblin Jab | `mobs/goblin-jab` | new | mob-attack | one-shot 0.9s | 112×72 | The raider's dagger flashes in the wind-up, snaps out in a white crescent and pops a small hard hit star at arm's length, with sparks and a puff of dust. |
-| Goblin Raider | `mobs/goblin-raider` | new | mob | loop 2.6s | 64×72 | A hunched green raider with a rusty dagger: it bounces on its toes, sniffs the air, taps its foot and turns the blade so the edge catches the light. A minion, not a monster. |
-| Spore Puff | `mobs/spore-puff` | new | mob-attack | one-shot 1.8s | 128×84 | The sporeling swells, its gills flare, and it spits a lumpy spore sac in a low arc; it bursts into a drifting cloud of glowing spores, a toxic ring and falling motes. |
-| Sporeling | `mobs/sporeling` | new | mob | loop 3s | 64×72 | A squat toadstool creature that sways on root feet: its cap pulses, the gills leak glowing spores, it blinks one eye at a time and puffs a warning cloud when it gets excited. |
-
-## boss
-
-boss units, telegraphed attacks and phase transitions.
-
-| effect | id | source | kind | play | size | what it does |
-|---|---|---|---|---|---|---|
-| Phase Roar | `boss/phase-roar` | new | boss-attack | one-shot 3s | 320×180 | A boss phase change: motes spiral inward, then a roar bursts a white core, three floor rings and a storm of leaves; the floor keeps glowing underneath. |
-| Root Quake | `boss/root-quake` | new | boss-attack | one-shot 2.8s | 320×180 | A boss ground attack: a rune splits the floor, the line flashes, and a wave of gnarled root spikes tears up through the arena, throwing dirt and splinters before sinking back. |
-| Thorn King | `boss/thorn-king` | new | boss | loop 3.4s | 128×168 | An antlered tyrant of the old forest: bark limbs, branching antlers, a burning heart in a hollow chest and a staff crowned with a green ember. |
-| Thorn Volley | `boss/thorn-volley` | new | boss-attack | one-shot 3.2s | 320×180 | Three runes burn onto the floor and a rain of giant thorns falls on them one after another, each impact bursting into barbs, splinters and a ring of dust. |

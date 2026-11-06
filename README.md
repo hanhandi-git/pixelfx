@@ -6,20 +6,22 @@
 
 # pixelfx-extended.
 
-An extended [**pixelfx**](https://github.com/patch-gg/pixelfx) fork with **<!-- new-count -->17<!-- /new-count -->** additional maps, minions, bosses and effects beyond the original 244-effect baseline.
+An extended [**pixelfx**](https://github.com/patch-gg/pixelfx) fork with **<!-- new-count -->80<!-- /new-count -->** additional maps, minions and effects beyond the original 244-effect baseline.
 
-**<!-- count -->261<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
+**<!-- count -->324<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
 explosions, magic, weather, UI, pickups, critters and more. Play them live, recolor and mirror them, drop them into
 a browser game, or export sprite sheets for any engine. Plus a **fantasy game kit** — battle maps, minion units,
-telegraphed boss attacks and choreographed encounters — and a Claude Code skill that makes new ones the way a picky
+telegraphed attacks and choreographed encounters — and a Claude Code skill that makes new ones the way a picky
 pixel artist would: draft, render, look, refine.
 
-The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->16<!-- /new-count --> new ones**. The [gallery](gallery/index.html) marks every item `original` or `new` and filters by it.
+The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->80<!-- /new-count --> new ones**. The [gallery](gallery/index.html) marks every item `original` or `new` and filters by it.
 
 Every effect that involves a character is **acted out**: he winds up, lets go, freezes on contact and recovers, and a
 target takes the hit. Twelve whole moves chain the effects into attacks from wind-up to recovery.
 
-**[open the gallery](https://patch-gg.github.io/pixelfx/)** · [fantasy encounters](https://patch-gg.github.io/pixelfx/fantasy.html) ·
+**[open the gallery](https://patch-gg.github.io/pixelfx/)** ·
+[live gallery (this fork)](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown) ·
+[fantasy encounters](https://patch-gg.github.io/pixelfx/fantasy.html) ·
 [catalog](docs/CATALOG.md) · [fantasy kit](docs/FANTASY.md) · [acting](#acting) · [the skill](#the-skill) ·
 [make your own](#make-your-own) · [how it works](#how-it-works)
 
@@ -31,7 +33,7 @@ the idea at library scale, with a skill to keep going.
 
 ## new additions.
 
-These **<!-- new-count -->16<!-- /new-count -->** pieces are not in the original 244-effect baseline: fantasy maps, minions, bosses and more. Browse them in the [gallery (`?source=new`)](gallery/index.html?source=new).
+These **<!-- new-count -->80<!-- /new-count -->** pieces are not in the original 244-effect baseline: fantasy maps, minions, bosses and more. Browse them in the [gallery (`?source=new`)](gallery/index.html?source=new) or the deployed [live gallery](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown) (new effects, Moon Oracle, thrown category).
 
 <p align="center">
   <img src="docs/readme/montage-new.gif" width="800" alt="Six looping fantasy battle maps at full 320×180 resolution: aurora pass, crystal hollow, ember depths, mossy ruins, sunscar temple and wisp marsh.">
@@ -43,20 +45,83 @@ These **<!-- new-count -->16<!-- /new-count -->** pieces are not in the original
 | **world** | Aurora Pass | `world/aurora-pass` |
 | **world** | Crystal Hollow | `world/crystal-hollow` |
 | **world** | Ember Depths | `world/ember-depths` |
+| **world** | Inkbound Shrine | `world/inkbound-shrine` |
 | **world** | Mossy Ruins | `world/mossy-ruins` |
 | **world** | Sunscar Temple | `world/sunscar-temple` |
 | **world** | Wisp Marsh | `world/wisp-marsh` |
-| **mobs** | Goblin Jab | `mobs/goblin-jab` |
-| **mobs** | Goblin Raider | `mobs/goblin-raider` |
-| **mobs** | Spore Puff | `mobs/spore-puff` |
-| **mobs** | Sporeling | `mobs/sporeling` |
-| **boss** | Phase Roar | `boss/phase-roar` |
-| **boss** | Root Quake | `boss/root-quake` |
-| **boss** | Thorn King | `boss/thorn-king` |
-| **boss** | Thorn Volley | `boss/thorn-volley` |
+| **spawn** | Ink Unravel | `spawn/ink-unravel` |
 | **spawn** | Shanhaijing summon | `spawn/shanhaijing-summon` |
 | **spawn** | Talisman suppression | `spawn/talisman-suppression` |
+| **lightning** | Forked burst | `lightning/forked-burst` |
+| **lightning** | Ground surge | `lightning/ground-surge` |
+| **lightning** | Static cage | `lightning/static-cage` |
 | **lightning** | Storm sigil | `lightning/storm-sigil` |
+| **lightning** | Storm vortex | `lightning/storm-vortex` |
+| **lightning** | Thunder rain | `lightning/thunder-rain` |
+| **lightning** | Thunder spear | `lightning/thunder-spear` |
+| **arcane** | Flow seal | `arcane/flow-seal` |
+| **dragonball** | Destructo disc | `dragonball/destructo-disc` |
+| **dragonball** | Drill beam | `dragonball/drill-beam` |
+| **dragonball** | Golden aura | `dragonball/golden-aura` |
+| **dragonball** | Ki charge | `dragonball/ki-charge` |
+| **dragonball** | Ki volley | `dragonball/ki-volley` |
+| **dragonball** | Ki wave | `dragonball/ki-wave` |
+| **dragonball** | Solar flare | `dragonball/solar-flash` |
+| **dragonball** | Spirit bomb | `dragonball/spirit-bomb` |
+| **konosuba** | Explosion chant | `konosuba/explosion-chant` |
+| **konosuba** | Explosion crater | `konosuba/explosion-crater` |
+| **konosuba** | Explosion | `konosuba/explosion-ritual` |
+| **konosuba** | Explosion | `konosuba/explosion-strike` |
+| **melee** | Holy sword cleave | `melee/holy-sword-cleave` |
+| **melee** | Katana draw cut | `melee/katana-draw` |
+| **melee** | Knight lance thrust | `melee/lance-thrust` |
+| **melee** | War mace crush | `melee/mace-crush` |
+| **melee** | Rapier lunge | `melee/rapier-lunge` |
+| **melee** | Banded staff combo | `melee/staff-combo` |
+| **miku** | Encore | `miku/encore` |
+| **miku** | Leek smash | `miku/leek-smash` |
+| **miku** | Song aura | `miku/song-aura` |
+| **miku** | Sound wave | `miku/sound-wave` |
+| **miku** | Vocal burst | `miku/vocal-burst` |
+| **ninjutsu** | Amaterasu | `ninjutsu/amaterasu` |
+| **ninjutsu** | Chidori rush | `ninjutsu/chidori-rush` |
+| **ninjutsu** | Earth wall | `ninjutsu/earth-wall` |
+| **ninjutsu** | Great breakthrough | `ninjutsu/great-breakthrough` |
+| **ninjutsu** | Great fireball | `ninjutsu/great-fireball` |
+| **ninjutsu** | Kirin | `ninjutsu/kirin` |
+| **ninjutsu** | Chidori | `ninjutsu/lightning-blade` |
+| **ninjutsu** | Phoenix flower | `ninjutsu/phoenix-flower` |
+| **ninjutsu** | Shadow clones | `ninjutsu/shadow-clone` |
+| **ninjutsu** | Spiral orb | `ninjutsu/spiral-orb` |
+| **ninjutsu** | Water dragon | `ninjutsu/water-dragon` |
+| **ninjutsu** | Water wall | `ninjutsu/water-wall` |
+| **pickups** | Cash coin | `pickups/cash-coin` |
+| **pickups** | Dragon pearl | `pickups/dragon-pearl` |
+| **pickups** | Elixir gourd | `pickups/elixir-gourd` |
+| **pickups** | Flying sword | `pickups/flying-sword` |
+| **pickups** | Gold ingot | `pickups/gold-ingot` |
+| **pickups** | Immortal fan | `pickups/immortal-fan` |
+| **pickups** | Jade pendant | `pickups/jade-pendant` |
+| **pickups** | Jade slip | `pickups/jade-slip` |
+| **pickups** | Lotus lamp | `pickups/lotus-lamp` |
+| **pickups** | Paper lantern | `pickups/paper-lantern` |
+| **pickups** | Paper talisman | `pickups/paper-talisman` |
+| **pickups** | Spirit butterfly | `pickups/spirit-butterfly` |
+| **pickups** | Spirit stone | `pickups/spirit-stone` |
+| **senjutsu** | Gate of the Great God | `senjutsu/gate-of-the-great-god` |
+| **senjutsu** | Sage art: Goemon | `senjutsu/goemon` |
+| **senjutsu** | Sage orb | `senjutsu/sage-orb` |
+| **senjutsu** | Thousand wood dragons | `senjutsu/true-thousand-hands` |
+| **senjutsu** | White flash | `senjutsu/white-flash` |
+| **senjutsu** | Wind shuriken | `senjutsu/wind-shuriken` |
+| **thrown** | Binding silk | `thrown/binding-silk-throw` |
+| **thrown** | Boomerang throw | `thrown/boomerang-throw` |
+| **thrown** | Flying sword | `thrown/flying-sword-throw` |
+| **thrown** | Kunai throw | `thrown/kunai-throw` |
+| **thrown** | Pear-blossom needles | `thrown/pear-needles-throw` |
+| **thrown** | Powder bomb throw | `thrown/powder-bomb-throw` |
+| **thrown** | Soul bell | `thrown/soul-bell-throw` |
+| **thrown** | Talisman throw | `thrown/talisman-throw` |
 <!-- /new-catalog -->
 
 ## what's in it.
@@ -66,28 +131,32 @@ Categories with new content appear first; samples list **new** effects before or
 <!-- catalog -->
 | category | effects | some of them |
 |---|---|---|
-| **world** | 6 | aurora pass, crystal hollow, ember depths, mossy ruins, sunscar temple, wisp marsh |
-| **mobs** | 4 | goblin jab, goblin raider, spore puff, sporeling |
-| **boss** | 4 | phase roar, root quake, thorn king, thorn volley |
-| **spawn & death** | 12 | shanhaijing summon, talisman suppression, coin drop, disintegrate, dissolve burn, egg hatch… |
-| **lightning** | 12 | storm sigil, ball lightning, chain lightning, charge up, electrified, lightning strike… |
+| **pickups** | 24 | cash coin, dragon pearl, elixir gourd, flying sword, gold ingot, immortal fan… |
+| **ninjutsu** | 12 | amaterasu, chidori rush, earth wall, great breakthrough, great fireball, kirin… |
+| **thrown** | 8 | binding silk, boomerang throw, flying sword, kunai throw, pear-blossom needles, powder bomb throw… |
+| **dragonball** | 8 | destructo disc, drill beam, golden aura, ki charge, ki volley, ki wave… |
+| **lightning** | 18 | forked burst, ground surge, static cage, storm sigil, storm vortex, thunder rain… |
+| **world** | 7 | aurora pass, crystal hollow, ember depths, inkbound shrine, mossy ruins, sunscar temple… |
+| **melee** | 18 | holy sword cleave, katana draw cut, knight lance thrust, war mace crush, rapier lunge, banded staff combo… |
+| **senjutsu** | 6 | gate of the great god, sage art: goemon, sage orb, thousand wood dragons, white flash, wind shuriken |
+| **miku** | 5 | encore, leek smash, song aura, sound wave, vocal burst |
+| **konosuba** | 4 | explosion chant, explosion crater, explosion, explosion |
+| **spawn & death** | 13 | ink unravel, shanhaijing summon, talisman suppression, coin drop, disintegrate, dissolve burn… |
+| **arcane** | 13 | flow seal, arcane beam, arcane missiles, arcane orb, blink in, blink out… |
 | **moves** | 12 | arrow shot, dash strike, earth stomp, fireball throw, ground pound, holy smite… |
 | **fire** | 12 | brazier, campfire, candle, fire breath, fire ring, fire tornado… |
 | **explosions** | 12 | barrel explosion, big explosion, cartoon pow, dirt explosion, firework burst, firework rocket… |
 | **water** | 12 | bubbles, drip, fountain, geyser, rain splash, ripples… |
 | **ice** | 10 | blizzard vortex, freeze, frost breath, frost nova, ice crystal, ice lance… |
 | **sci-fi** | 12 | emp blast, energy core, force field, glitch, hologram, jetpack… |
-| **melee** | 12 | claw swipe, dagger flurry, double slash, hammer smash, heavy cleave, scythe reap… |
 | **impacts** | 11 | blunt hit, bullet impact, critical hit, ground slam, heavy landing, hit flash… |
 | **projectiles** | 13 | arrow, bullet tracer, cannon shot, energy disc, signal flare, homing missile… |
-| **arcane** | 12 | arcane beam, arcane missiles, arcane orb, blink in, blink out, magic circle cast… |
 | **holy** | 10 | blessing, divine shield, feather burst, halo, heal, healing ring… |
 | **shadow** | 12 | black hole, curse, dark explosion, eclipse, grasping hands, hex sigil… |
 | **status** | 13 | bleeding, burning, charmed, confused, cursed, frozen… |
 | **nature** | 13 | acid splash, boulder, earth spike, healing bloom, leaf storm, poison cloud… |
 | **weather** | 12 | aurora, blizzard, cherry blossoms, clouds, falling leaves, fireflies… |
 | **ui** | 12 | achievement, coin collect, combo counter, confetti, countdown, crit number… |
-| **pickups** | 11 | chest open, coin spin, collect burst, crystal shard, gem spin, heart pickup… |
 | **transitions** | 10 | blinds, burn away, crt off, diamond wipe, glitch wipe, iris… |
 | **critters** | 12 | bat, bird, butterfly, eyeball, fish school, flying skull… |
 <!-- /catalog -->
@@ -103,13 +172,11 @@ palette options and tooling, and add one export each:
 |---|---|---|
 | **maps** | `src/fx/world/` | 320×180 looping arenas with a `map` export: `groundY`, walkable spans, platforms, hero/mob/boss spawns |
 | **minions** | `src/fx/mobs/` | looping units with `hp`, radius, speed and a list of attacks; their attack effects are separate modules |
-| **bosses** | `src/fx/boss/` | large loops with health, phases and a suite of telegraphed attacks |
+| **bosses** | `src/fx/boss/` | large loops with health, phases and telegraphed attacks; start one with `node tools/new.mjs boss/<name> --boss` |
 | **boss attacks** | `src/fx/boss/` | screen-wide telegraphs, quakes, volleys and phase transitions, with hit timings |
-| **encounters** | `src/encounters/` | a map, a hero, minions, a boss and its attacks on one timeline, from 14 s skirmishes to 30 s two-phase fights |
+| **encounters** | `src/encounters/` | a map, a hero, minions and their attacks on one timeline; add `encounter.boss` for a boss fight |
 
-Play the two sample encounters: **[Ashfall Skirmish](https://patch-gg.github.io/pixelfx/fantasy.html?enc=ember-skirmish)** and
-**[The Verdant Throne](https://patch-gg.github.io/pixelfx/fantasy.html?enc=verdant-throne)**. The browser page and the render tools share the
-same `createEncounter` runtime.
+The browser page and the render tools share the same `createEncounter` runtime.
 
 ```bash
 node tools/new.mjs world/mossy-crypt --map       # a battle map with a layout
@@ -117,14 +184,14 @@ node tools/new.mjs mobs/rat-scout --mob          # a looping minion
 node tools/new.mjs mobs/rat-bite --mob-attack    # its attack effect
 node tools/new.mjs boss/bog-witch --boss         # a boss unit
 node tools/new.mjs boss/bog-nova --boss-attack   # a telegraphed move
-node tools/new.mjs bog-witch --encounter         # the timeline that plays them
+node tools/new.mjs ashfall-crypt --encounter     # a minion timeline (add encounter.boss for a boss)
 
 node tools/map.mjs world/mossy-ruins             # contact + layout + gameplay images
-node tools/encounter.mjs verdant-throne --mp4    # contact sheet, timeline JSON and video
+node tools/encounter.mjs <name> --mp4           # contact sheet, timeline JSON and video
 ```
 
-Every new piece is checked like an effect: `npm run check` verifies the map's floor and spawns, the boss's phases,
-hit timings inside their effects, timeline order and that the encounter can actually finish. `node tools/index.mjs`
+Every new piece is checked like an effect: `npm run check` verifies the map's floor and spawns, boss phases when a
+boss is present, hit timings inside their effects, timeline order and that the encounter can actually finish. `node tools/index.mjs`
 regenerates the registries and [catalog](docs/CATALOG.md)/[encounter catalog](docs/ENCOUNTERS.md). The full data contract,
 design checklists and integration snippet are in [docs/FANTASY.md](docs/FANTASY.md).
 
@@ -183,25 +250,22 @@ git clone https://github.com/hanhandi-git/pixelfx-cocos.git ../pixelfx-cocos
 
 Open that project in Creator and press **Preview** to filter by category, select an effect, and control playback. Generated PNG/JSON live only under `pixelfx-cocos/assets/resources/pixelfx/`, not in this library checkout.
 
-### Standalone H5 workbench
+### Browser gallery
 
 For a browser-only preview with no Cocos Creator dependency, run:
 
 ```bash
-npm run workbench
+npm run gallery
 ```
 
-Open [http://localhost:8080/gallery/workbench.html](http://localhost:8080/gallery/workbench.html). It imports the effect modules directly, supports category filtering and search, and provides play, pause, replay, previous/next and speed controls. `npm run build:web` emits the static page under `dist/gallery/workbench.html`.
-
-The workbench marks every effect `original` or `new` and filters by source; `?source=new` opens the 12 additions
-directly. The standalone gallery has the same source filter. For the fantasy kit, the same server plays the encounter timeline at
+Open [http://localhost:8080/gallery/](http://localhost:8080/gallery/). The gallery imports the effect modules directly,
+supports category filtering, search and playback, and marks every effect `original` or `new`; `?source=new` opens
+the new additions directly. For the fantasy kit, the same server plays the encounter timeline at
 [http://localhost:8080/gallery/fantasy.html](http://localhost:8080/gallery/fantasy.html): choose an encounter, jump to a
-phase, replay it and change speed. `npm run build:web` also copies it to `dist/gallery/fantasy.html`.
+phase, replay it and change speed. `npm run build:web` writes the static site to `dist/gallery/`.
 
-Link to a specific effect with `?fx=<category>/<name>`, for example
-[Storm sigil](http://localhost:8080/gallery/workbench.html?fx=lightning/storm-sigil). Selecting an effect updates
-the URL, so a refresh keeps the selection. After adding an effect in `src/fx/`, run `node tools/index.mjs` and
-refresh the workbench; rebuild with `npm run build:web` when using the static `dist/gallery` version.
+After adding an effect in `src/fx/`, run `node tools/index.mjs` and refresh the gallery; rebuild with
+`npm run build:web` when using the static version.
 
 Any effect takes a `palette` (a dark-to-bright ramp of hex colors), so a fire can burn blue and a heal can glow
 pink without touching its code:
@@ -266,6 +330,9 @@ The body is yours to use too: `skeleton(pose)` gives you every joint of a pose i
 
 ## the skill.
 
+For Codex, this checkout includes a project skill at `.agents/skills/pixelfx`, a relative symlink to
+`skills/pixelfx/`. Maintain the skill in `skills/pixelfx/` so both tools share the same instructions and references.
+
 The `pixelfx` skill teaches Claude Code to find, use, export and make effects — and to build the fantasy kit around them. Install it as a plugin:
 
 ```
@@ -282,7 +349,7 @@ or copy `skills/pixelfx` into `~/.claude/skills/`. Then ask for what you want:
 - "Give this spell a wind-up and make the enemy react to it."
 - "Lay out a moonlit ruins arena for a two-phase boss fight."
 - "Make a goblin minion, its dagger attack and a wave encounter."
-- "Design a forest boss with a root quake, a thorn volley and a phase roar."
+- "Design a bog boss with a ground slam, a spore volley and a phase roar."
 
 ## make your own.
 

@@ -1,0 +1,17 @@
+name: pixelfx-extend
+
+services:
+  pixelfx:
+    image: pixelfx-extend:${PIXELFX_IMAGE_TAG:?Set PIXELFX_IMAGE_TAG to the deployed Git commit}
+    build:
+      context: ${PIXELFX_BUILD_CONTEXT:-.}
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3011:80"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/healthz"]
+      interval: 30s
+      timeout: 5s
+      start_period: 5s
+      retries: 3

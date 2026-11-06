@@ -39,7 +39,7 @@ export function resolveOptions(meta, o = {}) {
   const opts = { ...(meta.options ?? {}), ...o };
   for (const [k, def] of Object.entries(meta.options ?? {}))
     if (isRamp(def) && isRamp(o[k]) && o[k].length !== def.length) opts[k] = fit(o[k], def.length).map(toHex);
-  if (meta.actor && !opts.actor) opts.actor = stockActor(meta.actor === 2 ? 2 : 1);
+  if (meta.actor && !opts.actor) opts.actor = stockActor(meta.actor === 2 ? 2 : 1, opts.character);
   return opts;
 }
 

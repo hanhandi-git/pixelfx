@@ -10,3 +10,6 @@ temp/
 profiles/
 settings/
 *.log
+
+# local deploy credentials/config (not shared)
+.codex/

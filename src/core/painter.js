@@ -155,6 +155,79 @@ export class Painter {
   polyline(pts, c, a = 1) {
     for (let i = 1; i < pts.length; i++) this.line(pts[i - 1][0], pts[i - 1][1], pts[i][0], pts[i][1], c, a);
   }
+  /**
+   * Stroke a compiled createPath(). width may depend on arc-length progress u; c/a may depend on (u,v),
+   * where v is 0 at the center and 1 at the edge. from/to select a normalized distance interval, useful
+   * for writing paths and moving trails. Sampling includes the path's corners and uses <= 1 px steps.
+   */
+  strokePath(path, width, c, a = 1, from = 0, to = 1) {
+    from = clamp(from); to = clamp(to);
+    if (to <= from) return;
+    if (!path.length) {
+      const q = path.sample(from), w = call(width, from);
+      if (w > 0) this.circle(q.x, q.y, w / 2, (v) => call(c, from, v), (v) => call(a, from, v));
+      return;
+    }
+    // Pick the closest normalized cross-section before shading. Painting tiny capped beams directly
+    // would overwrite each other's cores with dark cap edges, leaving seams even on straight paths.
+    const size = this.C.length;
+    let s = this._stroke;
+    if (!s || s.seen.length !== size) s = this._stroke = {
+      seen: new Uint32Array(size), touched: new Uint32Array(size),
+      depth: new Float64Array(size), progress: new Float64Array(size), id: 0,
+    };
+    if (!(s.id = (s.id + 1) >>> 0)) { s.seen.fill(0); s.id = 1; }
+    let count = 0;
+    // Retain every polyline vertex so short, sharp corners are never cut across.
+    const stops = [from];
+    let d = 0;
+    for (let i = 1; i < path.points.length; i++) {
+      d += Math.hypot(path.points[i][0] - path.points[i - 1][0], path.points[i][1] - path.points[i - 1][1]);
+      const u = d / path.length;
+      if (u > from && u < to) stops.push(u);
+    }
+    stops.push(to);
+    for (let i = 1; i < stops.length; i++) {
+      const start = stops[i - 1], end = stops[i], n = Math.max(1, Math.ceil((end - start) * path.length));
+      let q = path.sample(start);
+      for (let j = 1; j <= n; j++) {
+        const u0 = start + (end - start) * (j - 1) / n, u1 = start + (end - start) * j / n;
+        const next = path.sample(u1), r0 = Math.max(0, call(width, u0)) / 2, r1 = Math.max(0, call(width, u1)) / 2;
+        const r = Math.max(r0, r1), dx = next.x - q.x, dy = next.y - q.y, l2 = dx * dx + dy * dy;
+        if (r > 0) this.each(Math.min(q.x, next.x) - r, Math.min(q.y, next.y) - r,
+          Math.max(q.x, next.x) + r, Math.max(q.y, next.y) + r, (x, y, sx, sy) => {
+            const k = l2 ? clamp(((x - q.x) * dx + (y - q.y) * dy) / l2) : 0;
+            const radius = r0 + (r1 - r0) * k;
+            if (!radius) return;
+            const ex = q.x + dx * k - x, ey = q.y + dy * k - y, depth = (ex * ex + ey * ey) / (radius * radius);
+            if (depth > 1) return;
+            const index = (sy - this.oy) * this.w + sx - this.ox;
+            if (s.seen[index] !== s.id) { s.seen[index] = s.id; s.touched[count++] = index; }
+            else if (depth >= s.depth[index]) return;
+            s.depth[index] = depth;
+            s.progress[index] = u0 + (u1 - u0) * k;
+          });
+        q = next;
+      }
+    }
+    for (let i = 0; i < count; i++) {
+      const index = s.touched[i], u = s.progress[index], v = Math.sqrt(s.depth[index]);
+      this.put(index % this.w + this.ox, Math.floor(index / this.w) + this.oy, call(c, u, v), call(a, u, v));
+    }
+  }
+  /**
+   * Draw a signed distance function inside explicit local bounds [x0,y0,x1,y1]. c/a may depend on
+   * (distance,x,y); positive distances are skipped. Use SDF.shell/expand for borders and growth.
+   */
+  sdf(shape, bounds, c, a = 1) {
+    this.shade(...bounds, (x, y, out) => {
+      if (x < bounds[0] || y < bounds[1] || x > bounds[2] || y > bounds[3]) return;
+      const d = shape(x, y);
+      if (d > 0 || !Number.isFinite(d)) return;
+      out.c = call(c, d, x, y);
+      out.a = call(a, d, x, y);
+    });
+  }
   /** Thick segment with round ends. c and a may be functions of (u along, v across: 0 center, 1 edge). */
   beam(x0, y0, x1, y1, width, c, a = 1) {
     const r = width / 2, dx = x1 - x0, dy = y1 - y0, L2 = dx * dx + dy * dy || 1e-9;

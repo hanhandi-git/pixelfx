@@ -15,7 +15,7 @@ const ids = process.argv.slice(2).length ? resolveIds(process.argv.slice(2)) : a
 const newCount = ids.filter((id) => originOf(id) === "new").length;
 const M = 24; // margin around the canvas, to catch pixels drawn outside it
 let fails = 0, warns = 0;
-// The original list is a baseline, not a filter: if an id disappears, the workbench source counts are stale.
+// The original list is a baseline, not a filter: if an id disappears, the gallery source counts are stale.
 if (!process.argv.slice(2).length) {
   const stale = [...ORIGINAL_EFFECTS].filter((id) => !ids.includes(id));
   if (stale.length) console.log(`warn  provenance\n      ${stale.length} original id${stale.length === 1 ? "" : "s"} no longer exist: ${stale.slice(0, 4).join(", ")}${stale.length > 4 ? "…" : ""}`);

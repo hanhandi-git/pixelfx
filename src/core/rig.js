@@ -10,7 +10,9 @@
 // is what lets an effect drawn on the standing body (frost, poison, a scan line) follow the body wherever it goes.
 
 import { hex } from "./color.js";
-import { DUMMY_PAL } from "./actor.js";
+import { DUMMY_PAL, characterOf } from "./characters.js";
+import { costume } from "./costume.js";
+import { MELEE_SHAPES, THROWN_SHAPES } from "./weapons.js";
 
 const PAL = Object.fromEntries(Object.entries(DUMMY_PAL).map(([k, v]) => [k, hex(v) >>> 0]));
 const INK = PAL.k, SEAM = PAL.J, MARK = PAL.m;
@@ -237,6 +239,73 @@ function drawBody(S) {
   void turn;
 }
 
+// Costume polygons share the body's z buffer. No screen-space stickers: cloth, hair and
+// ornaments turn with their bone and correctly pass behind arms, faces and weapons.
+function mesh(F, points, part, mat) {
+  const pts = points.map((v) => add(F.t, mv(F.R, v)));
+  for (let k = 1; k < pts.length - 1; k++) {
+    const [a, b, c] = [pts[0], pts[k], pts[k + 1]];
+    const area = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1]);
+    if (Math.abs(area) < 0.01) continue;
+    let normal = unit(cross(sub(b, a), sub(c, a)));
+    if (normal[2] < 0) normal = mul(normal, -1);
+    const tone = dot(normal, LIGHT);
+    for (let y = Math.ceil(Math.min(a[1], b[1], c[1])); y <= Math.max(a[1], b[1], c[1]); y++)
+      for (let x = Math.ceil(Math.min(a[0], b[0], c[0])); x <= Math.max(a[0], b[0], c[0]); x++) {
+        if (clipBody && y < 1.5) continue;
+        const u = ((b[1] - c[1]) * (x - c[0]) + (c[0] - b[0]) * (y - c[1])) / area;
+        const v = ((c[1] - a[1]) * (x - c[0]) + (a[0] - c[0]) * (y - c[1])) / area;
+        if (u < -0.001 || v < -0.001 || u + v > 1.001) continue;
+        const sx = OX + x, sy = OY - y;
+        if (sx < 0 || sy < 0 || sx >= BW || sy >= BH) continue;
+        plot(sy * BW + sx, a[2] * u + b[2] * v + c[2] * (1 - u - v), tone, part, mat, x, y, 0);
+      }
+  }
+}
+
+function drawCharacter(S, look) {
+  const { B, armN, armF, legN, legF, sN, sF, hipN, hipF } = S;
+  const heavy = look.style === "warden", robed = look.style === "oracle";
+  const local = (f, v) => add(B[f].t, mv(B[f].R, v));
+  const ball = (f, v, radii, mat) => {
+    useFrame(f);
+    ellipsoid(local(f, v), B[f].R, radii, PART[f] ?? PART.chest, mat);
+  };
+  const bone = (f, a, b, ra, rb, mat) => {
+    useFrame(f);
+    sweep(local(f, a), local(f, b), ra, rb, PART[f] ?? PART.chest, mat);
+  };
+  ball("pelvis", [0, -0.2, 0], [2.8, 2.4, 3.8], 4);
+  useFrame("waist"); sweep(B.pelvis.t, B.chest.t, 2.6, 2.9, PART.waist, 4);
+  ball("chest", [0.2, 0.8, 0], heavy ? [3.8, 4.3, 5.7] : robed ? [2.9, 3.8, 4.7] : [3.1, 3.9, 4.9], 4);
+  bone("neck", [0, 0, 0], [0, 1.6, 0], 1.15, 1.05, 3);
+  ball("head", [0, 0, 0], [2.7, 3, 2.6], 3);
+  ball("head", [0.65, -0.5, 0], [2.2, 2.4, 2.2], 3);
+  const arm = (A, sh, up, el, fo, ha, U, F) => {
+    const cloth = heavy || robed;
+    useFrame(U);
+    sphere(sh, heavy ? 2.6 : 2, up, cloth ? 4 : 3);
+    sweep(sh, A.joint, heavy ? 2.2 : 1.65, 1.25, up, cloth ? 4 : 3);
+    sphere(A.joint, 1.2, el, cloth ? 4 : 3);
+    useFrame(F);
+    sweep(A.joint, A.end, 1.45, 1.05, fo, heavy ? 4 : 3);
+    sphere(A.end, 1.5, ha, 3);
+  };
+  arm(armN, sN, PART.upperN, PART.elbowN, PART.foreN, PART.handN, "upperN", "foreN");
+  arm(armF, sF, PART.upperF, PART.elbowF, PART.foreF, PART.handF, "upperF", "foreF");
+  const leg = (L, hip, th, kn, sh, ft, T, F, foot) => {
+    useFrame(T);
+    sweep(hip, L.joint, heavy ? 3 : 2.5, 1.7, th, look.style === "ranger" ? 3 : 4);
+    sphere(L.joint, 1.5, kn, heavy ? 6 : 3);
+    useFrame(F);
+    sweep(L.joint, L.end, heavy ? 2 : 1.7, 1.15, sh, heavy ? 4 : 7);
+    bone(foot, [-1.2, -0.6, 0], [4, -1.1, 0], 1.4, 1, 7);
+  };
+  leg(legN, hipN, PART.thighN, PART.kneeN, PART.shinN, PART.footN, "thighN", "shinN", "footN");
+  leg(legF, hipF, PART.thighF, PART.kneeF, PART.shinF, PART.footF, "thighF", "shinF", "footF");
+  costume(S, look, { ball, bone, panel(f, points, mat) { useFrame(f); mesh(B[f], points, PART[f] ?? PART.chest, mat); } });
+}
+
 // ---- what they hold: drawn along the handle from the fist, through the same depth buffer
 function along(H, axis, side, part) {
   const n = cross(axis, side);
@@ -277,11 +346,6 @@ export const WEAPONS = {
     for (let k = -6.6; k <= 6.6; k += 0.4) (T(2.6, k, Math.abs(k) > 5.6 ? STEEL.goldD : STEEL.gold), T(3, k, STEEL.goldD));
     blade(T, 3.2, 31, 3);
     for (let i = 4; i <= 28; i += 0.4) T(i, 0, STEEL.b);
-  } },
-  dagger: { draw(T) {
-    haft(T, -2.4, 1.8, STEEL.grip, STEEL.gripD);
-    for (let k = -2.6; k <= 2.6; k += 0.4) T(2.2, k, STEEL.goldD);
-    blade(T, 2.6, 10, 1.3);
   } },
   spear: { two: -12, draw(T) {
     haft(T, -18, 36, STEEL.wood, STEEL.woodD, 0.5);
@@ -349,10 +413,12 @@ export const WEAPONS = {
     haft(T, -2.6, 6, STEEL.grip, STEEL.gripD);
     for (let k = -1.6; k <= 1.6; k += 0.4) (T(-3, k, STEEL.gold), T(6.4, k, STEEL.gold));
   } },
+  ...MELEE_SHAPES,
+  ...THROWN_SHAPES,
 };
 
 // ---- flat tones, seams, and one clean ink line
-function finish(S, restFrames) {
+function finish(S, restFrames, look, sourceBox) {
   const dim = (part) => part >= PART.upperF && part <= PART.handF ? 1 : part >= PART.thighF && part <= PART.footF ? 1 : 0;
   const toneOf = (v, part) => {
     let t = v > 0.8 ? 0 : v > 0.42 ? 1 : v > 0.08 ? 2 : 3;
@@ -377,7 +443,7 @@ function finish(S, restFrames) {
   }
   for (const i of touched) {
     if (Mat[i] === 2) continue;
-    Col[i] = (Mat[i] === 1 ? CORE : SHELL)[tones.get(i)];
+    Col[i] = (look.materials?.[Mat[i]] ?? (Mat[i] === 1 ? CORE : SHELL))[tones.get(i)];
   }
   // where two parts meet: a soft seam if they touch, ink if one stands in front of the other
   const marks = new Map();
@@ -389,13 +455,13 @@ function finish(S, restFrames) {
       if (Mat[far] === 2 && dz < 1) continue;
       const ink = steel || dz > 2.2;
       if (ink) marks.set(far, INK);
-      else if (!marks.has(far)) marks.set(far, SEAM);
+      else if (!marks.has(far)) marks.set(far, look.style ? (look.materials[Mat[far]]?.[3] ?? SEAM) : SEAM);
     }
   }
   for (const [i, c] of marks) Col[i] = c;
   // the mark on his chest, when it's facing us
   const { B } = S, chestAt = add(B.chest.t, mv(B.chest.R, [3, 1.6, -1.8]));
-  if (mv(B.chest.R, [1, 0, 0])[2] > 0.15) {
+  if (!look.style && mv(B.chest.R, [1, 0, 0])[2] > 0.15) {
     const i = (OY - Math.round(chestAt[1])) * BW + (OX + Math.round(chestAt[0]));
     if (Part[i] === PART.chest) Col[i] = MARK;
   }
@@ -407,8 +473,9 @@ function finish(S, restFrames) {
     const f = Fr[i];
     if (f < 0 || !restFrames) return -1;
     const name = FRAME_IDS[f], A = B[name], R0 = restFrames[name], wx = (i % BW) - OX, wy = OY - ((i / BW) | 0), P = [wx, wy, Zb[i]];
-    const lp = tv(A.R, sub(P, A.t)), rp = add(R0.t, mv(R0.R, lp)), c = Math.round(rp[0]) + 12, r = 38 - Math.round(rp[1]);
-    return c < 0 || r < 0 || c >= W0 || r >= H0 ? -1 : r * W0 + c;
+    const lp = tv(A.R, sub(P, A.t)), rp = add(R0.t, mv(R0.R, lp));
+    const c = Math.round(rp[0]) - sourceBox.x, r = -Math.round(rp[1]) - sourceBox.y;
+    return c < 0 || r < 0 || c >= sourceBox.w || r >= sourceBox.h ? -1 : r * sourceBox.w + c;
   };
   let k = 0, x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
   const push = (i, c, s, isInk) => {
@@ -436,13 +503,14 @@ const turnAll = (S, a) => {
   S.axis = P(S.axis); S.side = P(S.side);
 };
 let REST_FRAMES = null;
-function render(pose) {
+function render(pose, look = characterOf("dummy"), sourceBox = { x: -12, y: -38, w: W0, h: H0 }) {
   const S = solve(pose), q = S.q, whole = (q.yaw ?? 0) + (q.face === -1 ? Math.PI : 0);
   if (whole) turnAll(S, whole);
   const air = (q.y ?? 0) < -0.5;
   clipBody = !air;
   clipWeapon = !air;
-  drawBody(S);
+  if (look.style) drawCharacter(S, look);
+  else drawBody(S);
   clipBody = false;
   if (S.W) S.W.draw(along(S.armN.end, S.axis, S.side, PART.weapon), q, S.armF.end);
   if (S.OW) {
@@ -452,11 +520,20 @@ function render(pose) {
     S.OW.draw(along(S.armF.end, ax, sd, PART.offWeapon), q, S.armF.end);
   }
   clipWeapon = false;
-  return finish(S, REST_FRAMES);
+  return finish(S, REST_FRAMES, look, sourceBox);
 }
 REST_FRAMES = solve({}).B;
 
 const CACHE = new Map();
+const LOOKS = new Map(), SOURCE_BOXES = new Map();
+function resolveLook(character) {
+  const c = characterOf(character);
+  if (!LOOKS.has(c.id)) {
+    const names = { 3: "skin", 4: "cloth", 5: "hair", 6: "gold", 7: "leather", 8: "glow", 9: "bone", 10: "lining" };
+    LOOKS.set(c.id, { ...c, materials: c.style ? Object.fromEntries(Object.entries(names).map(([m, key]) => [m, c[key].map((v) => hex(v) >>> 0)])) : null });
+  }
+  return LOOKS.get(c.id);
+}
 const keyOf = (p) => {
   let s = (p.y ?? 0) < -0.5 ? "air," : "";
   for (const k of Object.keys(p).sort()) {
@@ -472,12 +549,17 @@ export function shortfall(pose) {
   return Math.max(near, far);
 }
 /** The pixels of a pose: { n, xs, ys, color, src, ink, x0, y0, x1, y1 }, in local space with the feet at (0, 0). */
-export function posed(pose) {
-  const key = keyOf(pose);
+export function posed(pose, character = "dummy") {
+  const look = resolveLook(character);
+  if (look.style && !SOURCE_BOXES.has(look.id)) {
+    const rest = render({}, look);
+    SOURCE_BOXES.set(look.id, { x: rest.x0, y: rest.y0, w: rest.x1 - rest.x0 + 1, h: rest.y1 - rest.y0 + 1 });
+  }
+  const key = look.id + ":" + keyOf(pose);
   let r = CACHE.get(key);
   if (!r) {
     if (CACHE.size > 6000) CACHE.clear();
-    CACHE.set(key, (r = render(pose)));
+    CACHE.set(key, (r = render(pose, look, SOURCE_BOXES.get(look.id))));
   }
   return r;
 }

@@ -2,7 +2,7 @@
 
 The fantasy kit is the effect library plus four content roles. Every role is still an ordinary module under
 `src/fx/`: it renders with `Painter`, obeys the effect contract, appears in the catalog, exports to sprite sheets and
-can be loaded by the workbench. The difference is a `meta.kind` and one extra export that a game — or the encounter
+can be loaded by the gallery. The difference is a `meta.kind` and one extra export that a game — or the encounter
 runtime — can read.
 
 | role | folder | `meta.kind` | export | render command |
@@ -101,7 +101,7 @@ their main material palette can be replaced through `options.palette`.
 | `world/sunscar-temple` | Sunset dunes, broken sandstone columns, blowing sand and torn banners | 12 s |
 | `world/wisp-marsh` | Flooded roots, ghost lights, mushroom spores, bubbles and water rings | 12 s |
 
-Open `/gallery/workbench.html?fx=world/aurora-pass&source=new` and choose **world** to browse all six.
+Open `/gallery/index.html?source=new#world` to browse all six.
 H5 previews run the source modules directly. Full-screen maps only need Cocos sprite-sheet export when a game
 needs baked images; their full-resolution loops produce large atlases.
 
@@ -157,6 +157,8 @@ A boss attack is `320 x 180`, `origin: [160, 150]`, `meta.kind: "boss-attack"`, 
 ```js
 export const attack = {
   telegraph: 0.9,
+  // optional body performance; the encounter drives the boss's pose while the screen effect plays
+  pose: { cast: "slam", windup: 0.9, hold: 0.35, recover: 0.9 },
   hits: [{ t: 1.0, amp: 4, shake: 0.45, damage: 120, radius: 136, target: "hero" }],
 };
 ```
@@ -165,6 +167,10 @@ export const attack = {
 - The hit gets a 1–2 frame white hero frame, a ring/flash at the same `t`, and screen shake from `amp`/`shake`.
 - The effect ends empty at `meta.duration`.
 - A boss attack is a screen-wide statement: 320 x 180. A minion attack stays near 112 x 72.
+- `pose` is how the boss sells the move. `windup` should match the telegraph, the release lands on the first hit and
+  `hold`/`recover` cover the follow-through. The encounter writes `pose`, `cast`, `poseT`, `poseWindup`, `poseHold`
+  and `poseRecover` into the unit's captured options every frame, so the unit draws its wind-up/recovery without
+  being recreated. A unit that ignores these fields simply idles.
 
 ## Boss units
 
@@ -187,9 +193,16 @@ export const boss = {
 
 - 96–140 px wide, 120–170 px tall, feet at local `y = 0`, `meta.origin` near the bottom.
 - Read at 1x: antlers, crown, staff, cloak, glowing core — pick two or three and make them big.
-- The idle loop is breathing, not attacking: chest, core, eyes, vines, falling leaves.
-- The phase list loses health. A phase change should combine `phase-roar` (or an equivalent), a banner, shake and a
-  visible change in the arena's light/palette.
+- The idle loop is breathing, not attacking: chest, core, eyes, vines, falling leaves. The attacks are where the body
+  moves, through `attack.pose` (see above).
+- The phase list loses health. A phase change should combine a transition effect (a roar, a shockwave), a banner, shake and a
+  visible change in the arena's light/palette. Pass `bossOptions: { phase: 2 }` on the phase cue and draw a different
+  body in phase two — a banner over an unchanged model is not a phase change.
+- `boss.dieFor` (seconds) keeps the body on the screen after `defeat` so it can play a death pose; the cue can
+  override it with `dieFor`. Default `0` hides the unit immediately. The unit reads `options.pose === "die"` and
+  `options.poseT`.
+- A boss's captured `options` are mutated in place, so read `o.phase`, `o.pose` and friends inside `draw()`, never at
+  module scope.
 
 ## Encounters
 
@@ -199,28 +212,33 @@ export const boss = {
 export const encounter = {
   w: 320,
   h: 180,
-  duration: 27.5,
+  duration: 14.5,
   map,
   hero: { x: 52, y: GROUND },
-  boss: { mod: boss, x: 252, y: GROUND, name: "The Thorn King" },
-  mobs: [{ id: "add-a", mod: goblin, x: 118, y: GROUND, hp: 42, until: 10.5 }],
+  mobs: [
+    { id: "mob-a", mod: mob, x: 128, y: GROUND, hp: 42, until: 8.5 },
+    { id: "mob-b", mod: mob, x: 172, y: GROUND, hp: 42, until: 10.5 },
+  ],
   phases: [
-    { at: 0.35, hp: 1, name: "The Waking Wood", sub: "THE THORN KING", dur: 2.8 },
-    { at: 13.2, hp: 0.55, name: "Thorns Unleashed", sub: "PHASE II", dur: 2.8 },
+    { at: 0.3, hp: 1, name: "My Encounter", sub: "WAVE I", dur: 2.4 },
+    { at: 13.0, hp: 1, name: "Wave Clear", sub: "THE DEPTHS GO QUIET", dur: 3.0 },
   ],
   timeline: [
-    { at: 2.4, type: "attack", fx: rootQuake, x: 160, y: GROUND },
-    { at: 5.6, type: "attack", fx: goblinJab, x: 118, y: GROUND, flip: true },
-    { at: 10.4, type: "attack", fx: poof, x: 118, y: GROUND },
-    { at: 23.0, type: "defeat", target: "boss" },
+    { at: 1.6, type: "attack", fx: mobAttack, x: 128, y: GROUND, flip: true },
+    { at: 6.0, type: "attack", fx: mobAttack, x: 172, y: GROUND, flip: true },
+    { at: 8.4, type: "attack", fx: poof, x: 128, y: GROUND },
+    { at: 10.4, type: "attack", fx: poof, x: 172, y: GROUND },
   ],
 };
 ```
 
+A boss fight is the same timeline plus `boss: { mod, x, y, name }` and a `phases` list that loses health; the
+encounter then draws the boss bar too. See [Boss units](#boss-units).
+
 | type | fields | what it does |
 |---|---|---|
 | `attack` | `at, fx, x, y, flip?, options?, until?` | plays an effect; if it has `attack.hits`, schedules shake and the hero's hit flash |
-| `phase` | `at, name, sub, hp, dur, shake?` | sets the boss bar target, shows a banner, optionally shakes |
+| `phase` | `at, name, sub, hp, dur, shake?, bossOptions?, mapOptions?` | sets the boss bar, shows a banner, optionally shakes or updates visual options in place |
 | `text` | `at, text, sub, dur` | a banner with no health change |
 | `shake` | `at, amp, dur` | a standalone shake |
 | `hit` | `at, target, amp, shake, dur` | the hero's white hit flash |
@@ -232,13 +250,13 @@ It draws the map, units, effects, the boss bar and the phase banner, and takes w
 `encounter.shake`.
 
 ```bash
-node tools/encounter.mjs verdant-throne --mp4
+node tools/encounter.mjs <name> --mp4
 node tools/index.mjs
 npm run check
 npm run build:web
 ```
 
-Open `http://localhost:8080/gallery/fantasy.html?enc=verdant-throne` for the live page. The browser runtime and the
+Open `http://localhost:8080/gallery/fantasy.html?enc=<name>` for the live page. The browser runtime and the
 tools use the same `createEncounter`.
 
 ## Design checklists

@@ -6,7 +6,7 @@
 //   node tools/act.mjs melee/sword-slash --mp4          video: records/act/melee-sword-slash.mp4
 //   node tools/act.mjs melee/sword-slash --sheet        the whole act, character and all, as a transparent sprite sheet
 //
-// Options: --from S --to S (strip range) --step S (default 1/12) --cols N --zoom N --bg KIND --out FILE --no-target --seconds S
+// Options: --from S --to S (strip range) --step S (default 1/12) --cols N --zoom N --bg KIND --out FILE --no-target --seconds S --character ID
 
 import { join } from "node:path";
 import { ROOT, resolveIds, loadEffect, renderAct, spriteSheet, canvas, upscale, save, writeVideo } from "./lib/fxlib.mjs";
@@ -21,7 +21,7 @@ const ids = resolveIds(pos);
 for (const id of ids) {
   const fx = await loadEffect(id);
   if (flags.sheet) {
-    const r = renderAct(fx, { fps: fx.meta.fps, bg: "none", target: !flags["no-target"], hold: 0 }), name = id.split("/")[1], base = join(ROOT, "records", "act", id.replace("/", "-"));
+    const r = renderAct(fx, { fps: fx.meta.fps, bg: "none", target: !flags["no-target"], hold: 0, options: { character: flags.character } }), name = id.split("/")[1], base = join(ROOT, "records", "act", id.replace("/", "-") + (flags.character ? `-${flags.character}` : ""));
     const s = spriteSheet(fx, r, name);
     s.json.meta.pixelfx.pivot = r.pivot;
     save(`${base}.sheet.png`, s.png);
@@ -29,8 +29,8 @@ for (const id of ids) {
     console.log(`${id}  ${r.n} frames of ${r.w} x ${r.h}  ->  ${base}.sheet.png`);
     continue;
   }
-  const r = renderAct(fx, { fps: 60, bg: flags.bg, target: !flags["no-target"], seconds: flags.seconds ? +flags.seconds : undefined });
-  const base = join(ROOT, "records", "act", id.replace("/", "-"));
+  const r = renderAct(fx, { fps: 60, bg: flags.bg, target: !flags["no-target"], seconds: flags.seconds ? +flags.seconds : undefined, options: { character: flags.character } });
+  const base = join(ROOT, "records", "act", id.replace("/", "-") + (flags.character ? `-${flags.character}` : ""));
   if (flags.mp4) {
     const k = +(flags.zoom ?? Math.max(2, Math.min(8, Math.floor(960 / Math.max(r.w, r.h)))));
     const file = flags.out ?? base + ".mp4";

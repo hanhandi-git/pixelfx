@@ -17,10 +17,11 @@ await build({ entryPoints: [join(G, "app.js")], bundle: true, format: "esm", min
 cpSync(join(G, "fonts"), join(OUT, "fonts"), { recursive: true });
 writeFileSync(join(OUT, "style.css"), readFileSync(join(G, "style.css")));
 writeFileSync(join(OUT, "index.html"), readFileSync(join(G, "index.html")));
-await build({ entryPoints: [join(G, "workbench.js")], bundle: true, format: "esm", minify: true, outfile: join(OUT, "workbench.js"), legalComments: "none" });
-for (const file of ["workbench.html", "workbench.css"]) cpSync(join(G, file), join(OUT, file));
-await build({ entryPoints: [join(G, "fantasy.js")], bundle: true, format: "esm", minify: true, outfile: join(OUT, "fantasy.js"), legalComments: "none" });
-for (const file of ["fantasy.html", "fantasy.css"]) cpSync(join(G, file), join(OUT, file));
+// serving dist/ directly should still land on the gallery instead of a 404 at the root
+writeFileSync(
+  join(ROOT, "dist", "index.html"),
+  '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=gallery/"><title>pixelfx</title><a href="gallery/">pixelfx gallery</a>\n',
+);
 
 // the one-page version: <title> and <style> first, then the body markup, the font as a data URI
 const html = readFileSync(join(G, "index.html"), "utf8");

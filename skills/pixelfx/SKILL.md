@@ -1,6 +1,6 @@
 ---
 name: pixelfx
-description: Generate and edit pixel VFX, maps, minions, bosses and encounters with pixelfx JavaScript/Painter, matching the library's pixel, palette, lighting and motion language; register effects, run render/check, export PNG/JSON, and verify in gallery/workbench.html or gallery/fantasy.html. Use for new pixel assets, magic/hit/particle effects, fantasy maps and enemies, boss phases and fight choreography, sprite sheets, palette recolors and Cocos Creator export—not for generic illustration or photos.
+description: Generate and edit pixel VFX, maps, minions, bosses and encounters with pixelfx JavaScript/Painter, and extend reusable low-level drawing primitives when a task needs them; match the library's pixel, palette, lighting and motion language, register effects, run render/check, export PNG/JSON, and verify in gallery/index.html or gallery/fantasy.html. Use for new pixel assets, magic/hit/particle effects, fantasy maps and enemies, boss phases and fight choreography, sprite sheets, palette recolors, Painter/core extensions and Cocos Creator export—not for generic illustration or photos.
 license: MIT
 metadata:
   runtime: Node 18 or newer; npm for the static build; ffmpeg optional for GIF/MP4 previews.
@@ -58,21 +58,21 @@ scorch and sparks cool away; ground ellipse behind/in front, deterministic seed.
 2. Check it runs: `node tools/render.mjs fire/torch` writes `records/fire/torch/contact.png`. Open that PNG with
    your image-reading tool. That contact sheet is how you see every effect from now on.
 
-## Generate assets and preview in the workbench
+## Generate assets and preview in the gallery
 
 When the task adds assets to the library, needs browser preview, or Cocos export, read
 [references/generate-and-preview.md](references/generate-and-preview.md). After source, registry, export and browser
-verification, deliver a workbench deep link to the new asset—not only ad-hoc preview files.
+verification, deliver a gallery link to the new asset—not only ad-hoc preview files.
 
-Example request: “Use $pixelfx to make an ice-fire explosion, add it to the library, and open it in the workbench.”
+Example request: “Use $pixelfx to make an ice-fire explosion, add it to the library, and open it in the gallery.”
 
-New assets are tagged `new` automatically: `src/fx/provenance.js` lists the original 244; any other ID is `new`. Workbench and gallery
-expose `original` / `new` source filters and `workbench.html?source=new`. Do not edit every effect's `meta.tags` for provenance.
+New assets are tagged `new` automatically: `src/fx/provenance.js` lists the original 244; any other ID is `new`. The gallery
+exposes `original` / `new` source filters through `gallery/?source=new`. Do not edit every effect's `meta.tags` for provenance.
 
 ## Fantasy game kit: maps, minions, bosses and encounters
 
 The library also carries the pieces a fantasy game needs around its effects. They are ordinary effect modules with a
-`meta.kind` and one extra exported object, so render, check, sprite sheets, the workbench and Cocos export all keep
+`meta.kind` and one extra exported object, so render, check, sprite sheets, the gallery and Cocos export all keep
 working. Use the smallest piece that answers the request:
 
 | the request | the piece | starter command |
@@ -102,7 +102,7 @@ sequences. The short version:
    and grounded to the mob's hand or mouth.
 4. **Boss.** A 96-140 px wide loop, `kind: "boss"`, with `boss = { hp, radius, height, phases, attacks, loot }`.
    Silhouette first: antlers, crown, staff, cloak, a glowing core. `phases` lose health in order; a
-   `phase-roar`-style attack changes light, ground and mood. Boss attacks are full-screen one-shots
+   a phase-transition attack changes light, ground and mood. Boss attacks are full-screen one-shots
    (`320 x 180`, `origin: [160, 150]`, `kind: "boss-attack"`) with a **0.8-1.6 s telegraph**, a 1-2 frame white
    hero frame, then 2-5 s of debris and dust. The telegraph must be visible in a contact-sheet sample.
 5. **Encounter.** `src/encounters/<name>.js` exports `meta` and `encounter = { map, hero, boss, mobs, phases,
@@ -121,7 +121,7 @@ Rules that keep the kit coherent:
   mob does not get a screen-sized effect, and a boss attack does not get a tiny one.
 - **Telegraph before damage.** Boss attacks show the floor mark first; monster attacks show a glint or swell first.
   A hit that lands before the tell has played is a bug, not difficulty.
-- **Phases change the picture.** A phase banner alone is not a phase change: combine `phase-roar`, a palette or light
+- **Phases change the picture.** A phase banner alone is not a phase change: combine a transition attack, a palette or light
   shift, screen shake and a change in the attack pattern.
 - **Kill cleanly.** Give each mob an `until` time and play a death effect (`spawn/poof`, `spawn/soul-rise`,
   `spawn/shatter-death`) on the same beat; do not let a dead unit keep idling.
@@ -255,3 +255,16 @@ If the game can't run JS and a sprite sheet isn't enough (an effect that follows
 per-instance colors at runtime), port the effect. Pure effects are a function of time; simulated ones step the particles in
 `src/core/sim.js`. Keep the two-buffer idea, the 4x4 Bayer threshold for dithered alpha and the palette ramp lookups.
 Render the JS original and your port side by side to check they match.
+
+## Extend the bottom drawing layer
+
+When a request mentions a new primitive, reusable geometry, clipping, gradients, masks, compositing, or a
+Painter bug, read [references/painter-api.md](references/painter-api.md) before editing. Choose an existing
+primitive first; put one-off shapes in the effect's `_lib.js`. Add a method to `src/core/painter.js` only when
+it is reusable and needs the shared local transform, clipping, ordered alpha, color/light separation or a
+tested fast path. Keep the method engine-independent and deterministic, add a behavior test in
+`tests/core-extension.test.mjs`, and update `docs/CORE-EXTENSIONS.md` when the extension introduces a new
+path, SDF or force-field capability. Preserve the two-buffer contract: hard pixel color uses Bayer dither,
+soft volumes use true blending, and additive light never writes the color buffer. Run `npm test`, a targeted
+`node tools/check.mjs <id>`, and a rendered sample before the full `npm run check` when a core change affects
+multiple effects.

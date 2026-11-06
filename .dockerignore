@@ -1,0 +1,11 @@
+**
+!package.json
+!package-lock.json
+!src/
+!src/**
+!gallery/
+!gallery/**
+!tools/
+!tools/**
+!deploy/
+!deploy/site.conf

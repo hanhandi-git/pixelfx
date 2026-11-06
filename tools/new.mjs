@@ -378,26 +378,20 @@ export function draw(p, t, o) {
   }
 }
 `,
-  encounter: `// A generated encounter template: it uses the sample map, boss and minion already in the kit. Replace them with
-// your own modules, then cut the timeline to the fight you want to see.
-import * as map from "../fx/world/mossy-ruins.js";
-import * as boss from "../fx/boss/thorn-king.js";
-import * as goblin from "../fx/mobs/goblin-raider.js";
-import * as goblinJab from "../fx/mobs/goblin-jab.js";
-import * as rootQuake from "../fx/boss/root-quake.js";
-import * as phaseRoar from "../fx/boss/phase-roar.js";
+  encounter: `// A generated encounter template: a map, a hero and a few attack cues on one timeline. Replace the map and
+// effect imports with your own, then cut the timeline to the fight you want to see.
+import * as map from "../fx/world/ember-depths.js";
+import * as blast from "../fx/explosions/small-explosion.js";
 import * as poof from "../fx/spawn/poof.js";
 
 export const meta = {
   name: "${name}",
-  desc: "A boss encounter template: replace the map, boss and minion imports, then edit the timeline and phases.",
-  tags: ["encounter", "boss", "fantasy"],
-  duration: 17.5,
+  desc: "An encounter template: replace the map and attack imports, then edit the timeline and phases.",
+  tags: ["encounter", "fantasy"],
+  duration: 14.5,
   fps: 30,
   size: [320, 180],
-  map: "world/mossy-ruins",
-  boss: "boss/thorn-king",
-  mobs: ["mobs/goblin-raider"],
+  map: "world/ember-depths",
 };
 
 const GROUND = map.map.groundY;
@@ -405,22 +399,17 @@ const GROUND = map.map.groundY;
 export const encounter = {
   w: 320,
   h: 180,
-  duration: 17.5,
+  duration: 14.5,
   map,
   hero: { x: 52, y: GROUND },
-  boss: { mod: boss, x: 252, y: GROUND, name: "The Boss" },
-  mobs: [{ id: "add-a", mod: goblin, x: 120, y: GROUND, hp: 42, until: 10 }],
   phases: [
-    { at: 0.35, hp: 1, name: "The Boss Wakes", sub: "PHASE I", dur: 2.4 },
-    { at: 8.0, hp: 0.55, name: "The Boss Rages", sub: "PHASE II", dur: 2.4 },
+    { at: 0.3, hp: 1, name: "The Skirmish", sub: "WAVE I", dur: 2.4 },
+    { at: 8.4, hp: 1, name: "All Quiet", sub: "THE DEPTHS GO STILL", dur: 2.4 },
   ],
   timeline: [
-    { at: 2.0, type: "attack", fx: rootQuake, x: 160, y: GROUND },
-    { at: 5.0, type: "attack", fx: goblinJab, x: 120, y: GROUND, flip: true },
-    { at: 7.9, type: "attack", fx: phaseRoar, x: 160, y: GROUND },
-    { at: 10.0, type: "attack", fx: rootQuake, x: 160, y: GROUND },
-    { at: 10.1, type: "attack", fx: poof, x: 120, y: GROUND },
-    { at: 13.0, type: "attack", fx: rootQuake, x: 160, y: GROUND },
+    { at: 2.2, type: "attack", fx: blast, x: 160, y: GROUND, flip: true },
+    { at: 5.2, type: "attack", fx: poof, x: 160, y: GROUND },
+    { at: 7.4, type: "attack", fx: blast, x: 210, y: GROUND, flip: true },
   ],
 };
 `,
@@ -430,5 +419,5 @@ mkdirSync(dirname(file), { recursive: true });
 writeFileSync(file, templates[kind]);
 const next = kind === "encounter"
   ? `node tools/encounter.mjs ${id}\nnode tools/index.mjs && node tools/check.mjs`
-  : `node tools/check.mjs ${id}\nnode tools/render.mjs ${id} --zoom 3\n${kind === "map" ? `node tools/map.mjs ${id}\n` : ""}${kind === "mob" || kind === "boss" ? `# give it an attack: node tools/new.mjs ${kind === "mob" ? "mobs" : "boss"}/<attack-name> --${kind}-attack\n` : ""}${kind === "boss" ? "# then an encounter: node tools/new.mjs <name> --encounter\n" : ""}node tools/index.mjs && node tools/check.mjs`;
+  : `node tools/check.mjs ${id}\nnode tools/render.mjs ${id} --zoom 3\n${kind === "map" ? `node tools/map.mjs ${id}\n` : ""}${kind === "mob" || kind === "boss" ? `# give it an attack: node tools/new.mjs ${kind === "mob" ? "mobs" : "boss"}/<attack-name> --${kind}-attack\n` : ""}${kind === "boss" ? "# then an encounter: node tools/new.mjs <name> --encounter (set encounter.boss)\n" : ""}node tools/index.mjs && node tools/check.mjs`;
 console.log(`wrote ${file}\nrole: ${kind}\nnext:\n${next.split("\n").map((line) => "  " + line).join("\n")}`);

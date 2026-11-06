@@ -31,8 +31,8 @@ npm run check
 
 `tools/index.mjs` updates `src/fx/index.js`, `docs/CATALOG.md`, and README counts/tables—do not hand-edit generated files. Confirm the count increased and the registry loads the new module by ID.
 
-The H5 chain is `gallery/workbench.js` → `gallery/app.js` → `src/fx/index.js`.
-A normal effect module plus a regenerated registry is enough for the workbench to discover it; you usually do not edit HTML or hard-coded asset lists.
+The H5 chain is `gallery/app.js` → `src/fx/index.js`.
+A normal effect module plus a regenerated registry is enough for the gallery to discover it; you usually do not edit HTML or hard-coded asset lists.
 
 ## 4. Sync the local resource folder
 
@@ -50,23 +50,23 @@ Keep atlas top-left coordinates, pivot, 30 FPS metadata and nearest-neighbour fi
 Cocos loads PNGs with `resources.load('<id>/texture', Texture2D)` and JSON with `resources.load('<id>', JsonAsset)`. Effect logic stays in `src/fx/`.
 If you change Cocos runtime components, edit `cocos/runtime/` and copy into `pixelfx-cocos/assets/scripts/pixelfx/`; compile per AGENTS.md. A plain new asset does not require runtime edits.
 
-## 5. Open and exercise the browser workbench
+## 5. Open and exercise the browser gallery
 
 Check whether a server is already running and serving this checkout. If not:
 
 ```bash
-npm run workbench
+npm run gallery
 ```
 
-Default URL: `http://localhost:8080/gallery/workbench.html?fx=lightning/storm-sigil`.
-If the port is taken by another project, use `npm run workbench -- 8081` (or another free port) and deliver the matching link.
+Default URL: `http://localhost:8080/gallery/`.
+If the port is taken by another project, use `npm run gallery -- 8081` (or another free port) and deliver the matching link.
 Open over HTTP; browser ES modules need a server.
 
-Verify with browser tools when available: correct name and ID, updated total count, category/search finds the asset, canvas animates on play, pause/replay and speed work, no relevant console errors. After refresh, the URL should still select the effect.
-Assets are tagged `original` / `new`; workbench source filter supports `workbench.html?source=new`, gallery supports `gallery/?source=new`. New assets are `new` automatically—do not edit every `meta.tags` for provenance.
-When you have a tool to open panels for the user, surface the direct workbench link.
+Verify with browser tools when available: correct name and ID, updated total count, category/search finds the asset, the preview canvas animates, pause/replay and speed work, no relevant console errors.
+Assets are tagged `original` / `new`; the gallery source filter supports `gallery/?source=new`. New assets are `new` automatically—do not edit every `meta.tags` for provenance.
+When you have a tool to open panels for the user, surface the gallery link, adding `?source=new` and the category hash (`#<category>`) when useful.
 
-The workbench lists by category; being the Nth new asset does not mean list position N—confirm by ID and name.
+The gallery lists by category; being the Nth new asset does not mean list position N—confirm by ID and name.
 Pure H5 runs source modules directly; it does not require Cocos PNG export.
 
 When you also use the static build:
@@ -75,7 +75,7 @@ When you also use the static build:
 npm run build:web
 ```
 
-Static preview: `/dist/gallery/workbench.html?fx=lightning/storm-sigil` on the same server.
+Static preview: `/dist/gallery/index.html?source=new#<category>` on the same server.
 Confirm the build page sees the new asset so an old bundle does not stick at the previous count.
 
 ## 6. Delivery

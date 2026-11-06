@@ -144,7 +144,7 @@ function patchReadme(path, lang = "en") {
     : lang === "zh" ? "_暂无新增特效。_" : "_No new effects yet._";
   text = text.replace(/<!-- count -->[\s\S]*?<!-- \/count -->/, `<!-- count -->${ids.length}<!-- /count -->`);
   text = text.replace(/<!-- original-count -->[\s\S]*?<!-- \/original-count -->/, `<!-- original-count -->${ids.length - newCount}<!-- /original-count -->`);
-  text = text.replace(/<!-- new-count -->[\s\S]*?<!-- \/new-count -->/, `<!-- new-count -->${newCount}<!-- /new-count -->`);
+  text = text.replace(/<!-- new-count -->[\s\S]*?<!-- \/new-count -->/g, `<!-- new-count -->${newCount}<!-- /new-count -->`);
   text = text.replace(/<!-- new-catalog -->[\s\S]*?<!-- \/new-catalog -->/, `<!-- new-catalog -->\n${newBlock}\n<!-- /new-catalog -->`);
   text = text.replace(/<!-- catalog -->[\s\S]*?<!-- \/catalog -->/, `<!-- catalog -->\n${table}\n<!-- /catalog -->`);
   writeFileSync(path, text);

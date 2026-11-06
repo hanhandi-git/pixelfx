@@ -58,13 +58,13 @@ export async function loadEffect(id, dir = FX_DIR) {
 }
 
 
-/** Every encounter id ("verdant-throne"), sorted. Files starting with _ are helpers, not encounters. */
+/** Every encounter id ("my-encounter"), sorted. Files starting with _ are helpers, not encounters. */
 export function allEncounterIds(dir = ENCOUNTER_DIR) {
   if (!existsSync(dir)) return [];
   return readdirSync(dir).filter((f) => f.endsWith(".js") && !f.startsWith("_") && f !== "index.js").sort().map((f) => f.slice(0, -3));
 }
 
-/** Encounter ids matching patterns: "verdant-throne", "*throne*", or a file path. */
+/** Encounter ids matching patterns: "my-encounter", "*skirmish*", or a file path. */
 export function resolveEncounterIds(patterns, dir = ENCOUNTER_DIR) {
   const all = allEncounterIds(dir), out = new Set();
   for (let p of patterns) {
@@ -153,7 +153,7 @@ export function renderFrames(fx, opts = {}) {
  * Returns { w, h, fps, n, frames: [{ t (effect time, negative before it starts), frozen, color }] }.
  */
 export function renderAct(fx, opts = {}) {
-  const { meta } = fx, fps = opts.fps ?? 60, b = actBounds(fx.mod), pad = opts.pad ?? 6;
+  const { meta } = fx, fps = opts.fps ?? 60, b = actBounds(fx.mod, opts.options), pad = opts.pad ?? 6;
   const w = b.x1 - b.x0 + pad * 2, h = b.y1 - b.y0 + pad * 2, X = pad - b.x0, Y = pad - b.y0;
   const frame = createFrame(w, h), bgKind = opts.bg ?? meta.bg, bg = bgKind === "none" ? null : backdrop(bgKind, w, h, Y);
   const act = createAct(fx.mod, { x: X, y: Y, ...(opts.seed !== undefined ? { seed: opts.seed } : {}), ...(opts.options ?? {}) });

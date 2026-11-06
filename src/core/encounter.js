@@ -2,7 +2,7 @@
 // the attacks are ordinary pixelfx effects; this runner only places them, plays the cues and draws the fight's UI,
 // so a showcase encounter and the real game read the same timing. See docs/FANTASY.md for the data contract.
 
-import { createFx, painterFor } from "./fx.js";
+import { createFx, painterFor, resolveOptions } from "./fx.js";
 import { clamp, rand } from "./math.js";
 import { hex } from "./color.js";
 import { stockActor, drawActor } from "./actor.js";
@@ -78,11 +78,28 @@ export function createEncounter(mod, o = {}) {
     if (target === "boss") return boss;
     return units.find((u) => u.id === target) ?? null;
   };
+  // A boss attack may declare the body performance that sells it: { cast, windup, hold, recover }. The unit reads
+  // its captured options every frame, so the pose changes in place without rebuilding the simulation.
+  const perform = (unit, spec) => {
+    if (!unit || unit.dying || !spec) return;
+    const o = unit.fx.options;
+    o.pose = "cast";
+    o.cast = spec.cast ?? "cast";
+    o.poseT = 0;
+    o.poseWindup = Math.max(0, spec.windup ?? 0.5);
+    o.poseHold = Math.max(0, spec.hold ?? 0.3);
+    o.poseRecover = Math.max(0, spec.recover ?? 0.6);
+  };
 
   function fire(c) {
     switch (c.type) {
       case "phase": {
         hpTarget = clamp(c.hp ?? hpTarget, 0, 1);
+        // Change visual state in place: simulations keep their clocks and their captured options object.
+        if (c.bossOptions && boss)
+          Object.assign(boss.fx.options, resolveOptions(boss.mod.meta, { ...boss.fx.options, ...c.bossOptions }));
+        if (c.mapOptions)
+          Object.assign(mapFx.options, resolveOptions(E.map.meta, { ...mapFx.options, ...c.mapOptions }));
         showBanner(c.name ?? "PHASE", c.sub, "phase", c.dur ?? 2.4);
         if (c.shake) startShake(c.shake, c.shakeDur ?? 0.4);
         break;
@@ -106,13 +123,27 @@ export function createEncounter(mod, o = {}) {
           seed: seed + 200 + acts.length * 53, ...(o.options ?? {}), ...(c.options ?? {}),
         });
         acts.push({ inst, over: false, until: c.until ?? Infinity });
+        perform(boss, c.fx.attack?.pose);
         for (const h of c.fx.attack?.hits ?? []) hits.push({ at: c.at + (h.t ?? 0), hit: h, cue: c });
         if (c.shake) startShake(c.shake, c.shakeDur ?? 0.3);
         break;
       }
       case "defeat": {
         const u = unitFor(c.target);
-        if (u) u.gone = true;
+        if (u) {
+          // A boss with a death performance keeps its body on screen while the pose plays out.
+          const dieFor = c.dieFor ?? (u.role === "boss" ? u.mod?.boss?.dieFor ?? 0 : 0);
+          if (u.role === "boss" && dieFor > 0) {
+            u.dying = true;
+            u.dieAt = t;
+            u.dieFor = dieFor;
+            const po = u.fx.options;
+            po.pose = "die";
+            po.cast = "die";
+            po.poseT = 0;
+            po.poseDur = dieFor;
+          } else u.gone = true;
+        }
         if (c.target === "boss") hpTarget = 0;
         if (c.shake !== false) startShake(c.shake ?? 3, c.shakeDur ?? 0.35);
         break;
@@ -150,6 +181,24 @@ export function createEncounter(mod, o = {}) {
       for (const u of units) {
         if (u.gone || t < u.appearAt || t >= u.until) continue;
         u.fx.update(dt);
+        // the pose clock: windup (the tell) -> release inside "cast" -> "recover" -> "idle". A dying boss
+        // simply runs its death pose until its body is removed.
+        const po = u.fx.options;
+        if (po.pose === "cast" || po.pose === "recover" || po.pose === "die") {
+          po.poseT = (po.poseT ?? 0) + dt;
+          const release = (po.poseWindup ?? 0) + (po.poseHold ?? 0);
+          if (po.pose === "cast" && po.poseT >= release) po.pose = "recover";
+          else if (po.pose === "recover" && po.poseT >= release + (po.poseRecover ?? 0)) {
+            po.pose = "idle";
+            po.poseT = 0;
+            po.cast = null;
+          }
+        }
+        if (u.dying && t >= u.dieAt + u.dieFor) {
+          u.gone = true;
+          u.dying = false;
+          po.pose = "idle";
+        }
       }
       for (const a of acts) {
         if (a.over) continue;

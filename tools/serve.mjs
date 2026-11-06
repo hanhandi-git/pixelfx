@@ -16,7 +16,7 @@ const TYPES = {
 
 createServer(async (req, res) => {
   let path = decodeURIComponent(new URL(req.url, "http://x").pathname);
-  if (path === "/") return res.writeHead(302, { location: "/gallery/" }).end();
+  if (path === "/" || path === "/index.html") return res.writeHead(302, { location: "/gallery/" }).end();
   if (path.endsWith("/")) path += "index.html";
   const file = normalize(join(ROOT, path));
   if (!file.startsWith(ROOT + sep)) return res.writeHead(403).end();

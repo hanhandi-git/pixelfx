@@ -1,5 +1,14 @@
 # AGENTS.md
 
+## Deployment
+
+本项目的修改完成后，默认使用个人 skill `commit-push-deploy`，按
+`.codex/deploy.json` 自动验证、commit、push、部署并执行线上验收。
+在当前会话的技能列表或 `$CODEX_HOME/skills`（未设置时 `~/.codex/skills`）
+查找该 skill 的 `SKILL.md` 并遵循。用户明确要求跳过时遵从本次指令。
+默认服务器 `ubuntu@42.192.38.33`，所有正式服务必须能从
+`cd /home/ubuntu/code && ./compose-manager.py` 中查看。详见 `docs/DEPLOY.md`。
+
 ## Project overview
 
 `pixelfx` is a code driven pixel art VFX library. The canonical effect definitions live in
@@ -21,13 +30,12 @@ new native implementation.
 - `src/fx/boss/`: boss loops (`kind: "boss"`, phases) and screen-wide attacks (`kind: "boss-attack"`).
 - `src/encounters/<id>.js`: encounter choreography (map, hero, units, attacks, phases, timeline).
 - `src/fx/index.js`: generated effect registry. Regenerate it with `node tools/index.mjs`.
-- `src/fx/provenance.js`: the 244-effect original baseline; anything not listed is `new` in the workbench/gallery source filter.
+- `src/fx/provenance.js`: the 244-effect original baseline; anything not listed is `new` in the gallery source filter.
 - `src/encounters/index.js`: generated encounter registry.
 - `tools/`: rendering, checking, sprite-sheet export, map/encounter previews and gallery tooling.
 - `gallery/fantasy.html`: live encounter player (the same timeline the tools render).
 - `cocos/runtime/PixelfxSprite.ts`: reusable Cocos Creator 3.x playback component (copy into a game or `pixelfx-cocos`).
 - [pixelfx-cocos](https://github.com/hanhandi-git/pixelfx-cocos) (`../pixelfx-cocos/`): Cocos Creator 3.8.8 project — scenes, workbench scripts, generated `assets/resources/pixelfx/`.
-- `gallery/workbench.html`: standalone browser-only H5 workbench; it does not use Cocos Creator.
 - `docs/`: catalog and authoring documentation.
 
 ## Runtime and engine contract
@@ -55,13 +63,12 @@ npm ci                         # install dependencies
 npm run check                  # validate all effects
 npm run render -- fire/torch   # render a contact sheet
 npm run gallery                # start the browser gallery
-npm run workbench              # serve the same repo; open /gallery/workbench.html
-npm run build:web              # build static gallery + workbench into dist/gallery
+npm run build:web              # build the static gallery into dist/gallery
 npm run cocos:export -- fire/torch
 npm run cocos:export           # export all effects into pixelfx-cocos
 
 npm run map -- world/mossy-ruins                 # map contact, layout and gameplay images
-npm run encounter -- verdant-throne --mp4        # encounter contact sheet, timeline JSON and video
+npm run encounter -- <name> --mp4                # encounter contact sheet, timeline JSON and video
 ```
 
 Fantasy content starters:
@@ -87,7 +94,7 @@ Copy intentional runtime edits from `cocos/runtime/` into `pixelfx-cocos/assets/
 
 After changing source effects, run `npm run check` and regenerate Cocos assets in **pixelfx-cocos** when
 the Creator preview needs the changed effect. A full export writes hundreds of generated files and can take time.
-The H5 workbench and fantasy encounter page import source modules directly, so they need no Cocos export step.
+The gallery and fantasy encounter page import source modules directly, so they need no Cocos export step.
 
 ## Effect authoring rules
 

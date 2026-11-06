@@ -62,12 +62,18 @@ import * as lightning_ball_lightning from "./lightning/ball-lightning.js";
 import * as lightning_chain_lightning from "./lightning/chain-lightning.js";
 import * as lightning_charge_up from "./lightning/charge-up.js";
 import * as lightning_electrified from "./lightning/electrified.js";
+import * as lightning_forked_burst from "./lightning/forked-burst.js";
+import * as lightning_ground_surge from "./lightning/ground-surge.js";
 import * as lightning_lightning_strike from "./lightning/lightning-strike.js";
 import * as lightning_plasma_ball from "./lightning/plasma-ball.js";
 import * as lightning_spark_arc from "./lightning/spark-arc.js";
+import * as lightning_static_cage from "./lightning/static-cage.js";
 import * as lightning_storm_cloud from "./lightning/storm-cloud.js";
 import * as lightning_storm_sigil from "./lightning/storm-sigil.js";
+import * as lightning_storm_vortex from "./lightning/storm-vortex.js";
 import * as lightning_tesla_coil from "./lightning/tesla-coil.js";
+import * as lightning_thunder_rain from "./lightning/thunder-rain.js";
+import * as lightning_thunder_spear from "./lightning/thunder-spear.js";
 import * as lightning_thunderclap from "./lightning/thunderclap.js";
 import * as lightning_zap_hit from "./lightning/zap-hit.js";
 import * as scifi_emp_blast from "./scifi/emp-blast.js";
@@ -87,13 +93,27 @@ import * as melee_dagger_flurry from "./melee/dagger-flurry.js";
 import * as melee_double_slash from "./melee/double-slash.js";
 import * as melee_hammer_smash from "./melee/hammer-smash.js";
 import * as melee_heavy_cleave from "./melee/heavy-cleave.js";
+import * as melee_holy_sword_cleave from "./melee/holy-sword-cleave.js";
+import * as melee_katana_draw from "./melee/katana-draw.js";
+import * as melee_lance_thrust from "./melee/lance-thrust.js";
+import * as melee_mace_crush from "./melee/mace-crush.js";
+import * as melee_rapier_lunge from "./melee/rapier-lunge.js";
 import * as melee_scythe_reap from "./melee/scythe-reap.js";
 import * as melee_spear_sweep from "./melee/spear-sweep.js";
 import * as melee_spin_slash from "./melee/spin-slash.js";
+import * as melee_staff_combo from "./melee/staff-combo.js";
 import * as melee_sword_slash from "./melee/sword-slash.js";
 import * as melee_thrust from "./melee/thrust.js";
 import * as melee_uppercut from "./melee/uppercut.js";
 import * as melee_whip_crack from "./melee/whip-crack.js";
+import * as thrown_binding_silk_throw from "./thrown/binding-silk-throw.js";
+import * as thrown_boomerang_throw from "./thrown/boomerang-throw.js";
+import * as thrown_flying_sword_throw from "./thrown/flying-sword-throw.js";
+import * as thrown_kunai_throw from "./thrown/kunai-throw.js";
+import * as thrown_pear_needles_throw from "./thrown/pear-needles-throw.js";
+import * as thrown_powder_bomb_throw from "./thrown/powder-bomb-throw.js";
+import * as thrown_soul_bell_throw from "./thrown/soul-bell-throw.js";
+import * as thrown_talisman_throw from "./thrown/talisman-throw.js";
 import * as impacts_blunt_hit from "./impacts/blunt-hit.js";
 import * as impacts_bullet_impact from "./impacts/bullet-impact.js";
 import * as impacts_crit_hit from "./impacts/crit-hit.js";
@@ -122,6 +142,7 @@ import * as spawn_coin_drop from "./spawn/coin-drop.js";
 import * as spawn_disintegrate from "./spawn/disintegrate.js";
 import * as spawn_dissolve_burn from "./spawn/dissolve-burn.js";
 import * as spawn_egg_hatch from "./spawn/egg-hatch.js";
+import * as spawn_ink_unravel from "./spawn/ink-unravel.js";
 import * as spawn_poof from "./spawn/poof.js";
 import * as spawn_respawn_beam from "./spawn/respawn-beam.js";
 import * as spawn_shanhaijing_summon from "./spawn/shanhaijing-summon.js";
@@ -135,6 +156,7 @@ import * as arcane_arcane_missiles from "./arcane/arcane-missiles.js";
 import * as arcane_arcane_orb from "./arcane/arcane-orb.js";
 import * as arcane_blink_in from "./arcane/blink-in.js";
 import * as arcane_blink_out from "./arcane/blink-out.js";
+import * as arcane_flow_seal from "./arcane/flow-seal.js";
 import * as arcane_magic_circle_cast from "./arcane/magic-circle-cast.js";
 import * as arcane_mana_burst from "./arcane/mana-burst.js";
 import * as arcane_portal from "./arcane/portal.js";
@@ -142,6 +164,24 @@ import * as arcane_rune_circle from "./arcane/rune-circle.js";
 import * as arcane_spell_charge from "./arcane/spell-charge.js";
 import * as arcane_star_fall from "./arcane/star-fall.js";
 import * as arcane_time_stop from "./arcane/time-stop.js";
+import * as ninjutsu_amaterasu from "./ninjutsu/amaterasu.js";
+import * as ninjutsu_chidori_rush from "./ninjutsu/chidori-rush.js";
+import * as ninjutsu_earth_wall from "./ninjutsu/earth-wall.js";
+import * as ninjutsu_great_breakthrough from "./ninjutsu/great-breakthrough.js";
+import * as ninjutsu_great_fireball from "./ninjutsu/great-fireball.js";
+import * as ninjutsu_kirin from "./ninjutsu/kirin.js";
+import * as ninjutsu_lightning_blade from "./ninjutsu/lightning-blade.js";
+import * as ninjutsu_phoenix_flower from "./ninjutsu/phoenix-flower.js";
+import * as ninjutsu_shadow_clone from "./ninjutsu/shadow-clone.js";
+import * as ninjutsu_spiral_orb from "./ninjutsu/spiral-orb.js";
+import * as ninjutsu_water_dragon from "./ninjutsu/water-dragon.js";
+import * as ninjutsu_water_wall from "./ninjutsu/water-wall.js";
+import * as senjutsu_gate_of_the_great_god from "./senjutsu/gate-of-the-great-god.js";
+import * as senjutsu_goemon from "./senjutsu/goemon.js";
+import * as senjutsu_sage_orb from "./senjutsu/sage-orb.js";
+import * as senjutsu_true_thousand_hands from "./senjutsu/true-thousand-hands.js";
+import * as senjutsu_white_flash from "./senjutsu/white-flash.js";
+import * as senjutsu_wind_shuriken from "./senjutsu/wind-shuriken.js";
 import * as holy_blessing from "./holy/blessing.js";
 import * as holy_divine_shield from "./holy/divine-shield.js";
 import * as holy_feather_burst from "./holy/feather-burst.js";
@@ -214,17 +254,47 @@ import * as ui_health_bar_hit from "./ui/health-bar-hit.js";
 import * as ui_heart_lost from "./ui/heart-lost.js";
 import * as ui_level_up from "./ui/level-up.js";
 import * as ui_quest_complete from "./ui/quest-complete.js";
+import * as pickups_cash_coin from "./pickups/cash-coin.js";
 import * as pickups_chest_open from "./pickups/chest-open.js";
 import * as pickups_coin_spin from "./pickups/coin-spin.js";
 import * as pickups_collect_burst from "./pickups/collect-burst.js";
 import * as pickups_crystal_shard from "./pickups/crystal-shard.js";
+import * as pickups_dragon_pearl from "./pickups/dragon-pearl.js";
+import * as pickups_elixir_gourd from "./pickups/elixir-gourd.js";
+import * as pickups_flying_sword from "./pickups/flying-sword.js";
 import * as pickups_gem_spin from "./pickups/gem-spin.js";
+import * as pickups_gold_ingot from "./pickups/gold-ingot.js";
 import * as pickups_heart_pickup from "./pickups/heart-pickup.js";
+import * as pickups_immortal_fan from "./pickups/immortal-fan.js";
+import * as pickups_jade_pendant from "./pickups/jade-pendant.js";
+import * as pickups_jade_slip from "./pickups/jade-slip.js";
 import * as pickups_key_glint from "./pickups/key-glint.js";
 import * as pickups_loot_beam from "./pickups/loot-beam.js";
+import * as pickups_lotus_lamp from "./pickups/lotus-lamp.js";
+import * as pickups_paper_lantern from "./pickups/paper-lantern.js";
+import * as pickups_paper_talisman from "./pickups/paper-talisman.js";
 import * as pickups_potion from "./pickups/potion.js";
 import * as pickups_power_star from "./pickups/power-star.js";
+import * as pickups_spirit_butterfly from "./pickups/spirit-butterfly.js";
+import * as pickups_spirit_stone from "./pickups/spirit-stone.js";
 import * as pickups_xp_orb from "./pickups/xp-orb.js";
+import * as miku_encore from "./miku/encore.js";
+import * as miku_leek_smash from "./miku/leek-smash.js";
+import * as miku_song_aura from "./miku/song-aura.js";
+import * as miku_sound_wave from "./miku/sound-wave.js";
+import * as miku_vocal_burst from "./miku/vocal-burst.js";
+import * as konosuba_explosion_chant from "./konosuba/explosion-chant.js";
+import * as konosuba_explosion_crater from "./konosuba/explosion-crater.js";
+import * as konosuba_explosion_ritual from "./konosuba/explosion-ritual.js";
+import * as konosuba_explosion_strike from "./konosuba/explosion-strike.js";
+import * as dragonball_destructo_disc from "./dragonball/destructo-disc.js";
+import * as dragonball_drill_beam from "./dragonball/drill-beam.js";
+import * as dragonball_golden_aura from "./dragonball/golden-aura.js";
+import * as dragonball_ki_charge from "./dragonball/ki-charge.js";
+import * as dragonball_ki_volley from "./dragonball/ki-volley.js";
+import * as dragonball_ki_wave from "./dragonball/ki-wave.js";
+import * as dragonball_solar_flash from "./dragonball/solar-flash.js";
+import * as dragonball_spirit_bomb from "./dragonball/spirit-bomb.js";
 import * as transitions_blinds from "./transitions/blinds.js";
 import * as transitions_burn_away from "./transitions/burn-away.js";
 import * as transitions_crt_off from "./transitions/crt-off.js";
@@ -250,17 +320,10 @@ import * as critters_wisp from "./critters/wisp.js";
 import * as world_aurora_pass from "./world/aurora-pass.js";
 import * as world_crystal_hollow from "./world/crystal-hollow.js";
 import * as world_ember_depths from "./world/ember-depths.js";
+import * as world_inkbound_shrine from "./world/inkbound-shrine.js";
 import * as world_mossy_ruins from "./world/mossy-ruins.js";
 import * as world_sunscar_temple from "./world/sunscar-temple.js";
 import * as world_wisp_marsh from "./world/wisp-marsh.js";
-import * as mobs_goblin_jab from "./mobs/goblin-jab.js";
-import * as mobs_goblin_raider from "./mobs/goblin-raider.js";
-import * as mobs_spore_puff from "./mobs/spore-puff.js";
-import * as mobs_sporeling from "./mobs/sporeling.js";
-import * as boss_phase_roar from "./boss/phase-roar.js";
-import * as boss_root_quake from "./boss/root-quake.js";
-import * as boss_thorn_king from "./boss/thorn-king.js";
-import * as boss_thorn_volley from "./boss/thorn-volley.js";
 
 export { categories } from "./categories.js";
 export { originOf, ORIGINS, ORIGINAL_EFFECTS } from "./provenance.js";
@@ -328,12 +391,18 @@ export const effects = {
   "lightning/chain-lightning": lightning_chain_lightning,
   "lightning/charge-up": lightning_charge_up,
   "lightning/electrified": lightning_electrified,
+  "lightning/forked-burst": lightning_forked_burst,
+  "lightning/ground-surge": lightning_ground_surge,
   "lightning/lightning-strike": lightning_lightning_strike,
   "lightning/plasma-ball": lightning_plasma_ball,
   "lightning/spark-arc": lightning_spark_arc,
+  "lightning/static-cage": lightning_static_cage,
   "lightning/storm-cloud": lightning_storm_cloud,
   "lightning/storm-sigil": lightning_storm_sigil,
+  "lightning/storm-vortex": lightning_storm_vortex,
   "lightning/tesla-coil": lightning_tesla_coil,
+  "lightning/thunder-rain": lightning_thunder_rain,
+  "lightning/thunder-spear": lightning_thunder_spear,
   "lightning/thunderclap": lightning_thunderclap,
   "lightning/zap-hit": lightning_zap_hit,
   "scifi/emp-blast": scifi_emp_blast,
@@ -353,13 +422,27 @@ export const effects = {
   "melee/double-slash": melee_double_slash,
   "melee/hammer-smash": melee_hammer_smash,
   "melee/heavy-cleave": melee_heavy_cleave,
+  "melee/holy-sword-cleave": melee_holy_sword_cleave,
+  "melee/katana-draw": melee_katana_draw,
+  "melee/lance-thrust": melee_lance_thrust,
+  "melee/mace-crush": melee_mace_crush,
+  "melee/rapier-lunge": melee_rapier_lunge,
   "melee/scythe-reap": melee_scythe_reap,
   "melee/spear-sweep": melee_spear_sweep,
   "melee/spin-slash": melee_spin_slash,
+  "melee/staff-combo": melee_staff_combo,
   "melee/sword-slash": melee_sword_slash,
   "melee/thrust": melee_thrust,
   "melee/uppercut": melee_uppercut,
   "melee/whip-crack": melee_whip_crack,
+  "thrown/binding-silk-throw": thrown_binding_silk_throw,
+  "thrown/boomerang-throw": thrown_boomerang_throw,
+  "thrown/flying-sword-throw": thrown_flying_sword_throw,
+  "thrown/kunai-throw": thrown_kunai_throw,
+  "thrown/pear-needles-throw": thrown_pear_needles_throw,
+  "thrown/powder-bomb-throw": thrown_powder_bomb_throw,
+  "thrown/soul-bell-throw": thrown_soul_bell_throw,
+  "thrown/talisman-throw": thrown_talisman_throw,
   "impacts/blunt-hit": impacts_blunt_hit,
   "impacts/bullet-impact": impacts_bullet_impact,
   "impacts/crit-hit": impacts_crit_hit,
@@ -388,6 +471,7 @@ export const effects = {
   "spawn/disintegrate": spawn_disintegrate,
   "spawn/dissolve-burn": spawn_dissolve_burn,
   "spawn/egg-hatch": spawn_egg_hatch,
+  "spawn/ink-unravel": spawn_ink_unravel,
   "spawn/poof": spawn_poof,
   "spawn/respawn-beam": spawn_respawn_beam,
   "spawn/shanhaijing-summon": spawn_shanhaijing_summon,
@@ -401,6 +485,7 @@ export const effects = {
   "arcane/arcane-orb": arcane_arcane_orb,
   "arcane/blink-in": arcane_blink_in,
   "arcane/blink-out": arcane_blink_out,
+  "arcane/flow-seal": arcane_flow_seal,
   "arcane/magic-circle-cast": arcane_magic_circle_cast,
   "arcane/mana-burst": arcane_mana_burst,
   "arcane/portal": arcane_portal,
@@ -408,6 +493,24 @@ export const effects = {
   "arcane/spell-charge": arcane_spell_charge,
   "arcane/star-fall": arcane_star_fall,
   "arcane/time-stop": arcane_time_stop,
+  "ninjutsu/amaterasu": ninjutsu_amaterasu,
+  "ninjutsu/chidori-rush": ninjutsu_chidori_rush,
+  "ninjutsu/earth-wall": ninjutsu_earth_wall,
+  "ninjutsu/great-breakthrough": ninjutsu_great_breakthrough,
+  "ninjutsu/great-fireball": ninjutsu_great_fireball,
+  "ninjutsu/kirin": ninjutsu_kirin,
+  "ninjutsu/lightning-blade": ninjutsu_lightning_blade,
+  "ninjutsu/phoenix-flower": ninjutsu_phoenix_flower,
+  "ninjutsu/shadow-clone": ninjutsu_shadow_clone,
+  "ninjutsu/spiral-orb": ninjutsu_spiral_orb,
+  "ninjutsu/water-dragon": ninjutsu_water_dragon,
+  "ninjutsu/water-wall": ninjutsu_water_wall,
+  "senjutsu/gate-of-the-great-god": senjutsu_gate_of_the_great_god,
+  "senjutsu/goemon": senjutsu_goemon,
+  "senjutsu/sage-orb": senjutsu_sage_orb,
+  "senjutsu/true-thousand-hands": senjutsu_true_thousand_hands,
+  "senjutsu/white-flash": senjutsu_white_flash,
+  "senjutsu/wind-shuriken": senjutsu_wind_shuriken,
   "holy/blessing": holy_blessing,
   "holy/divine-shield": holy_divine_shield,
   "holy/feather-burst": holy_feather_burst,
@@ -480,17 +583,47 @@ export const effects = {
   "ui/heart-lost": ui_heart_lost,
   "ui/level-up": ui_level_up,
   "ui/quest-complete": ui_quest_complete,
+  "pickups/cash-coin": pickups_cash_coin,
   "pickups/chest-open": pickups_chest_open,
   "pickups/coin-spin": pickups_coin_spin,
   "pickups/collect-burst": pickups_collect_burst,
   "pickups/crystal-shard": pickups_crystal_shard,
+  "pickups/dragon-pearl": pickups_dragon_pearl,
+  "pickups/elixir-gourd": pickups_elixir_gourd,
+  "pickups/flying-sword": pickups_flying_sword,
   "pickups/gem-spin": pickups_gem_spin,
+  "pickups/gold-ingot": pickups_gold_ingot,
   "pickups/heart-pickup": pickups_heart_pickup,
+  "pickups/immortal-fan": pickups_immortal_fan,
+  "pickups/jade-pendant": pickups_jade_pendant,
+  "pickups/jade-slip": pickups_jade_slip,
   "pickups/key-glint": pickups_key_glint,
   "pickups/loot-beam": pickups_loot_beam,
+  "pickups/lotus-lamp": pickups_lotus_lamp,
+  "pickups/paper-lantern": pickups_paper_lantern,
+  "pickups/paper-talisman": pickups_paper_talisman,
   "pickups/potion": pickups_potion,
   "pickups/power-star": pickups_power_star,
+  "pickups/spirit-butterfly": pickups_spirit_butterfly,
+  "pickups/spirit-stone": pickups_spirit_stone,
   "pickups/xp-orb": pickups_xp_orb,
+  "miku/encore": miku_encore,
+  "miku/leek-smash": miku_leek_smash,
+  "miku/song-aura": miku_song_aura,
+  "miku/sound-wave": miku_sound_wave,
+  "miku/vocal-burst": miku_vocal_burst,
+  "konosuba/explosion-chant": konosuba_explosion_chant,
+  "konosuba/explosion-crater": konosuba_explosion_crater,
+  "konosuba/explosion-ritual": konosuba_explosion_ritual,
+  "konosuba/explosion-strike": konosuba_explosion_strike,
+  "dragonball/destructo-disc": dragonball_destructo_disc,
+  "dragonball/drill-beam": dragonball_drill_beam,
+  "dragonball/golden-aura": dragonball_golden_aura,
+  "dragonball/ki-charge": dragonball_ki_charge,
+  "dragonball/ki-volley": dragonball_ki_volley,
+  "dragonball/ki-wave": dragonball_ki_wave,
+  "dragonball/solar-flash": dragonball_solar_flash,
+  "dragonball/spirit-bomb": dragonball_spirit_bomb,
   "transitions/blinds": transitions_blinds,
   "transitions/burn-away": transitions_burn_away,
   "transitions/crt-off": transitions_crt_off,
@@ -516,17 +649,10 @@ export const effects = {
   "world/aurora-pass": world_aurora_pass,
   "world/crystal-hollow": world_crystal_hollow,
   "world/ember-depths": world_ember_depths,
+  "world/inkbound-shrine": world_inkbound_shrine,
   "world/mossy-ruins": world_mossy_ruins,
   "world/sunscar-temple": world_sunscar_temple,
   "world/wisp-marsh": world_wisp_marsh,
-  "mobs/goblin-jab": mobs_goblin_jab,
-  "mobs/goblin-raider": mobs_goblin_raider,
-  "mobs/spore-puff": mobs_spore_puff,
-  "mobs/sporeling": mobs_sporeling,
-  "boss/phase-roar": boss_phase_roar,
-  "boss/root-quake": boss_root_quake,
-  "boss/thorn-king": boss_thorn_king,
-  "boss/thorn-volley": boss_thorn_volley,
 };
 
 export const provenance = {
@@ -592,12 +718,18 @@ export const provenance = {
   "lightning/chain-lightning": "original",
   "lightning/charge-up": "original",
   "lightning/electrified": "original",
+  "lightning/forked-burst": "new",
+  "lightning/ground-surge": "new",
   "lightning/lightning-strike": "original",
   "lightning/plasma-ball": "original",
   "lightning/spark-arc": "original",
+  "lightning/static-cage": "new",
   "lightning/storm-cloud": "original",
   "lightning/storm-sigil": "new",
+  "lightning/storm-vortex": "new",
   "lightning/tesla-coil": "original",
+  "lightning/thunder-rain": "new",
+  "lightning/thunder-spear": "new",
   "lightning/thunderclap": "original",
   "lightning/zap-hit": "original",
   "scifi/emp-blast": "original",
@@ -617,13 +749,27 @@ export const provenance = {
   "melee/double-slash": "original",
   "melee/hammer-smash": "original",
   "melee/heavy-cleave": "original",
+  "melee/holy-sword-cleave": "new",
+  "melee/katana-draw": "new",
+  "melee/lance-thrust": "new",
+  "melee/mace-crush": "new",
+  "melee/rapier-lunge": "new",
   "melee/scythe-reap": "original",
   "melee/spear-sweep": "original",
   "melee/spin-slash": "original",
+  "melee/staff-combo": "new",
   "melee/sword-slash": "original",
   "melee/thrust": "original",
   "melee/uppercut": "original",
   "melee/whip-crack": "original",
+  "thrown/binding-silk-throw": "new",
+  "thrown/boomerang-throw": "new",
+  "thrown/flying-sword-throw": "new",
+  "thrown/kunai-throw": "new",
+  "thrown/pear-needles-throw": "new",
+  "thrown/powder-bomb-throw": "new",
+  "thrown/soul-bell-throw": "new",
+  "thrown/talisman-throw": "new",
   "impacts/blunt-hit": "original",
   "impacts/bullet-impact": "original",
   "impacts/crit-hit": "original",
@@ -652,6 +798,7 @@ export const provenance = {
   "spawn/disintegrate": "original",
   "spawn/dissolve-burn": "original",
   "spawn/egg-hatch": "original",
+  "spawn/ink-unravel": "new",
   "spawn/poof": "original",
   "spawn/respawn-beam": "original",
   "spawn/shanhaijing-summon": "new",
@@ -665,6 +812,7 @@ export const provenance = {
   "arcane/arcane-orb": "original",
   "arcane/blink-in": "original",
   "arcane/blink-out": "original",
+  "arcane/flow-seal": "new",
   "arcane/magic-circle-cast": "original",
   "arcane/mana-burst": "original",
   "arcane/portal": "original",
@@ -672,6 +820,24 @@ export const provenance = {
   "arcane/spell-charge": "original",
   "arcane/star-fall": "original",
   "arcane/time-stop": "original",
+  "ninjutsu/amaterasu": "new",
+  "ninjutsu/chidori-rush": "new",
+  "ninjutsu/earth-wall": "new",
+  "ninjutsu/great-breakthrough": "new",
+  "ninjutsu/great-fireball": "new",
+  "ninjutsu/kirin": "new",
+  "ninjutsu/lightning-blade": "new",
+  "ninjutsu/phoenix-flower": "new",
+  "ninjutsu/shadow-clone": "new",
+  "ninjutsu/spiral-orb": "new",
+  "ninjutsu/water-dragon": "new",
+  "ninjutsu/water-wall": "new",
+  "senjutsu/gate-of-the-great-god": "new",
+  "senjutsu/goemon": "new",
+  "senjutsu/sage-orb": "new",
+  "senjutsu/true-thousand-hands": "new",
+  "senjutsu/white-flash": "new",
+  "senjutsu/wind-shuriken": "new",
   "holy/blessing": "original",
   "holy/divine-shield": "original",
   "holy/feather-burst": "original",
@@ -744,17 +910,47 @@ export const provenance = {
   "ui/heart-lost": "original",
   "ui/level-up": "original",
   "ui/quest-complete": "original",
+  "pickups/cash-coin": "new",
   "pickups/chest-open": "original",
   "pickups/coin-spin": "original",
   "pickups/collect-burst": "original",
   "pickups/crystal-shard": "original",
+  "pickups/dragon-pearl": "new",
+  "pickups/elixir-gourd": "new",
+  "pickups/flying-sword": "new",
   "pickups/gem-spin": "original",
+  "pickups/gold-ingot": "new",
   "pickups/heart-pickup": "original",
+  "pickups/immortal-fan": "new",
+  "pickups/jade-pendant": "new",
+  "pickups/jade-slip": "new",
   "pickups/key-glint": "original",
   "pickups/loot-beam": "original",
+  "pickups/lotus-lamp": "new",
+  "pickups/paper-lantern": "new",
+  "pickups/paper-talisman": "new",
   "pickups/potion": "original",
   "pickups/power-star": "original",
+  "pickups/spirit-butterfly": "new",
+  "pickups/spirit-stone": "new",
   "pickups/xp-orb": "original",
+  "miku/encore": "new",
+  "miku/leek-smash": "new",
+  "miku/song-aura": "new",
+  "miku/sound-wave": "new",
+  "miku/vocal-burst": "new",
+  "konosuba/explosion-chant": "new",
+  "konosuba/explosion-crater": "new",
+  "konosuba/explosion-ritual": "new",
+  "konosuba/explosion-strike": "new",
+  "dragonball/destructo-disc": "new",
+  "dragonball/drill-beam": "new",
+  "dragonball/golden-aura": "new",
+  "dragonball/ki-charge": "new",
+  "dragonball/ki-volley": "new",
+  "dragonball/ki-wave": "new",
+  "dragonball/solar-flash": "new",
+  "dragonball/spirit-bomb": "new",
   "transitions/blinds": "original",
   "transitions/burn-away": "original",
   "transitions/crt-off": "original",
@@ -780,15 +976,8 @@ export const provenance = {
   "world/aurora-pass": "new",
   "world/crystal-hollow": "new",
   "world/ember-depths": "new",
+  "world/inkbound-shrine": "new",
   "world/mossy-ruins": "new",
   "world/sunscar-temple": "new",
   "world/wisp-marsh": "new",
-  "mobs/goblin-jab": "new",
-  "mobs/goblin-raider": "new",
-  "mobs/spore-puff": "new",
-  "mobs/sporeling": "new",
-  "boss/phase-roar": "new",
-  "boss/root-quake": "new",
-  "boss/thorn-king": "new",
-  "boss/thorn-volley": "new",
 };

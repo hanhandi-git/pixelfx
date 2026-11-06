@@ -6,7 +6,8 @@
 import { Rng, clamp } from "./math.js";
 import { hex, mix } from "./color.js";
 import { createFrame, clearFrame, createFx, painterFor } from "./fx.js";
-import { stockActor, drawActor, actorAlphaOf, HERO2, DUMMY_PAL } from "./actor.js";
+import { stockActor, drawActor, actorAlphaOf } from "./actor.js";
+import { characterOf } from "./characters.js";
 import { posed, STAND } from "./rig.js";
 
 export { STAND, posed };
@@ -164,26 +165,26 @@ export class Target {
 
 // ---- the act itself
 const GHOST_LIFE = 0.16;
-const REST_MASK = new Uint8Array(24 * 38), REST_PX = new Uint32Array(24 * 38);
-HERO2.forEach((row, r) => [...row].forEach((ch, c) => {
-  if (ch !== ".") {
-    REST_MASK[r * 24 + c] = 1;
-    REST_PX[r * 24 + c] = hex(DUMMY_PAL[ch]);
-  }
-}));
-
-// every cell of the standing sprite, mapped to the nearest cell that's on the body
-const NEAREST = new Int16Array(24 * 38).fill(-1);
-for (let r = 0; r < 38; r++)
-  for (let c = 0; c < 24; c++) {
+const REST_MAPS = new Map();
+// Costume silhouettes have their own sizes. Map each rest cell to the nearest body cell
+// so frost, dissolve and other body effects also follow a moving cape or headdress.
+function restMap(actor) {
+  const key = actor.character ?? "dummy";
+  if (REST_MAPS.has(key)) return REST_MAPS.get(key);
+  const { w, h } = actor, nearest = new Int16Array(w * h).fill(-1), mask = actor.mask.data;
+  for (let r = 0; r < h; r++) for (let c = 0; c < w; c++) {
     let best = -1, bd = 1e9;
-    for (let y = Math.max(0, r - 7); y < Math.min(38, r + 8); y++)
-      for (let x = Math.max(0, c - 7); x < Math.min(24, c + 8); x++) {
+    for (let y = Math.max(0, r - 7); y < Math.min(h, r + 8); y++)
+      for (let x = Math.max(0, c - 7); x < Math.min(w, c + 8); x++) {
         const d = (x - c) * (x - c) + (y - r) * (y - r);
-        if (REST_MASK[y * 24 + x] && d < bd) { bd = d; best = y * 24 + x; }
+        if (mask[y * w + x] && d < bd) { bd = d; best = y * w + x; }
       }
-    NEAREST[r * 24 + c] = best;
+    nearest[r * w + c] = best;
   }
+  const map = { actor, mask, pixels: actor.pixels, nearest };
+  REST_MAPS.set(key, map);
+  return map;
+}
 const lum = (c) => (0.3 * (c & 255) + 0.59 * ((c >>> 8) & 255) + 0.11 * ((c >>> 16) & 255)) / 255;
 // an effect's color over the standing body, moved onto a pixel of the pose: its color, at this pixel's own light and shade
 function carry(v, rest, own) {
@@ -208,6 +209,8 @@ export function actSpan(mod) {
 export function createAct(mod, o = {}) {
   const a = mod.act ?? {}, meta = mod.meta ?? {}, D = meta.duration ?? 1, flip = !!o.flip, seed = o.seed ?? meta.options?.seed ?? 1;
   const fx = createFx(mod, o), track = a.poses ?? [[0, { ...STAND }]], span = actSpan(mod);
+  const character = characterOf(fx.options.character ?? fx.options.actor?.character).id, restActor = stockActor(2, character);
+  const { mask: REST_MASK, pixels: REST_PX, nearest: NEAREST } = restMap(restActor);
   const X = o.x ?? 0, Y = o.y ?? 0;
   const targets = (a.targets ?? (a.target ? [a.target] : [])).map((g, i) => new Target(g.x ?? 66, seed + 4 + i));
   const hits = (a.hits ?? []).map((h) => ({ ...h })).sort((p, q) => p.t - q.t), dust = (a.dust ?? []).slice();
@@ -323,7 +326,7 @@ export function createAct(mod, o = {}) {
         return;
       }
       const rx = Math.round(q.x ?? 0), ry = Math.round(q.y ?? 0), BX = FX + (flip ? -rx : rx), BY = FY + ry;
-      const r = posed(q), mirror = flip;
+      const r = posed(q, character), mirror = flip;
       const paint = (i, color) => {
         const px = mirror ? BX - r.xs[i] - 1 : BX + r.xs[i], py = BY + r.ys[i];
         if (px < 0 || py < 0 || px >= W || py >= H) return;
@@ -334,7 +337,7 @@ export function createAct(mod, o = {}) {
       const drawGhosts = () => {
         for (const g of ghosts) {
           // after-images are light, not paint: they brighten what's behind them and leave nothing muddy
-          const gr = posed(g.q), gx = FX + (flip ? -Math.round(g.q.x ?? 0) : Math.round(g.q.x ?? 0)), gy = FY + Math.round(g.q.y ?? 0), k = 0.5 * (1 - g.age / GHOST_LIFE);
+          const gr = posed(g.q, character), gx = FX + (flip ? -Math.round(g.q.x ?? 0) : Math.round(g.q.x ?? 0)), gy = FY + Math.round(g.q.y ?? 0), k = 0.5 * (1 - g.age / GHOST_LIFE);
           const gm = flip, r0 = (gc & 255) * k, g0 = ((gc >>> 8) & 255) * k, b0 = ((gc >>> 16) & 255) * k;
           for (let i = 0; i < gr.n; i++) {
             const px = gm ? gx - gr.xs[i] - 1 : gx + gr.xs[i], py = gy + gr.ys[i];
@@ -374,7 +377,7 @@ export function createAct(mod, o = {}) {
       B.color.set(A.color);
       B.light.set(A.light);
       const tt = meta.loop ? (t < 0 ? 0 : t % D) : clamp(t, 0, D), alpha = active ? actorAlphaOf(mod, tt, fx.options) : 1;
-      drawActor(painterFor(B).place(FX, FY, flip), fx.options.actor ?? stockActor(2), alpha);
+      drawActor(painterFor(B).place(FX, FY, flip), fx.options.actor ?? restActor, alpha);
       if (active) fx.draw(B, "front");
       const follow = a.follow ?? 1, lean = (q.lean ?? 0) * follow, cr = (q.crouch ?? 0) * follow;
       // what's up on the body goes with it; what's on the floor stays on the floor
@@ -383,8 +386,8 @@ export function createAct(mod, o = {}) {
         return [Math.round(lean * k + rx * f), Math.round(cr * k + ry * f)];
       };
       const rest = (sx, sy) => {
-        const c = (flip ? FX - sx - 1 : sx - FX) + 12, r0 = sy - FY + 38;
-        return c >= 0 && r0 >= 0 && c < 24 && r0 < 38 && REST_MASK[r0 * 24 + c] === 1;
+        const c = (flip ? FX - sx - 1 : sx - FX) - restActor.x, r0 = sy - FY - restActor.y;
+        return c >= 0 && r0 >= 0 && c < restActor.w && r0 < restActor.h && REST_MASK[r0 * restActor.w + c] === 1;
       };
       const C = frame.color, Ls = frame.light;
       const copy = (buf, sx, sy, s) => {
@@ -410,7 +413,8 @@ export function createAct(mod, o = {}) {
         }
       drawGhosts();
       const restIndex = (s) => {
-        const c = s % 24, r0 = (s / 24) | 0, sx = flip ? FX - (c - 12) - 1 : FX + c - 12, sy = FY + r0 - 38;
+        const c = s % restActor.w, r0 = (s / restActor.w) | 0;
+        const sx = flip ? FX - (c + restActor.x) - 1 : FX + c + restActor.x, sy = FY + r0 + restActor.y;
         return sx >= 0 && sy >= 0 && sx < W && sy < H ? sy * W + sx : -1;
       };
       for (let i = 0; i < r.n; i++) {
@@ -466,11 +470,12 @@ export function actTiming(mod) {
 }
 
 /** The box an act needs in local space, so nothing gets cut off: { x0, y0, x1, y1 }, sampled over its poses. */
-export function actBounds(mod) {
+export function actBounds(mod, options = {}) {
   const a = mod.act, [w, h] = mod.meta.size, [ox, oy] = mod.meta.origin;
+  const character = options.character ?? options.actor?.character ?? mod.meta.options?.character;
   let x0 = -ox, y0 = -oy, x1 = w - ox, y1 = h - oy;
   const see = (p) => {
-    const r = posed(p), X = Math.round(p.x ?? 0), Y = Math.round(p.y ?? 0), a = r.x0, b = r.x1;
+    const r = posed(p, character), X = Math.round(p.x ?? 0), Y = Math.round(p.y ?? 0), a = r.x0, b = r.x1;
     x0 = Math.min(x0, a + X - 1); x1 = Math.max(x1, b + X + 1); y0 = Math.min(y0, r.y0 + Y - 1); y1 = Math.max(y1, r.y1 + Y + 1);
   };
   const k = a?.poses;

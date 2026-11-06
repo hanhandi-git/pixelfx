@@ -8,38 +8,65 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@400;500&family=Red+Hat+Mono:wght@400;500&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Crect width='7' height='7' fill='%23000000'/%3E%3Crect x='1' y='1' width='6' height='6' fill='%23ffffff'/%3E%3Crect width='3' height='3' fill='%2339c5bb'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <!--BODY-->
 <header class="head">
   <div class="title">
-    <svg class="mark" viewBox="0 0 7 7" shape-rendering="crispEdges" role="img" aria-label="Patch"><rect x="1" y="1" width="6" height="6" fill="#ffffff"/><rect x="0" y="0" width="3" height="3" fill="#f53cd1"/></svg>
+    <svg class="mark" viewBox="0 0 7 7" shape-rendering="crispEdges" role="img" aria-label="pixelfx-extend"><rect x="1" y="1" width="6" height="6" fill="#ffffff"/><rect x="0" y="0" width="3" height="3" fill="#39c5bb"/></svg>
     <div>
-      <h1>pixelfx.</h1>
-      <p class="sub"><span id="count">0</span> pixel art effects, every one a small piece of code.</p>
+      <h1>pixelfx-extend.</h1>
+      <p class="sub"><span id="count">0</span><span id="sub-rest" data-i18n="sub"> pixel art effects, every one a small piece of code.</span></p>
     </div>
   </div>
   <nav class="links">
-    <a href="workbench.html">workbench</a>
-    <a href="fantasy.html">fantasy</a>
-    <a href="https://github.com/patch-gg/pixelfx" target="_blank" rel="noopener">github</a>
-    <a href="https://github.com/patch-gg/pixelfx#the-skill" target="_blank" rel="noopener">claude code skill</a>
-    <a href="https://patch.gg" target="_blank" rel="noopener">patch.gg</a>
+    <a href="https://github.com/hanhandi-git/pixelfx-extended" target="_blank" rel="noopener" data-i18n="nav.github">github</a>
+    <a href="https://github.com/hanhandi-git/pixelfx-extended#the-skill" target="_blank" rel="noopener" data-i18n="nav.skill">claude code skill</a>
+    <a href="http://hanhandi.cn" target="_blank" rel="noopener" data-i18n="nav.site">hanhandi.cn</a>
   </nav>
+  <div class="langs" id="langs" role="group" data-i18n-aria-label="lang.label">
+    <button class="lang" type="button" data-lang="zh" lang="zh-CN">中文</button>
+    <button class="lang" type="button" data-lang="en" lang="en">EN</button>
+    <button class="lang" type="button" data-lang="ja" lang="ja">日本語</button>
+  </div>
 </header>
 <div class="bar">
   <div class="bar-in">
-    <div class="chips" id="chips" role="toolbar" aria-label="Categories"></div>
-    <input id="q" type="search" placeholder="search" aria-label="Search effects" autocomplete="off">
+    <div class="chip-row">
+      <span class="chip-label" data-i18n="chip.theme">theme</span>
+      <div class="chips" id="themes" role="toolbar" data-i18n-aria-label="theme.aria"></div>
+    </div>
+    <div class="chip-row">
+      <div class="chips" id="chips" role="toolbar" data-i18n-aria-label="categories.aria"></div>
+      <input id="q" type="search" placeholder="search" data-i18n-placeholder="search.placeholder" data-i18n-aria-label="search.aria" autocomplete="off">
+    </div>
+    <div class="chip-row">
+      <span class="chip-label" data-i18n="chip.source">source</span>
+      <div class="chips" id="origins" role="toolbar" data-i18n-aria-label="source.aria"></div>
+    </div>
   </div>
 </div>
+<section class="gallery-cast" aria-labelledby="cast-heading">
+  <div>
+    <h2 id="cast-heading" data-i18n="cast.heading">动作人物</h2>
+    <p class="cast-intro" data-i18n="cast.intro">4 位新增角色 · 选择人物，查看动作与服饰细节。</p>
+    <div id="gallery-characters" class="cast-choices" role="radiogroup" data-i18n-aria-label="cast.aria"></div>
+    <label class="cast-weapon"><span data-i18n="cast.weapon">武器</span> <select id="cast-weapon" data-i18n-aria-label="cast.weapon.aria"></select></label>
+  </div>
+  <div class="cast-performance">
+    <div class="cast-stage"><canvas id="cast-stage" data-i18n-aria-label="cast.stage.aria"></canvas></div>
+    <div class="cast-actions"><span id="cast-role"></span><button class="btn" id="cast-replay" type="button" data-i18n="cast.replay">重播</button></div>
+  </div>
+</section>
 <main id="grid"></main>
-<p class="empty" id="none" hidden>Nothing matches that. Try fire, slash or loop.</p>
+<p class="empty" id="none" hidden data-i18n="empty">Nothing matches that. Try fire, slash or loop.</p>
+<p class="sr-status" id="copy-status" role="status" aria-live="polite"></p>
 <dialog class="detail" id="detail" aria-labelledby="d-name">
   <div class="sheet">
     <div>
-      <div class="big"><canvas id="big"></canvas><button class="close" id="d-close" type="button">close</button></div>
+      <div class="big"><canvas id="big"></canvas><button class="close" id="d-close" type="button" data-i18n="detail.close">close</button></div>
     </div>
     <div class="info">
       <h2 id="d-name"></h2>
@@ -47,12 +74,13 @@
       <p id="d-desc"></p>
       <dl class="facts" id="d-facts"></dl>
       <div class="controls">
-        <div class="row"><label>play</label><button class="btn" id="d-play" type="button">pause</button><button class="btn" id="d-again" type="button">again</button><span id="d-speed" class="row"></span></div>
-        <div class="row"><label>backdrop</label><span id="d-bg" class="row"></span></div>
-        <div class="row"><label>palette</label><select class="btn" id="d-pal" aria-label="Palette"></select><button class="btn" id="d-seed" type="button">new seed</button></div>
-        <div class="row"><label>show</label><button class="btn" id="d-flip" type="button">mirror</button><button class="btn" id="d-actor" type="button">character</button><button class="btn" id="d-make" type="button">sprite sheet</button></div>
+        <div class="row"><label data-i18n="detail.play">play</label><button class="btn" id="d-play" type="button">pause</button><button class="btn" id="d-again" type="button" data-i18n="detail.again">again</button><span id="d-speed" class="row"></span></div>
+        <div class="row"><label data-i18n="detail.backdrop">backdrop</label><span id="d-bg" class="row"></span></div>
+        <div class="row"><label data-i18n="detail.palette">palette</label><select class="btn" id="d-pal" data-i18n-aria-label="detail.palette"></select><button class="btn" id="d-seed" type="button" data-i18n="detail.seed">new seed</button></div>
+        <div class="row"><label for="d-character" data-i18n="detail.character">character</label><select class="btn" id="d-character" data-i18n-aria-label="detail.character"></select></div>
+        <div class="row"><label data-i18n="detail.show">show</label><button class="btn" id="d-flip" type="button" data-i18n="detail.mirror">mirror</button><button class="btn" id="d-actor" type="button" data-i18n="detail.actor">character</button><button class="btn" id="d-make" type="button" data-i18n="detail.sheet">sprite sheet</button></div>
       </div>
-      <div class="code-head"><span>use it</span><span><a id="d-src" target="_blank" rel="noopener">source</a> · <button class="btn" id="d-copy" type="button">copy</button></span></div>
+      <div class="code-head"><span data-i18n="detail.use">use it</span><span><a id="d-src" target="_blank" rel="noopener" data-i18n="detail.source">source</a> · <button class="btn" id="d-copy" type="button" data-i18n="detail.copy">copy</button></span></div>
       <pre id="d-code"></pre>
     </div>
     <div class="sheetout" id="d-sheet"></div>

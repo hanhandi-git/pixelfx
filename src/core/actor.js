@@ -1,4 +1,6 @@
 import { hex } from "./color.js";
+import { DUMMY_PAL, characterOf } from "./characters.js";
+import { posed } from "./rig.js";
 // A stock character to try effects on: status effects wrap its silhouette, hits land on it, auras sit
 // behind it. Previews and the gallery draw it; effects only read its mask through o.actor.
 
@@ -32,9 +34,6 @@ const HERO_PAL = {
   c: "#f53cd1", C: "#ff8fe6", D: "#a31f8a",
 };
 // the dummy: a neutral shell that lets any effect's colors do the talking, near and far limbs, dark bands at the joints, a small mark
-const DUMMY_PAL = {
-  k: "#0e0c14", A: "#e4e6ec", B: "#b6b9c3", C: "#868995", D: "#5c5e6a", E: "#6e707c", F: "#4b4d58", G: "#34353f", J: "#2a2b33", m: "#f53cd1",
-};
 // The same character at twice the size (24 x 38), standing easy: the rest pose of src/core/rig.js, baked.
 const HERO2 = [
   "...........kkk..........",
@@ -101,14 +100,39 @@ const PIXELS = { 1: pixelsOf(HERO, HERO_PAL), 2: pixelsOf(HERO2, DUMMY_PAL) };
  * The stock actor at scale k (1: 12 x 19 px, 2: 24 x 38 px), in local space with its feet at (0, 0):
  * { mask, x, y (top-left of the mask), w, h, k, head: [x, y] (top of the head), chest: [x, y] }.
  */
-export function stockActor(k = 1) {
+const CHARACTER_ACTORS = new Map();
+export function stockActor(k = 1, character = "dummy") {
   k = k === 2 ? 2 : 1;
+  const look = characterOf(character);
+  if (look.style) {
+    const key = look.id + ":" + k;
+    if (!CHARACTER_ACTORS.has(key)) {
+      const r = posed({}, look.id), scale = k === 2 ? 1 : 2;
+      const x = Math.floor(r.x0 / scale), y = Math.floor(r.y0 / scale);
+      const w = Math.floor(r.x1 / scale) - x + 1, h = Math.floor(r.y1 / scale) - y + 1;
+      const pixels = new Uint32Array(w * h), data = new Uint8Array(w * h);
+      for (let i = 0; i < r.n; i++) {
+        const index = (Math.floor(r.ys[i] / scale) - y) * w + Math.floor(r.xs[i] / scale) - x;
+        data[index] = 1; pixels[index] = r.color[i];
+      }
+      CHARACTER_ACTORS.set(key, { character: look.id, mask: { w, h, data }, pixels, x, y, w, h, k,
+        head: [0, y], chest: [0, -26 / scale], custom: true });
+    }
+    return CHARACTER_ACTORS.get(key);
+  }
   const m = MASKS[k], x = -Math.floor(m.w / 2), y = -m.h;
   return { mask: m, pixels: PIXELS[k], x, y, w: m.w, h: m.h, k, head: [0, y], chest: [0, k === 2 ? -26 : y + 11], ...(k === 2 ? { eyes: [[13, 3], [15, 3]] } : {}) };
 }
 
 /** Draw the stock actor with its feet at the painter's origin, at alpha a (dithered). */
 export function drawActor(p, actor = stockActor(), a = 1) {
+  if (actor.custom) {
+    for (let y = 0; y < actor.h; y++) for (let x = 0; x < actor.w; x++) {
+      const c = actor.pixels[y * actor.w + x];
+      if (c) p.dot(actor.x + x, actor.y + y, c, a);
+    }
+    return;
+  }
   if (a > 0) p.sprite(SPRITES[actor.k === 2 ? 2 : 1], actor.k === 2 ? DUMMY_PAL : HERO_PAL, actor.x, actor.y, { a });
 }
 /** How visible an effect wants the stand-in character at time t (effects may export actorAlpha). */

@@ -83,7 +83,7 @@ duration, loop, fps, bg, options, deterministic drawing, the two buffers — is 
 
 `src/core/encounter.js` places these on a timeline; `src/encounters/<id>.js` exports `meta` and `encounter` and is
 rendered with `node tools/encounter.mjs <id>`. `createEncounter` draws the map, units, effects, boss bar and phase
-banner. Map, mob, boss and attack files stay ordinary effects for `render`, `check`, `sheets`, the workbench and
+banner. Map, mob, boss and attack files stay ordinary effects for `render`, `check`, `sheets`, the gallery and
 Cocos export.
 
 Author the roles with `node tools/new.mjs <id> --map|--mob|--mob-attack|--boss|--boss-attack|--encounter`. The full
@@ -148,7 +148,7 @@ order, unknown pose fields, loop seams and hands that teleport.
 
 ## Source tags
 
-The workbench and gallery mark every effect as `original` or `new` and expose a source filter. The baseline lives in
+The gallery marks every effect as `original` or `new` and exposes a source filter. The baseline lives in
 `src/fx/provenance.js`: `ORIGINAL_EFFECTS` is the 244-effect library from before the additions, and any id not in that
 set is `new`. Adding an effect therefore tags it automatically; do not edit generated registries or individual
 `meta.tags` for this. Regenerate the registry/catalog with `node tools/index.mjs` so `src/fx/index.js` exports the
@@ -177,6 +177,9 @@ set is `new`. Adding an effect therefore tags it automatically; do not edit gene
 - `GRAVITY` = 950 px/s². Hugo's code uses world units (2 per px): halve his speeds, distances and gravity.
 
 ## Painter API
+
+For composable Bezier paths, mask/signed-distance geometry and particle force fields, see
+[CORE-EXTENSIONS.md](CORE-EXTENSIONS.md). The runnable `arcane/flow-seal` effect combines all three.
 
 Coordinates local, floats fine. `c` a color number; `a` alpha 0..1 (dithered unless said).
 
@@ -241,3 +244,9 @@ your eyes, feed your references.
 5. **Fix the worst thing, render again.** Three rounds minimum; showpieces take more.
 6. **Act it out** if there's a character: `node tools/act.mjs <id>`. Consecutive frames, not samples.
 7. **Check**: `node tools/check.mjs <id>` until it passes clean.
+
+## Refinement notes
+
+When an effect is submitted but still feels wrong, write up the before/after in [refinements/](refinements/README.md):
+the diagnosis, the approach, the verification, and a reusable checklist. See
+[spirit-butterfly](refinements/spirit-butterfly.md) for a worked example.

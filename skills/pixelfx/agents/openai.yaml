@@ -1,4 +1,4 @@
 interface:
   display_name: "PixelFX assets and fantasy combat design"
-  short_description: "Create pixel VFX, maps, minions and boss encounters, then preview them"
-  default_prompt: "Use $pixelfx to design a fantasy scene, minion, or boss combat effect, register it, and preview in the workbench or fantasy gallery."
+  short_description: "Create pixel VFX or extend Painter drawing primitives"
+  default_prompt: "Use $pixelfx to design a pixel VFX, fantasy encounter, or reusable Painter/core drawing primitive, then validate and preview the result."
