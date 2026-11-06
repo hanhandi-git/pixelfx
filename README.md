@@ -6,17 +6,17 @@
 
 # pixelfx-extended.
 
-An extended [**pixelfx**](https://github.com/patch-gg/pixelfx) fork with **<!-- new-count -->89<!-- /new-count -->** additional maps, minions and effects beyond the original 244-effect baseline.
+An extended [**pixelfx**](https://github.com/patch-gg/pixelfx) fork with **<!-- new-count -->83<!-- /new-count -->** additional maps, minions and effects beyond the original 244-effect baseline.
 
-**<!-- count -->333<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
+**<!-- count -->327<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
 explosions, magic, weather, UI, pickups, critters and more. Play them live, recolor and mirror them, drop them into
 a browser game, or export sprite sheets for any engine. Plus a **fantasy game kit** — battle maps, minion and boss
 units, telegraphed attacks, and encounter timelines you author under `src/encounters/` — and a Claude Code skill that
 makes new ones the way a picky pixel artist would: draft, render, look, refine.
 
-The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->89<!-- /new-count --> new ones**. The [gallery](gallery/index.html) marks every item `original` or `new` and filters by it.
+The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->83<!-- /new-count --> new ones**. The [gallery](gallery/index.html) marks every item `original` or `new` and filters by it.
 
-**<!-- act-count -->118<!-- /act-count -->** effects export an **`act`** timeline: wind-up, release, freeze on contact, target reaction, recovery. **<!-- moves-count -->12<!-- /moves-count -->**
+**<!-- act-count -->113<!-- /act-count -->** effects export an **`act`** timeline: wind-up, release, freeze on contact, target reaction, recovery. **<!-- moves-count -->12<!-- /moves-count -->**
 **moves** in `src/fx/moves/` chain those beats into full attacks from wind-up to recovery.
 
 **[open the gallery](https://patch-gg.github.io/pixelfx/)** ·
@@ -33,7 +33,7 @@ the idea at library scale, with a skill to keep going.
 
 ## new additions.
 
-These **<!-- new-count -->89<!-- /new-count -->** pieces are not in the original 244-effect baseline: fantasy maps, minions, bosses and more. Browse them in the [gallery (`?source=new`)](gallery/index.html?source=new) or the deployed [live gallery](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown) (new effects, Moon Oracle, thrown category).
+These **<!-- new-count -->83<!-- /new-count -->** pieces are not in the original 244-effect baseline: fantasy maps, minions, bosses and more. Browse them in the [gallery (`?source=new`)](gallery/index.html?source=new) or the deployed [live gallery](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown) (new effects, Moon Oracle, thrown category).
 
 <p align="center">
   <img src="docs/readme/montage-new.gif" width="800" alt="Six looping fantasy battle maps at full 320×180 resolution: aurora pass, crystal hollow, ember depths, mossy ruins, sunscar temple and wisp marsh.">
@@ -68,12 +68,6 @@ These **<!-- new-count -->89<!-- /new-count -->** pieces are not in the original
 | **dragonball** | Ki wave | `dragonball/ki-wave` |
 | **dragonball** | Solar flare | `dragonball/solar-flash` |
 | **dragonball** | Spirit bomb | `dragonball/spirit-bomb` |
-| **fanren** | Azure bamboo swords | `fanren/azure-bamboo-swords` |
-| **fanren** | Evil-warding thunder | `fanren/evil-warding-thunder` |
-| **fanren** | Gold-devouring beetles | `fanren/gold-devouring-beetles` |
-| **fanren** | Immortal-slaying bead | `fanren/immortal-slaying-bead` |
-| **fanren** | Heaven-palm bottle | `fanren/palm-heaven-bottle` |
-| **fanren** | Xuantian spirit-slaying sword | `fanren/xuantian-sword` |
 | **konosuba** | Explosion chant | `konosuba/explosion-chant` |
 | **konosuba** | Explosion crater | `konosuba/explosion-crater` |
 | **konosuba** | Explosion | `konosuba/explosion-ritual` |
@@ -148,7 +142,6 @@ Categories with new content appear first; samples list **new** effects before or
 | **world** | 7 | aurora pass, crystal hollow, ember depths, inkbound shrine, mossy ruins, sunscar temple… |
 | **melee** | 18 | holy sword cleave, katana draw cut, knight lance thrust, war mace crush, rapier lunge, banded staff combo… |
 | **senjutsu** | 6 | gate of the great god, sage art: goemon, sage orb, thousand wood dragons, white flash, wind shuriken |
-| **a mortal's journey** | 6 | azure bamboo swords, evil-warding thunder, gold-devouring beetles, immortal-slaying bead, heaven-palm bottle, xuantian spirit-slaying sword |
 | **miku** | 5 | encore, leek smash, song aura, sound wave, vocal burst |
 | **konosuba** | 4 | explosion chant, explosion crater, explosion, explosion |
 | **spawn & death** | 13 | ink unravel, shanhaijing summon, talisman suppression, coin drop, disintegrate, dissolve burn… |
@@ -295,7 +288,7 @@ node tools/render.mjs fire/torch --gif --opts '{"palette": ["#102","#215","#43a"
 </p>
 
 An effect on its own looks like a sticker. What sells a hit is the body around it: the wind-up that says something is
-coming, the freeze on contact, the target rocking back, the recovery. **<!-- act-count -->118<!-- /act-count -->** effects export `act` data for that; the
+coming, the freeze on contact, the target rocking back, the recovery. **<!-- act-count -->113<!-- /act-count -->** effects export `act` data for that; the
 **<!-- moves-count -->12<!-- /moves-count -->** **moves** are the standalone attack choreographies:
 
 ```js

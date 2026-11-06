@@ -1,6 +1,6 @@
 # Catalog
 
-333 effects in 30 categories: 244 original and 89 new. Every one is a file in
+327 effects in 29 categories: 244 original and 83 new. Every one is a file in
 `src/fx/<category>/<name>.js`; render any of them with `node tools/render.mjs <id> --gif`.
 
 ## moves
@@ -472,19 +472,6 @@ ki arts: charged orbs, kamehameha waves, drill beams, spirit bombs, discs and go
 | Ki wave | `dragonball/ki-wave` | new | effect | one-shot 4.2s | 340×190 | He cups ki at his hip until it swells, drives both palms forward, and a thick blue-white column crosses the field: twisted strands, running pulses, a contact that cracks the floor. |
 | Solar flare | `dragonball/solar-flash` | new | effect | one-shot 2.3s | 280×180 | Light is held at the face for a breath, then let go: a white burst with sixteen rays, a shock ring, and a slow after-image of drifting sparks while the field stays blinded. |
 | Spirit bomb | `dragonball/spirit-bomb` | new | effect | one-shot 5.6s | 386×236 | Light rises out of the whole field, packs itself into a cold blue-green sphere overhead, and is hurled down: a dome of light, a broken floor and a column of dust that keeps rising. |
-
-## a mortal's journey
-
-xianxia arts: bamboo-cloud flying swords, evil-warding thunder, gold-devouring beetles, the Xuantian blade and the heaven-palm bottle.
-
-| effect | id | source | kind | play | size | what it does |
-|---|---|---|---|---|---|---|
-| Azure bamboo swords | `fanren/azure-bamboo-swords` | new | effect | one-shot 2.85s | 376×196 | A sleeve-flick gathers jade light, a cloud of bamboo-leaf flying swords wheels around the caster, then the swarm crosses the field, stabs in sequence and wheels round the target. |
-| Evil-warding thunder | `fanren/evil-warding-thunder` | new | effect | one-shot 3.05s | 460×308 | A violet-gold seal opens under the target, phantom thunder bamboo rises, and a white-gold pillar of divine thunder falls through it: forked arcs, torn floor, glittering afterglow. |
-| Gold-devouring beetles | `fanren/gold-devouring-beetles` | new | effect | one-shot 2.95s | 420×212 | A sleeve opens and a stream of gold beetles pours out, gathering into a boiling cloud over the target, stripping it to a dark hollow before bursting into glittering dust. |
-| Immortal-slaying bead | `fanren/immortal-slaying-bead` | new | effect | one-shot 3.2s | 420×260 | A black bead is flicked out and hangs over the target; it cracks and a perfect white sphere unfolds without smoke, leaving a glassy crater, gold dust and a violet halo. |
-| Heaven-palm bottle | `fanren/palm-heaven-bottle` | new | effect | loop 3.2s | 148×164 | The little green bottle hangs in the air and turns through the light; a dewdrop gathers at its lip each turn and falls, and where it lands a spirit herb unfolds. |
-| Xuantian spirit-slaying sword | `fanren/xuantian-sword` | new | effect | one-shot 3.45s | 404×340 | A slit of white light opens in the sky, runes gather, and a colossal blade drops point-first onto the target; the law-cut tears across the field and the blade shatters upward. |
 
 ## one punch
 
