@@ -10,14 +10,14 @@ An extended [**pixelfx**](https://github.com/patch-gg/pixelfx) fork with **<!-- 
 
 **<!-- count -->324<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
 explosions, magic, weather, UI, pickups, critters and more. Play them live, recolor and mirror them, drop them into
-a browser game, or export sprite sheets for any engine. Plus a **fantasy game kit** — battle maps, minion units,
-telegraphed attacks and choreographed encounters — and a Claude Code skill that makes new ones the way a picky
-pixel artist would: draft, render, look, refine.
+a browser game, or export sprite sheets for any engine. Plus a **fantasy game kit** — battle maps, minion and boss
+units, telegraphed attacks, and encounter timelines you author under `src/encounters/` — and a Claude Code skill that
+makes new ones the way a picky pixel artist would: draft, render, look, refine.
 
 The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->80<!-- /new-count --> new ones**. The [gallery](gallery/index.html) marks every item `original` or `new` and filters by it.
 
-Every effect that involves a character is **acted out**: he winds up, lets go, freezes on contact and recovers, and a
-target takes the hit. Twelve whole moves chain the effects into attacks from wind-up to recovery.
+**<!-- act-count -->110<!-- /act-count -->** effects export an **`act`** timeline: wind-up, release, freeze on contact, target reaction, recovery. **<!-- moves-count -->12<!-- /moves-count -->**
+**moves** in `src/fx/moves/` chain those beats into full attacks from wind-up to recovery.
 
 **[open the gallery](https://patch-gg.github.io/pixelfx/)** ·
 [live gallery (this fork)](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown) ·
@@ -184,11 +184,14 @@ node tools/new.mjs mobs/rat-scout --mob          # a looping minion
 node tools/new.mjs mobs/rat-bite --mob-attack    # its attack effect
 node tools/new.mjs boss/bog-witch --boss         # a boss unit
 node tools/new.mjs boss/bog-nova --boss-attack   # a telegraphed move
-node tools/new.mjs ashfall-crypt --encounter     # a minion timeline (add encounter.boss for a boss)
+node tools/new.mjs my-encounter --encounter      # timeline stub (add encounter.boss for a boss fight)
 
 node tools/map.mjs world/mossy-ruins             # contact + layout + gameplay images
 node tools/encounter.mjs <name> --mp4           # contact sheet, timeline JSON and video
 ```
+
+This checkout does not ship sample encounters yet; [`docs/ENCOUNTERS.md`](docs/ENCOUNTERS.md) lists **<!-- encounter-count -->0<!-- /encounter-count -->** until you add
+modules under `src/encounters/`. After you do, [gallery/fantasy.html](gallery/fantasy.html) loads the same timeline the tools use.
 
 Every new piece is checked like an effect: `npm run check` verifies the map's floor and spawns, boss phases when a
 boss is present, hit timings inside their effects, timeline order and that the encounter can actually finish. `node tools/index.mjs`
@@ -260,12 +263,12 @@ npm run gallery
 
 Open [http://localhost:8080/gallery/](http://localhost:8080/gallery/). The gallery imports the effect modules directly,
 supports category filtering, search and playback, and marks every effect `original` or `new`; `?source=new` opens
-the new additions directly. For the fantasy kit, the same server plays the encounter timeline at
+the new additions directly. For authored encounters under `src/encounters/`, the same server plays the timeline at
 [http://localhost:8080/gallery/fantasy.html](http://localhost:8080/gallery/fantasy.html): choose an encounter, jump to a
-phase, replay it and change speed. `npm run build:web` writes the static site to `dist/gallery/`.
+phase, replay it and change speed (empty until you add encounter modules). `npm run build:web` writes the static site to `dist/gallery/`.
 
-After adding an effect in `src/fx/`, run `node tools/index.mjs` and refresh the gallery; rebuild with
-`npm run build:web` when using the static version.
+After adding an effect in `src/fx/`, run `node tools/index.mjs` and refresh the gallery (that pass also refreshes the
+`act` / `moves` / encounter counts in this README); rebuild with `npm run build:web` when using the static version.
 
 Any effect takes a `palette` (a dark-to-bright ramp of hex colors), so a fire can burn blue and a heal can glow
 pink without touching its code:
@@ -281,8 +284,8 @@ node tools/render.mjs fire/torch --gif --opts '{"palette": ["#102","#215","#43a"
 </p>
 
 An effect on its own looks like a sticker. What sells a hit is the body around it: the wind-up that says something is
-coming, the freeze on contact, the target rocking back, the recovery. So the 61 effects with a character, and the 12
-moves, say what the body does and when:
+coming, the freeze on contact, the target rocking back, the recovery. **<!-- act-count -->110<!-- /act-count -->** effects export `act` data for that; the
+**<!-- moves-count -->12<!-- /moves-count -->** **moves** are the standalone attack choreographies:
 
 ```js
 export const act = {

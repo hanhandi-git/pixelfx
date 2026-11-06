@@ -3,7 +3,7 @@
 //
 //   node tools/index.mjs
 
-import { writeFileSync, readFileSync } from "node:fs";
+import { writeFileSync, readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { ROOT, FX_DIR, allIds, loadEffect, ENCOUNTER_DIR, allEncounterIds, loadEncounter } from "./lib/fxlib.mjs";
 import { categories } from "../src/fx/categories.js";
@@ -100,6 +100,34 @@ writeFileSync(join(ROOT, "docs", "ENCOUNTERS.md"), encMd.join("\n"));
 console.log(`${ids.length} effects (${ids.length - newCount} original, ${newCount} new) -> src/fx/index.js, docs/CATALOG.md`);
 console.log(`${encs.length} encounters -> src/encounters/index.js, docs/ENCOUNTERS.md`);
 
+/** README stats: files under src/fx that export `const act`. */
+function countActExports() {
+  let n = 0;
+  for (const cat of readdirSync(FX_DIR)) {
+    const dir = join(FX_DIR, cat);
+    if (cat.startsWith("_") || !statSync(dir).isDirectory()) continue;
+    for (const f of readdirSync(dir)) {
+      if (!f.endsWith(".js") || f.startsWith("_")) continue;
+      const text = readFileSync(join(dir, f), "utf8");
+      if (/\bexport\s+const\s+act\b/.test(text)) n++;
+    }
+  }
+  return n;
+}
+
+function countMovesEffects() {
+  const dir = join(FX_DIR, "moves");
+  if (!existsSync(dir)) return 0;
+  let n = 0;
+  for (const f of readdirSync(dir)) {
+    if (f.endsWith(".js") && !f.startsWith("_")) n++;
+  }
+  return n;
+}
+
+const actEffectCount = countActExports();
+const movesEffectCount = countMovesEffects();
+
 // README: counts, a new-effects table, and the category table (new categories and names first)
 function sampleNames(list, max = 6) {
   const fresh = list.filter((m) => m.provenance === "new");
@@ -145,6 +173,9 @@ function patchReadme(path, lang = "en") {
   text = text.replace(/<!-- count -->[\s\S]*?<!-- \/count -->/, `<!-- count -->${ids.length}<!-- /count -->`);
   text = text.replace(/<!-- original-count -->[\s\S]*?<!-- \/original-count -->/, `<!-- original-count -->${ids.length - newCount}<!-- /original-count -->`);
   text = text.replace(/<!-- new-count -->[\s\S]*?<!-- \/new-count -->/g, `<!-- new-count -->${newCount}<!-- /new-count -->`);
+  text = text.replace(/<!-- act-count -->[\s\S]*?<!-- \/act-count -->/g, `<!-- act-count -->${actEffectCount}<!-- /act-count -->`);
+  text = text.replace(/<!-- moves-count -->[\s\S]*?<!-- \/moves-count -->/g, `<!-- moves-count -->${movesEffectCount}<!-- /moves-count -->`);
+  text = text.replace(/<!-- encounter-count -->[\s\S]*?<!-- \/encounter-count -->/g, `<!-- encounter-count -->${encs.length}<!-- /encounter-count -->`);
   text = text.replace(/<!-- new-catalog -->[\s\S]*?<!-- \/new-catalog -->/, `<!-- new-catalog -->\n${newBlock}\n<!-- /new-catalog -->`);
   text = text.replace(/<!-- catalog -->[\s\S]*?<!-- \/catalog -->/, `<!-- catalog -->\n${table}\n<!-- /catalog -->`);
   writeFileSync(path, text);

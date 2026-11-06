@@ -8,11 +8,11 @@
 
 在 [**pixelfx**](https://github.com/patch-gg/pixelfx) 原版 244 特效基线之上，额外增加 **<!-- new-count -->80<!-- /new-count -->** 条地图、小怪等素材的扩展仓库。
 
-**<!-- count -->324<!-- /count --> 个像素特效与动画，每一个都是一小段代码。** 火焰、爆炸、魔法、天气、UI、拾取物、小动物等。可实时播放、换色与镜像，嵌入浏览器游戏，或导出精灵图给任意引擎。另有 **奇幻游戏套件** —— 战斗地图、小怪单位、带预警的技能与编排好的遭遇战 —— 以及 Claude Code skill，用像素画师那套「起草 → 渲染 → 眼看 → 精修」流程做新内容。
+**<!-- count -->324<!-- /count --> 个像素特效与动画，每一个都是一小段代码。** 火焰、爆炸、魔法、天气、UI、拾取物、小动物等。可实时播放、换色与镜像，嵌入浏览器游戏，或导出精灵图给任意引擎。另有 **奇幻游戏套件** —— 战斗地图、小怪与 Boss 单位、带预警的技能，以及在 `src/encounters/` 中编写的遭遇战时间轴 —— 以及 Claude Code skill，用像素画师那套「起草 → 渲染 → 眼看 → 精修」流程做新内容。
 
 库内 **<!-- original-count -->244<!-- /original-count -->** 个原始特效与 **<!-- new-count -->80<!-- /new-count -->** 个新增。[Gallery](gallery/index.html) 会把每条资源标为 `original` 或 `new`，并支持按来源筛选。
 
-凡涉及角色的特效都会 **演出来**：蓄力、出手、命中定格、收招，目标会受击反馈。12 套完整 **moves** 把特效串成从 wind-up 到 recovery 的攻击。
+有 **<!-- act-count -->110<!-- /act-count -->** 个特效导出 **`act`** 时间轴（蓄力、出手、命中定格、受击与收招）。另有 **<!-- moves-count -->12<!-- /moves-count -->** 个 **`moves`**（`src/fx/moves/`）把这一套打成从 wind-up 到 recovery 的完整攻击。
 
 **[打开 Gallery](https://patch-gg.github.io/pixelfx/)** ·
 [在线 Gallery（本扩展部署版）](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown) ·
@@ -174,11 +174,13 @@ node tools/new.mjs mobs/rat-scout --mob
 node tools/new.mjs mobs/rat-bite --mob-attack
 node tools/new.mjs boss/bog-witch --boss
 node tools/new.mjs boss/bog-nova --boss-attack
-node tools/new.mjs ashfall-crypt --encounter   # 小怪时间轴；Boss 战需自行写 encounter.boss
+node tools/new.mjs my-encounter --encounter      # 时间轴模板（Boss 战需自行写 encounter.boss）
 
 node tools/map.mjs world/mossy-ruins
 node tools/encounter.mjs <name> --mp4
 ```
+
+本仓库当前未附带示例遭遇战；在 `src/encounters/` 添加模块之前，[`docs/ENCOUNTERS.md`](docs/ENCOUNTERS.md) 中为 **<!-- encounter-count -->0<!-- /encounter-count -->** 条。添加后 [gallery/fantasy.html](gallery/fantasy.html) 会与工具共用同一套时间轴。
 
 新内容会像普通特效一样过 `npm run check`（地面与出生点、有 Boss 时的阶段、攻击 hit 时间、时间轴顺序等）。`node tools/index.mjs` 会 regenerate 注册表与 [目录](docs/CATALOG.md)/[遭遇目录](docs/ENCOUNTERS.md)。数据约定与设计清单见 [docs/FANTASY.md](docs/FANTASY.md)。
 
@@ -243,9 +245,9 @@ PNG/JSON 只应出现在 **pixelfx-cocos** 中，不要提交进本库。
 npm run gallery
 ```
 
-打开 [http://localhost:8080/gallery/](http://localhost:8080/gallery/)。直接 import 特效模块，支持分类、搜索与播放控制，并把每条特效标为 `original` 或 `new`；`?source=new` 直接打开新增内容。奇幻时间轴见 [fantasy.html](http://localhost:8080/gallery/fantasy.html)。`npm run build:web` 输出静态站到 `dist/gallery/`。
+打开 [http://localhost:8080/gallery/](http://localhost:8080/gallery/)。直接 import 特效模块，支持分类、搜索与播放控制，并把每条特效标为 `original` 或 `new`；`?source=new` 直接打开新增内容。若在 `src/encounters/` 编写了遭遇战，可在 [fantasy.html](http://localhost:8080/gallery/fantasy.html) 播放同一时间轴（当前无示例模块时列表为空）。`npm run build:web` 输出静态站到 `dist/gallery/`。
 
-新增特效后运行 `node tools/index.mjs`，刷新 gallery 即可；静态版本需重新执行 `npm run build:web`。
+新增特效后运行 `node tools/index.mjs`，刷新 gallery 即可（同一命令会更新本 README 中的 `act` / `moves` / 遭遇战条数）；静态版本需重新执行 `npm run build:web`。
 
 换色示例：
 
@@ -259,7 +261,7 @@ node tools/render.mjs fire/torch --gif --opts '{"palette": ["#102","#215","#43a"
   <img src="docs/readme/acts.gif" width="800" alt="假人与草靶对练：连击、重锤、地击等，含蓄力、命中定格与收招。">
 </p>
 
-单独播放特效像贴纸；命中感来自身体演出：蓄力、定格、目标后仰、收招。61 个带角色特效与 12 个 moves 用 `act` 描述动作与时间：
+单独播放特效像贴纸；命中感来自身体演出：蓄力、定格、目标后仰、收招。**<!-- act-count -->110<!-- /act-count -->** 个特效导出 `act`；**<!-- moves-count -->12<!-- /moves-count -->** 个 **moves** 是独立的成套攻击编排：
 
 ```js
 export const act = {
