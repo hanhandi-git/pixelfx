@@ -26,6 +26,7 @@ export const categories = [
   { id: "miku", name: "miku", blurb: "a virtual idol and her teal song: twin tails, sound rings, notes and a leek" },
   { id: "konosuba", name: "konosuba", blurb: "crimson explosion magic: a blood-red chant seal, the white-hot blast, its crater and the whole move" },
   { id: "dragonball", name: "dragonball", blurb: "ki arts: charged orbs, kamehameha waves, drill beams, spirit bombs, discs and gold auras" },
+  { id: "fanren", name: "a mortal's journey", blurb: "xianxia arts: bamboo-cloud flying swords, evil-warding thunder, gold-devouring beetles, the Xuantian blade and the heaven-palm bottle" },
   { id: "onepunch", name: "one punch", blurb: "heroic impact arts: serious punches, consecutive fists and crater-making landings" },
   { id: "transitions", name: "transitions", blurb: "wipes, irises, dissolves" },
   { id: "critters", name: "critters", blurb: "slimes, bats, ghosts, frogs" },
