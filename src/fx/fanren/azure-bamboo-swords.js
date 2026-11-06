@@ -3,6 +3,7 @@
 // stab the target in sequence, wheel once more around it and scatter as leaves.
 import { READY, WHITE, clamp, ease, fit, rng, smooth, sparkle, TAU } from "../../core/index.js";
 import { JADE, leafSword, qiMotes, runeSeal } from "./_lib.js";
+import { glint, pool } from "../pickups/_lib.js";
 
 const END = 2.85;
 const N = 15;
@@ -133,7 +134,8 @@ function trail(p, C, i, t, seed) {
 /** The impact: a white pin, a four-point glint, a leaf cut and sparks fanning off the edge. */
 function cut(p, C, x, y, a, q, seed, i) {
   const f = 1 - q, R = rng(seed, i, 11);
-  sparkle(p, x, y, 5 + 8 * f, C[6], C[4], 0.9 * f);
+  sparkle(p, x, y, 4 + 6 * f, C[6], C[4], 0.55 * f);
+  glint(p, x, y, Math.round(2 + 4 * f), C[6], 0.4 * f);
   p.dot(x, y, WHITE, f);
   p.line(x - Math.cos(a) * 9, y - Math.sin(a) * 9, x + Math.cos(a) * 6, y + Math.sin(a) * 6, WHITE, 0.8 * f);
   for (let j = 0; j < 7; j++) {
@@ -151,8 +153,11 @@ export function drawBack(p, t, o) {
   const C = fit(o.palette, 8), S = o.seed;
   const charge = smooth(0.05, 0.5, t) * (1 - smooth(2.5, 2.8, t));
 
-  p.glow(CLOUD_C[0], -2, 34, C[3], 0.16 * charge);
-  p.glow(TX, -2, 26, C[3], 0.14 * smooth(LAUNCH, LAUNCH + 0.4, t) * (1 - smooth(2.4, 2.8, t)));
+  // the wheel casts a pool on the floor and a halo round its orbit, not a flat disc of light
+  pool(p, CLOUD_C[0] + 8, 0, 30, 5, C[4], 0.22 * charge);
+  p.glowRing(CLOUD_C[0], CLOUD_C[1], RX * 0.95, 12, C[4], 0.1 * charge);
+  p.glow(CLOUD_C[0], CLOUD_C[1], 20, C[5], 0.08 * charge);
+  pool(p, TX, 0, 26, 4.5, C[4], 0.3 * smooth(LAUNCH, LAUNCH + 0.4, t) * (1 - smooth(2.4, 2.8, t)));
 
   // the wheel's back half and the faint tracks it leaves in the air
   if (t < LAUNCH + 0.1) {
@@ -184,7 +189,10 @@ export function draw(p, t, o) {
     const palm = smooth(0.1, 0.5, t);
     p.circle(HAND[0], HAND[1], 1.4 + 2.6 * palm, t > 0.5 ? C[6] : C[5], 0.9 * charge);
     p.dot(HAND[0], HAND[1], WHITE, charge);
-    p.glow(HAND[0], HAND[1], 16 + 10 * palm, C[5], 0.35 * charge);
+    p.glow(HAND[0], HAND[1], 26 + 14 * palm, C[3], 0.1 * charge);
+    p.glow(HAND[0], HAND[1], 14 + 8 * palm, C[5], 0.22 * charge);
+    p.glow(HAND[0], HAND[1], 5 + 3 * palm, C[6], 0.2 * charge);
+    p.glowRing(HAND[0], HAND[1], 9 + 3 * palm, 5, C[5], 0.1 * charge);
     qiMotes(p, C, HAND[0], HAND[1], 4, t, 0.7, S + 3, 14, 20, -1, charge);
     runeSeal(p, HAND[0], HAND[1], 8 + 3 * Math.sin(t * 9), t * 1.6, C, 0.5 * charge, { n: 18, sq: 0.9, tick: 2 });
   }
@@ -206,7 +214,10 @@ export function draw(p, t, o) {
       const back = swordAt(i, t - 0.11, S);
       if (back.mode === "fly") p.line(back.x, back.y, s.x, s.y, C[3], 0.3);
       leafSword(p, C, s.x, s.y, s.a, 15, s.k);
-      p.glow(s.x, s.y, 9, C[4], 0.18);
+      const tipX = s.x + Math.cos(s.a) * 15, tipY = s.y + Math.sin(s.a) * 15;
+      p.glowLine(s.x, s.y, tipX, tipY, 2.4, C[5], 0.12 * s.k);
+      p.glow(tipX, tipY, 3.5, C[6], 0.16 * s.k);
+      if (i % 4 === 0) glint(p, tipX, tipY, 2, C[6], 0.2 * s.k);
     } else if (s.mode === "stick" || s.mode === "wheel") {
       leafSword(p, C, s.x, s.y, s.a, 14, s.k);
       if (s.mode === "stick") p.glow(s.x, s.y, 10, C[4], 0.2);
@@ -230,7 +241,9 @@ export function draw(p, t, o) {
   if (t > VORTEX - 0.06 && t < 2.3) {
     const q = smooth(VORTEX - 0.06, VORTEX + 0.14, t) * (1 - smooth(1.95, 2.3, t));
     p.ring(TX, -38, 30 + 4 * q, 1, C[6], 0.3 * q);
+    p.glowRing(TX, -38, 30 + 4 * q, 10, C[4], 0.14 * q);
     p.ellipse(TX, -1, 30, 5, C[4], 0.2 * q);
+    glint(p, TX, -38, 3, C[6], 0.25 * q);
   }
 
   // leaves falling out of the spent cloud

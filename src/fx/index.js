@@ -295,9 +295,12 @@ import * as dragonball_ki_volley from "./dragonball/ki-volley.js";
 import * as dragonball_ki_wave from "./dragonball/ki-wave.js";
 import * as dragonball_solar_flash from "./dragonball/solar-flash.js";
 import * as dragonball_spirit_bomb from "./dragonball/spirit-bomb.js";
-import * as onepunch_consecutive_normal_punches from "./onepunch/consecutive-normal-punches.js";
-import * as onepunch_hero_landing from "./onepunch/hero-landing.js";
-import * as onepunch_serious_punch from "./onepunch/serious-punch.js";
+import * as fanren_azure_bamboo_swords from "./fanren/azure-bamboo-swords.js";
+import * as fanren_evil_warding_thunder from "./fanren/evil-warding-thunder.js";
+import * as fanren_gold_devouring_beetles from "./fanren/gold-devouring-beetles.js";
+import * as fanren_immortal_slaying_bead from "./fanren/immortal-slaying-bead.js";
+import * as fanren_palm_heaven_bottle from "./fanren/palm-heaven-bottle.js";
+import * as fanren_xuantian_sword from "./fanren/xuantian-sword.js";
 import * as transitions_blinds from "./transitions/blinds.js";
 import * as transitions_burn_away from "./transitions/burn-away.js";
 import * as transitions_crt_off from "./transitions/crt-off.js";
@@ -627,9 +630,12 @@ export const effects = {
   "dragonball/ki-wave": dragonball_ki_wave,
   "dragonball/solar-flash": dragonball_solar_flash,
   "dragonball/spirit-bomb": dragonball_spirit_bomb,
-  "onepunch/consecutive-normal-punches": onepunch_consecutive_normal_punches,
-  "onepunch/hero-landing": onepunch_hero_landing,
-  "onepunch/serious-punch": onepunch_serious_punch,
+  "fanren/azure-bamboo-swords": fanren_azure_bamboo_swords,
+  "fanren/evil-warding-thunder": fanren_evil_warding_thunder,
+  "fanren/gold-devouring-beetles": fanren_gold_devouring_beetles,
+  "fanren/immortal-slaying-bead": fanren_immortal_slaying_bead,
+  "fanren/palm-heaven-bottle": fanren_palm_heaven_bottle,
+  "fanren/xuantian-sword": fanren_xuantian_sword,
   "transitions/blinds": transitions_blinds,
   "transitions/burn-away": transitions_burn_away,
   "transitions/crt-off": transitions_crt_off,
@@ -957,9 +963,12 @@ export const provenance = {
   "dragonball/ki-wave": "new",
   "dragonball/solar-flash": "new",
   "dragonball/spirit-bomb": "new",
-  "onepunch/consecutive-normal-punches": "new",
-  "onepunch/hero-landing": "new",
-  "onepunch/serious-punch": "new",
+  "fanren/azure-bamboo-swords": "new",
+  "fanren/evil-warding-thunder": "new",
+  "fanren/gold-devouring-beetles": "new",
+  "fanren/immortal-slaying-bead": "new",
+  "fanren/palm-heaven-bottle": "new",
+  "fanren/xuantian-sword": "new",
   "transitions/blinds": "original",
   "transitions/burn-away": "original",
   "transitions/crt-off": "original",

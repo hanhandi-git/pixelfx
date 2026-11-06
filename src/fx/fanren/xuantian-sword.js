@@ -4,18 +4,19 @@
 import { READY, WHITE, clamp, ease, fit, hex, rng, smooth, sparkle, TAU } from "../../core/index.js";
 import { crackFan, drawCracks } from "../dragonball/_lib.js";
 import { XUANTIAN, GOLD_THUNDER, runeSeal } from "./_lib.js";
+import { glint, pool } from "../pickups/_lib.js";
 
 const END = 3.45;
 const DROP = 0.74, HIT = 1.04;
 const TX = 266, TY = -26, TOP = -292;
-const LEFT = -76, RIGHT = 328, FLOOR = 32;
+const LEFT = -76, RIGHT = 336, FLOOR = 32;
 const GOLD = hex("#e8c06a"), GOLD_HOT = hex("#fff0b0");
 
 export const meta = {
   name: "Xuantian spirit-slaying sword",
   desc: "A slit of white light opens in the sky, runes gather, and a colossal blade drops point-first onto the target; the law-cut tears across the field and the blade shatters upward.",
   tags: ["xianxia", "fanren", "sword", "law", "heaven", "giant-blade", "玄天斩灵剑", "technique", "one-shot"],
-  size: [404, 340],
+  size: [412, 340],
   origin: [76, 308],
   duration: END,
   loop: false,
@@ -77,8 +78,13 @@ function blade(p, C, x, tipY, k, o = {}) {
     const y = gy - 18 + i * 3;
     p.dot(x - 4 - (i % 2) * 2, y, i % 2 ? GOLD : C[6], 0.5 * k);
   }
-  p.glow(x, tipY - L * 0.5, W * 1.6, C[4], 0.2 * k);
-  p.glow(x, tipY - 4, 12, C[6], 0.3 * k);
+  // the blade is backlit: a thin light down each edge, a pin at the point, a star on the guard's gem
+  p.glowLine(x - 1, tipY - 4, x - W * 0.72, gy + 2, 3.4, C[5], 0.12 * k);
+  p.glowLine(x + 1, tipY - 4, x + W * 0.72, gy + 2, 3.4, C[4], 0.09 * k);
+  p.glow(x, tipY - 4, 15, C[6], 0.18 * k);
+  p.glow(x, gy - 23, 14, C[3], 0.06 * k);
+  p.glow(x, gy - 23, 5, C[6], 0.16 * k);
+  glint(p, x, gy - 23, 2, C[6], 0.18 * k);
 }
 
 /** Law script crawling up the blade: hard cyan ticks and little knots of light. */
@@ -115,6 +121,7 @@ export function drawBack(p, t, o) {
   if (seal > 0.01) {
     runeSeal(p, TX, -1, 28, t * 0.9, C, 0.45 * seal, { sq: 0.2, n: 30, tick: 3, core: 0.5 });
     p.ellipse(TX, -1, 20, 3.6, C[4], 0.2 * seal);
+    pool(p, TX, 0, 34, 6, C[4], 0.3 * seal);
   }
 }
 
@@ -128,7 +135,9 @@ export function draw(p, t, o) {
     const w = 1 + 2 * smooth(0.3, 0.85, t);
     p.beam(TX, TOP + 40, TX, -74, w, WHITE, 0.55 * slit);
     p.beam(TX, TOP + 40, TX, -74, w + 2, C[4], 0.22 * slit);
-    p.glow(TX, TOP + 100, 40, C[4], 0.16 * slit);
+    p.glow(TX, TOP + 90, 74, C[3], 0.07 * slit);
+    p.glow(TX, TOP + 90, 28, C[5], 0.1 * slit);
+    p.glow(TX, TOP + 90, 10, C[6], 0.12 * slit);
     for (let i = 0; i < 10; i++) {
       const B = rng(S, i, 7), a = B.range(0, TAU);
       const d = 5 + B.range(0, 16);
@@ -153,7 +162,7 @@ export function draw(p, t, o) {
     const open = smooth(HIT, HIT + 0.14, t) * (1 - smooth(2.0, 2.6, t));
     const w = 1 + 1.6 * (1 - smooth(HIT, HIT + 0.1, t));
     const q = ease.outQuart(smooth(HIT, HIT + 0.12, t));
-    const reachL = Math.min(420, TX - LEFT - 3) * q, reachR = Math.min(420, RIGHT - TX - 3) * q;
+    const reachL = Math.min(420, TX - LEFT - 6) * q, reachR = Math.min(420, RIGHT - TX - 6) * q;
     for (const side of [-1, 1]) {
       const x0 = side > 0 ? TX : TX - reachL;
       const x1 = side > 0 ? TX + reachR : TX;
@@ -161,7 +170,12 @@ export function draw(p, t, o) {
       p.line(x0, TY - w, x1, TY - w, C[4], 0.45 * open);
       p.line(x0, TY + w, x1, TY + w, GOLD, 0.3 * open);
     }
-    p.glow(TX, TY, 52, C[6], 0.4 * open);
+    p.glowLine(TX - reachL, TY, TX + reachR, TY, 9, C[4], 0.05 * open);
+    p.glow(TX, TY, 52, C[6], 0.22 * open);
+    p.glow(TX, TY, 20, WHITE, 0.18 * open);
+    const run = ease.outCubic(smooth(HIT, HIT + 0.42, t));
+    glint(p, TX - reachL * run, TY, 3, WHITE, 0.3 * open);
+    glint(p, TX + reachR * run, TY, 3, WHITE, 0.3 * open);
   }
 
   // impact: a white star, a crushed floor, flying grit
@@ -204,6 +218,7 @@ export function draw(p, t, o) {
         p.line(x - 1, y, x + 1, y - 4, i % 2 ? C[5] : GOLD_HOT, k);
       } else p.dot(x, y, i % 4 === 0 ? WHITE : C[4], k);
       if (i % 5 === 0) p.glow(x, y, 5, C[4], 0.1 * k);
+      if (i % 7 === 0 && k > 0.2) glint(p, x, y, 1 + Math.round(2 * k), C[6], 0.16 * k);
     }
     p.glow(TX, -60, 40, C[4], 0.12 * (1 - q));
   }
@@ -212,6 +227,7 @@ export function draw(p, t, o) {
   const scar = smooth(HIT + 0.2, 1.4, t) * (1 - smooth(2.7, 3.35, t));
   if (scar > 0.01) {
     p.beam(TX, -150, TX, -4, 1, WHITE, 0.25 * scar);
-    p.glow(TX, -80, 26, C[4], 0.1 * scar);
+    p.glowLine(TX, -150, TX, -4, 6, C[4], 0.04 * scar);
+    p.glow(TX, -80, 26, C[5], 0.08 * scar);
   }
 }

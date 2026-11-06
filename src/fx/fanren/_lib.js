@@ -80,7 +80,10 @@ export function leafSword(p, C, x, y, a, L, k = 1, o = {}) {
     const q = P(L * 0.22 * i, 0.1);
     p.dot(q[0], q[1], C[6], 0.7 * k);
   }
-  p.glow(x, y, L * 0.7, C[4], 0.16 * k);
+  // the light lives on the edge, not in a blob: a thin line of jade along the blade and a pin at the point
+  const tg = P(L, 0), mg = P(L * 0.55, -0.6);
+  p.glowLine(x, y, tg[0], tg[1], 2.4, C[5], 0.1 * k);
+  p.glow(mg[0], mg[1], 3.2, C[6], 0.07 * k);
 }
 
 /**

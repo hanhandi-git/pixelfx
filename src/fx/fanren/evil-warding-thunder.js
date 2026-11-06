@@ -5,6 +5,7 @@ import { READY, WHITE, clamp, ease, fit, rng, smooth, sparkle, TAU } from "../..
 import { crackFan, drawCracks } from "../dragonball/_lib.js";
 import { crackle, stroke, zigzag } from "../lightning/_lib.js";
 import { GOLD_THUNDER, WARD_VIOLET, runeSeal } from "./_lib.js";
+import { glint, pool } from "../pickups/_lib.js";
 
 const END = 3.05;
 const CHARGE = 0.86, HIT = 1.02;
@@ -56,14 +57,18 @@ function bamboo(p, C, x, y0, y1, lean, k, t, S) {
     p.dot(xx + 1, y, C[2], 0.5 * k);
     if (w) p.dot(xx + 2, y, C[1], 0.4 * k);
   }
-  // nodes: tight rings that catch the charge, one lit hard
+  // nodes: tight rings, and a pulse of light climbing the stalk like the crystal's cracks
+  const climb = (t * 0.55) % 1.15 - 0.05;
   for (let y = y0 + 18; y < y1; y += 30) {
     const u = (y - y0) / (y1 - y0), xx = x + lean * (1 - u) * (1 - u) * 6;
-    const glow = 0.4 + 0.6 * Math.abs(Math.sin(t * 5 + y * 0.1 + S));
-    p.ellipse(xx, y, 4.5, 1.5, C[4], 0.55 * k * glow);
+    const near = Math.exp(-(((u - climb) / 0.11) ** 2));
+    const glow = 0.25 + 0.85 * near + 0.1 * Math.sin(t * 5 + y * 0.1 + S);
+    p.ellipse(xx, y, 4.5, 1.5, C[4], 0.45 * k * glow);
     p.dot(xx - 3, y, C[5], 0.8 * k);
     p.dot(xx + 3, y, C[5], 0.8 * k);
-    p.dot(xx, y - 1, WHITE, 0.5 * k * glow);
+    p.dot(xx, y - 1, near > 0.4 ? WHITE : C[6], 0.5 * k * Math.min(1, glow));
+    p.glow(xx, y, 5 + 7 * near, C[5], 0.08 * k * glow);
+    if (near > 0.45) glint(p, xx, y, Math.round(1 + 2 * near), C[6], 0.18 * k * near);
   }
   // leaf crown, drawn as short gold-green blades
   for (let i = 0; i < 3; i++) {
@@ -102,14 +107,18 @@ export function draw(p, t, o) {
   if (sealK > 0.01) {
     runeSeal(p, TX, -1, 25 + 2 * Math.sin(t * 5), t * (1.4 + 2.4 * charge), V, 0.5 * sealK, { sq: 0.2, n: 28, tick: 3, core: charge });
     p.ellipse(TX, -1, 16, 3.2, V[4], 0.24 * sealK);
-    p.glow(TX, -2, 30, V[4], 0.18 * sealK);
+    pool(p, TX, 0, 30, 5.5, V[4], 0.28 * sealK);
+    p.glow(TX, -10, 24, V[4], 0.1 * sealK);
   }
 
   // arcs gather from the air and the caster's palm; the charge is gold, the pressure violet
   if (charge > 0.02) {
     const hand = [10, -35];
     p.circle(hand[0], hand[1], 2 + 2.5 * charge, charge > 0.7 ? WHITE : C[6], 0.9 * charge);
-    p.glow(hand[0], hand[1], 20, C[5], 0.35 * charge);
+    p.glow(hand[0], hand[1], 30, C[3], 0.08 * charge);
+    p.glow(hand[0], hand[1], 16, C[5], 0.2 * charge);
+    p.glow(hand[0], hand[1], 5, C[6], 0.22 * charge);
+    p.glowRing(hand[0], hand[1], 8, 6, C[5], 0.1 * charge);
     for (let i = 0; i < 3; i++) {
       const b = zigzag(R, hand[0], hand[1], hand[0] + R.range(-8, 10), TOP + 40 + R.range(0, 60), 0.32, 0.1, 0.5, 1);
       stroke(p, b, 0.25 * charge * (0.5 + 0.5 * Math.sin(t * 17 + i)), C, 0.7, { light: 0.3 });
@@ -143,7 +152,9 @@ export function draw(p, t, o) {
           stroke(p, v, k * 0.45, V, 0.9, { light: 0.25 });
         }
       }
-      p.glow(TX, -120, 60, C[4], 0.15 * k);
+      p.glowLine(TX + 2, TOP + 30, TX, TY, 11, C[3], 0.06 * k);
+      p.glow(TX, -120, 60, C[3], 0.08 * k);
+      p.glow(TX, -90, 24, C[5], 0.1 * k);
     }
   }
 
@@ -151,8 +162,11 @@ export function draw(p, t, o) {
   if (t >= HIT && t < HIT + 0.6) {
     const q = (t - HIT) / 0.6, f = 1 - q;
     p.circle(TX, TY, 4 + 16 * ease.outQuad(q), WHITE, 0.95 * f);
-    p.glow(TX, TY, 46, C[6], 0.45 * f);
-    p.glow(TX, -1, 40, C[5], 0.4 * f);
+    p.glow(TX, TY, 46, C[6], 0.3 * f);
+    p.glow(TX, TY, 18, WHITE, 0.25 * f);
+    glint(p, TX, TY, Math.round(4 + 8 * f), WHITE, 0.3 * f);
+    pool(p, TX, 0, 48, 9, C[4], 0.42 * f);
+    p.glow(TX, -1, 40, C[5], 0.18 * f);
     sparkle(p, TX, TY, 20 * f + 5, C[6], C[4], 0.85 * f);
     sparkle(p, TX, TY, 12 * f + 3, WHITE, C[6], 0.6 * f);
     for (let i = 0; i < 24; i++) {
@@ -186,6 +200,7 @@ export function draw(p, t, o) {
       const y = -2 - q * B.range(20, 70) - age * 6;
       p.dot(x, y, q > 0.6 ? C[3] : i % 3 ? C[5] : WHITE, (1 - q) * 0.8);
       if (i % 4 === 0) p.glow(x, y, 4, C[4], 0.08 * (1 - q));
+      if (i % 6 === 0) glint(p, x, y, 1 + Math.round(2 * (1 - q)), C[6], 0.14 * (1 - q));
     }
     // a thin residual pillar of light, thinning from the cloud to the floor
     if (t < 2.5) {

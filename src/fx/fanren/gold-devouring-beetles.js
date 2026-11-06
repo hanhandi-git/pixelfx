@@ -3,6 +3,7 @@
 // hard little glints riding a soft amber swarm.
 import { READY, WHITE, clamp, ease, fit, rng, smooth, sparkle, TAU } from "../../core/index.js";
 import { GOLD_BEETLE, runeSeal } from "./_lib.js";
+import { glint, blobShadow, pool } from "../pickups/_lib.js";
 
 const END = 2.95;
 const TX = 246;
@@ -136,10 +137,17 @@ export function drawBack(p, t, o) {
   const C = fit(o.palette, 8), S = o.seed;
   const cloud = smooth(STREAM, CLOUD + 0.15, t) * (1 - smooth(BURST, BURST + 0.35, t));
   if (cloud <= 0.01) return;
-  // the mass has a dark heart: a translucent soot disc that gold rides over
+  // the mass has a dark heart: a translucent soot disc that gold rides over, grounded by a shadow
+  blobShadow(p, CLOUD_C[0], 15 + 8 * cloud, 0.45, -1);
   p.disc(CLOUD_C[0], CLOUD_C[1], 24 + 6 * cloud, C[0], 0.4 * cloud);
   p.disc(CLOUD_C[0] - 4, CLOUD_C[1] - 6, 14, C[1], 0.3 * cloud);
-  p.glow(CLOUD_C[0], CLOUD_C[1] - 4, 34, C[4], 0.2 * cloud);
+  // a pool of gold light under the swarm and a halo round its rim, brightest where the mass is thickest
+  pool(p, CLOUD_C[0], 0, 26, 4.5, C[4], 0.32 * cloud);
+  p.glowRing(CLOUD_C[0], CLOUD_C[1], 23, 13, C[4], 0.16 * cloud);
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * TAU + t * 1.1;
+    p.glow(CLOUD_C[0] + Math.cos(a) * 26, CLOUD_C[1] + Math.sin(a) * 14, 5 + 2 * Math.sin(a * 3), C[5], 0.07 * cloud);
+  }
   // far half of the swarm
   for (let i = 0; i < N; i += 2) {
     const b = bugAt(i, t, S);
@@ -148,6 +156,7 @@ export function drawBack(p, t, o) {
   }
   // a dim ring of dust on the floor where it feeds
   p.ellipse(TX, -1, 16, 3, C[3], 0.16 * cloud);
+  pool(p, TX, 0, 18, 3.4, C[4], 0.18 * cloud);
 }
 
 export function draw(p, t, o) {
@@ -167,7 +176,12 @@ export function draw(p, t, o) {
     }
   }
 
-  // the stream: gold specks on a curve from cuff to cloud
+  // the stream: gold specks on a curve from cuff to cloud, with a faint amber light along the flow
+  const streamK = smooth(STREAM, CLOUD, t) * (1 - smooth(BURST, BURST + 0.3, t));
+  if (streamK > 0.01) {
+    p.glowLine(HAND[0], HAND[1], CLOUD_C[0], CLOUD_C[1], 9, C[3], 0.035 * streamK);
+    p.glow(CLOUD_C[0], CLOUD_C[1], 18, C[5], 0.07 * streamK);
+  }
   for (let i = 0; i < N; i++) {
     const b = bugAt(i, t, S);
     if (b.mode === "fly") {
@@ -192,8 +206,15 @@ export function draw(p, t, o) {
       const a = B.range(0, TAU), r = B.range(4, 26);
       const x = CLOUD_C[0] + Math.cos(a) * r, y = CLOUD_C[1] + Math.sin(a) * r * 0.6;
       p.dot(x, y, B.chance(0.5) ? WHITE : C[6], 0.8 * cloud);
-      if (B.chance(0.35)) p.glow(x, y, 5, C[5], 0.1 * cloud);
+      if (B.chance(0.35)) glint(p, x, y, 1 + Math.round(B.next() * 2), C[6], 0.16 * cloud);
     }
+    // a sheen orbits the cloud like a caught lamp: one hard star, its own light riding with it
+    const sa = t * 2.2, sx2 = CLOUD_C[0] + Math.cos(sa) * 24, sy2 = CLOUD_C[1] + Math.sin(sa) * 13;
+    glint(p, sx2, sy2, 2, C[6], 0.24 * cloud);
+    p.glow(sx2, sy2, 9, C[5], 0.12 * cloud);
+    // and the rim breathes
+    const breath = 0.5 + 0.5 * Math.sin(t * 6.5);
+    p.glow(CLOUD_C[0], CLOUD_C[1], 28 + 4 * breath, C[4], 0.06 + 0.05 * breath);
     if (devour > 0.01) {
       // the target is a hollow inside the cloud: a violet-black bite and a gold rim
       p.disc(CLOUD_C[0], CLOUD_C[1], 15, C[0], 0.32 * devour);

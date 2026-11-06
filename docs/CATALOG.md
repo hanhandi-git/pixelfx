@@ -1,6 +1,6 @@
 # Catalog
 
-327 effects in 29 categories: 244 original and 83 new. Every one is a file in
+330 effects in 29 categories: 244 original and 86 new. Every one is a file in
 `src/fx/<category>/<name>.js`; render any of them with `node tools/render.mjs <id> --gif`.
 
 ## moves
@@ -473,15 +473,18 @@ ki arts: charged orbs, kamehameha waves, drill beams, spirit bombs, discs and go
 | Solar flare | `dragonball/solar-flash` | new | effect | one-shot 2.3s | 280×180 | Light is held at the face for a breath, then let go: a white burst with sixteen rays, a shock ring, and a slow after-image of drifting sparks while the field stays blinded. |
 | Spirit bomb | `dragonball/spirit-bomb` | new | effect | one-shot 5.6s | 386×236 | Light rises out of the whole field, packs itself into a cold blue-green sphere overhead, and is hurled down: a dome of light, a broken floor and a column of dust that keeps rising. |
 
-## one punch
+## a mortal's journey
 
-heroic impact arts: serious punches, consecutive fists and crater-making landings.
+xianxia arts: bamboo-cloud flying swords, evil-warding thunder, gold-devouring beetles, the Xuantian blade and the heaven-palm bottle.
 
 | effect | id | source | kind | play | size | what it does |
 |---|---|---|---|---|---|---|
-| Consecutive normal punches | `onepunch/consecutive-normal-punches` | new | effect | one-shot 3.25s | 440×190 | Six compressed fists strobe across the field in a relentless chain: overlapping afterimages, blue-white pressure wakes, hit stars and a final floor ring. |
-| Hero landing | `onepunch/hero-landing` | new | effect | one-shot 2.65s | 300×180 | A compact landing pose punches a white ring through the floor, lifting a fan of grit and a low wall of dust before the crater cools. |
-| Serious punch | `onepunch/serious-punch` | new | effect | one-shot 2.8s | 420×220 | A quiet wind-up compresses the air around one fist, then a red pressure wake crosses the field and caves into a white-hot crater, dust and torn speed lines. |
+| Azure bamboo swords | `fanren/azure-bamboo-swords` | new | effect | one-shot 2.85s | 376×196 | A sleeve-flick gathers jade light, a cloud of bamboo-leaf flying swords wheels around the caster, then the swarm crosses the field, stabs in sequence and wheels round the target. |
+| Evil-warding thunder | `fanren/evil-warding-thunder` | new | effect | one-shot 3.05s | 460×308 | A violet-gold seal opens under the target, phantom thunder bamboo rises, and a white-gold pillar of divine thunder falls through it: forked arcs, torn floor, glittering afterglow. |
+| Gold-devouring beetles | `fanren/gold-devouring-beetles` | new | effect | one-shot 2.95s | 420×212 | A sleeve opens and a stream of gold beetles pours out, gathering into a boiling cloud over the target, stripping it to a dark hollow before bursting into glittering dust. |
+| Immortal-slaying bead | `fanren/immortal-slaying-bead` | new | effect | one-shot 3.2s | 420×260 | A black bead is flicked out and hangs over the target; it cracks and a perfect white sphere unfolds without smoke, leaving a glassy crater, gold dust and a violet halo. |
+| Heaven-palm bottle | `fanren/palm-heaven-bottle` | new | effect | loop 3.2s | 148×164 | The little green bottle hangs in the air and turns through the light; a dewdrop gathers at its lip each turn and falls, and where it lands a spirit herb unfolds. |
+| Xuantian spirit-slaying sword | `fanren/xuantian-sword` | new | effect | one-shot 3.45s | 412×340 | A slit of white light opens in the sky, runes gather, and a colossal blade drops point-first onto the target; the law-cut tears across the field and the blade shatters upward. |
 
 ## transitions
 

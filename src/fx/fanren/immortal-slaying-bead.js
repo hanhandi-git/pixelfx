@@ -3,6 +3,7 @@
 import { READY, WHITE, band, clamp, ease, fit, hex, rng, smooth, sparkle, TAU } from "../../core/index.js";
 import { crackFan, drawCracks } from "../dragonball/_lib.js";
 import { MIE, runeSeal } from "./_lib.js";
+import { glint, blobShadow, pool } from "../pickups/_lib.js";
 
 const END = 3.2;
 const THROW = 0.3, HOVER = 0.62, BURST = 0.9;
@@ -54,7 +55,10 @@ function bead(p, x, y, r, spin, k) {
     p.dot(x + Math.cos(a) * (r + 0.4), y + Math.sin(a) * r * 0.55, GOLD, 0.55 * k);
   }
   p.dot(x - 0.5, y - 0.5, WHITE, 0.9 * k);
-  p.glow(x, y, r * 3, hex("#bfa0d8"), 0.22 * k);
+  p.glow(x, y, r * 4.5, hex("#4f3a76"), 0.08 * k);
+  p.glow(x, y, r * 2.4, hex("#bfa0d8"), 0.16 * k);
+  p.glow(x, y, r, WHITE, 0.1 * k);
+  p.glowRing(x, y, r + 2, 5, hex("#bfa0d8"), 0.1 * k);
 }
 
 function beadAt(t, S) {
@@ -85,6 +89,8 @@ export function drawBack(p, t, o) {
   }
   // the bead's shadow and the distorting shell before it opens
   if (B.k > 0.01 && t < BURST) {
+    blobShadow(p, B.x, 4 + B.r * 0.7, 0.4, -1);
+    pool(p, B.x, 0, 16, 3, C[4], 0.25 * B.k);
     p.ellipse(B.x, -1, 5 + B.r, 1.4, C[2], 0.3 * B.k);
     for (let i = 0; i < 3; i++) {
       const r = B.r + 5 + i * 5 + Math.sin(t * 8 + i) * 1.5;
@@ -100,6 +106,7 @@ export function drawBack(p, t, o) {
     p.ellipse(TX, -2, 15, 2.6, hex("#0e0a18"), 0.4 * scar);
     p.arc(TX, -1, 20, 0.8, 0.2, 3.0, C[4], 0.3 * scar);
     p.arc(TX, -1, 20, 0.8, 3.3, 5.9, C[5], 0.25 * scar);
+    pool(p, TX, 0, 26, 4, C[3], 0.22 * scar);
   }
 }
 
@@ -119,6 +126,7 @@ export function draw(p, t, o) {
           p.dot(q.x, q.y, j < 2 ? GOLD : C[3], 0.4 * (1 - j * 0.22));
         }
         p.line(B.x - 16, B.y - 2, B.x - 4, B.y, GOLD, 0.25);
+        p.glowLine(B.x - 16, B.y - 2, B.x - 4, B.y, 4, C[5], 0.08);
       }
       if (t > HOVER) {
         // cracks of white light open along the bead
@@ -146,8 +154,11 @@ export function draw(p, t, o) {
       p.ring(TX, TY, r + 1.5, 1.2, WHITE, 0.9 * (1 - thin));
       p.ring(TX, TY, r + 3.5, 1, GOLD, 0.55 * (1 - thin));
       p.ring(TX, TY, r + 8, 0.8, C[3], 0.32 * (1 - thin));
-      p.glow(TX, TY, r * 2.2, C[4], 0.35 * (1 - thin));
-      p.glow(TX, TY, r * 1.2, WHITE, 0.4 * (1 - thin));
+      p.glow(TX, TY, r * 3.2, C[2], 0.1 * (1 - thin));
+      p.glow(TX, TY, r * 2.0, C[4], 0.26 * (1 - thin));
+      p.glow(TX, TY, r * 1.1, WHITE, 0.32 * (1 - thin));
+      p.glowRing(TX, TY, r + 2, 9, C[5], 0.16 * (1 - thin));
+      if (age < 0.16) glint(p, TX, TY, Math.round(6 + 8 * (1 - age / 0.16)), WHITE, 0.4 * (1 - age / 0.16));
       // the erasure: everything within the sphere is white, including the target
       if (age < 0.24) {
         p.circle(TX, TY, 34 + 9 * (age / 0.24), WHITE, 0.85 * (1 - age / 0.24));
@@ -160,6 +171,7 @@ export function draw(p, t, o) {
       p.ellipse(TX, TY, 30 + q * 90, 5 + q * 10, C[5], 0.22 * (1 - q));
       p.ellipse(TX, TY, 22 + q * 60, 3 + q * 7, WHITE, 0.18 * (1 - q));
       p.ellipse(TX, -1, 20 + q * 70, 4 + q * 4, C[4], 0.2 * (1 - q));
+      pool(p, TX, 0, 34 + q * 40, 6 + q * 4, C[4], 0.3 * (1 - q));
     }
     // debris: bright fragments thrown out, then settling into gold dust
     if (age < 1.2) {
@@ -187,6 +199,7 @@ export function draw(p, t, o) {
         if (a2 < 0) continue;
         const x = TX + R.range(-22, 22) + Math.sin(a2 * 2 + i) * 2, y = -2 - a2 * R.range(9, 24);
         p.dot(x, y, i % 4 ? C[4] : WHITE, 0.65 * motes);
+        if (i % 6 === 0) glint(p, x, y, 1, C[6], 0.12 * motes);
       }
     }
   }
