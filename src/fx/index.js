@@ -254,6 +254,8 @@ import * as ui_health_bar_hit from "./ui/health-bar-hit.js";
 import * as ui_heart_lost from "./ui/heart-lost.js";
 import * as ui_level_up from "./ui/level-up.js";
 import * as ui_quest_complete from "./ui/quest-complete.js";
+import * as ui_skill_ready from "./ui/skill-ready.js";
+import * as ui_xp_bar_fill from "./ui/xp-bar-fill.js";
 import * as pickups_cash_coin from "./pickups/cash-coin.js";
 import * as pickups_chest_open from "./pickups/chest-open.js";
 import * as pickups_coin_spin from "./pickups/coin-spin.js";
@@ -589,6 +591,8 @@ export const effects = {
   "ui/heart-lost": ui_heart_lost,
   "ui/level-up": ui_level_up,
   "ui/quest-complete": ui_quest_complete,
+  "ui/skill-ready": ui_skill_ready,
+  "ui/xp-bar-fill": ui_xp_bar_fill,
   "pickups/cash-coin": pickups_cash_coin,
   "pickups/chest-open": pickups_chest_open,
   "pickups/coin-spin": pickups_coin_spin,
@@ -922,6 +926,8 @@ export const provenance = {
   "ui/heart-lost": "original",
   "ui/level-up": "original",
   "ui/quest-complete": "original",
+  "ui/skill-ready": "new",
+  "ui/xp-bar-fill": "new",
   "pickups/cash-coin": "new",
   "pickups/chest-open": "original",
   "pickups/coin-spin": "original",

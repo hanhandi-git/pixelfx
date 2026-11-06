@@ -1,6 +1,6 @@
 # Catalog
 
-330 effects in 29 categories: 244 original and 86 new. Every one is a file in
+332 effects in 29 categories: 244 original and 88 new. Every one is a file in
 `src/fx/<category>/<name>.js`; render any of them with `node tools/render.mjs <id> --gif`.
 
 ## moves
@@ -403,6 +403,8 @@ level ups, numbers, toasts, countdowns.
 | Heart lost | `ui/heart-lost` | original | effect | one-shot 1.5s | 96×88 | A HUD heart is hit: it flashes white and jolts, a crack runs down it, it splits into two halves that tumble away, leaving an empty socket that fades. |
 | Level up | `ui/level-up` | original | effect | one-shot 3.2s | 176×138 | Gold gathers at the feet and bursts up as a pillar of light round the hero; rings climb it, LEVEL UP! drops in letter by letter, a shine sweeps it, sparkles twinkle. |
 | Quest complete | `ui/quest-complete` | original | effect | one-shot 2.6s | 204×92 | A stitched ribbon unrolls from the middle, QUEST COMPLETE types on letter by letter, a gold seal stamps down and ticks, stars pop; then it all rolls away. |
+| Skill ready | `ui/skill-ready` | new | effect | one-shot 2.6s | 136×140 | A hotbar skill's cooldown unwinds to the last second, then the slot flashes white, fires a ring of light and pops READY underneath with a clean shine. |
+| XP bar fill | `ui/xp-bar-fill` | new | effect | one-shot 2.45s | 208×76 | An XP bar tops up: the level badge pops onto the plate, the bar races for the next level behind a white-hot edge that sheds sparks, then it shines and folds away. |
 
 ## pickups
 

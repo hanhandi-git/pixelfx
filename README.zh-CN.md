@@ -6,11 +6,11 @@
 
 # pixelfx-extended.
 
-在 [**pixelfx**](https://github.com/patch-gg/pixelfx) 原版 244 特效基线之上，额外增加 **<!-- new-count -->86<!-- /new-count -->** 条地图、小怪等素材的扩展仓库。
+在 [**pixelfx**](https://github.com/patch-gg/pixelfx) 原版 244 特效基线之上，额外增加 **<!-- new-count -->88<!-- /new-count -->** 条地图、小怪等素材的扩展仓库。
 
-**<!-- count -->330<!-- /count --> 个像素特效与动画，每一个都是一小段代码。** 火焰、爆炸、魔法、天气、UI、拾取物、小动物等。可实时播放、换色与镜像，嵌入浏览器游戏，或导出精灵图给任意引擎。另有 **奇幻游戏套件** —— 战斗地图、小怪与 Boss 单位、带预警的技能，以及在 `src/encounters/` 中编写的遭遇战时间轴 —— 以及 Claude Code skill，用像素画师那套「起草 → 渲染 → 眼看 → 精修」流程做新内容。
+**<!-- count -->332<!-- /count --> 个像素特效与动画，每一个都是一小段代码。** 火焰、爆炸、魔法、天气、UI、拾取物、小动物等。可实时播放、换色与镜像，嵌入浏览器游戏，或导出精灵图给任意引擎。另有 **奇幻游戏套件** —— 战斗地图、小怪与 Boss 单位、带预警的技能，以及在 `src/encounters/` 中编写的遭遇战时间轴 —— 以及 Claude Code skill，用像素画师那套「起草 → 渲染 → 眼看 → 精修」流程做新内容。
 
-库内 **<!-- original-count -->244<!-- /original-count -->** 个原始特效与 **<!-- new-count -->86<!-- /new-count -->** 个新增。[Gallery](gallery/index.html) 会把每条资源标为 `original` 或 `new`，并支持按来源筛选。
+库内 **<!-- original-count -->244<!-- /original-count -->** 个原始特效与 **<!-- new-count -->88<!-- /new-count -->** 个新增。[Gallery](gallery/index.html) 会把每条资源标为 `original` 或 `new`，并支持按来源筛选。
 
 有 **<!-- act-count -->115<!-- /act-count -->** 个特效导出 **`act`** 时间轴（蓄力、出手、命中定格、受击与收招）。另有 **<!-- moves-count -->12<!-- /moves-count -->** 个 **`moves`**（`src/fx/moves/`）把这一套打成从 wind-up 到 recovery 的完整攻击。
 
@@ -24,7 +24,7 @@
 
 ## 新增内容
 
-以下 **<!-- new-count -->86<!-- /new-count -->** 条不在原始 244 特效基线内：奇幻地图、小怪、Boss 等。在 [Gallery（`?source=new`）](gallery/index.html?source=new) 或部署版 [在线 Gallery](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown)（仅新增、Moon Oracle、投掷分类）浏览。
+以下 **<!-- new-count -->88<!-- /new-count -->** 条不在原始 244 特效基线内：奇幻地图、小怪、Boss 等。在 [Gallery（`?source=new`）](gallery/index.html?source=new) 或部署版 [在线 Gallery](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown)（仅新增、Moon Oracle、投掷分类）浏览。
 
 <p align="center">
   <img src="docs/readme/montage-new.gif" width="800" alt="六张 320×180 奇幻战斗地图循环预览：极光隘口、水晶洞窟、余烬深渊、苔痕遗迹、日痕神殿与磷火沼泽。">
@@ -119,6 +119,8 @@
 | **thrown** | Powder bomb throw | `thrown/powder-bomb-throw` |
 | **thrown** | Soul bell | `thrown/soul-bell-throw` |
 | **thrown** | Talisman throw | `thrown/talisman-throw` |
+| **ui** | Skill ready | `ui/skill-ready` |
+| **ui** | XP bar fill | `ui/xp-bar-fill` |
 <!-- /new-catalog -->
 
 ## 全部目录
@@ -140,6 +142,7 @@
 | **miku** | 5 | encore, leek smash, song aura, sound wave, vocal burst |
 | **konosuba** | 4 | explosion chant, explosion crater, explosion, explosion |
 | **spawn & death** | 13 | ink unravel, shanhaijing summon, talisman suppression, coin drop, disintegrate, dissolve burn… |
+| **ui** | 14 | skill ready, xp bar fill, achievement, coin collect, combo counter, confetti… |
 | **arcane** | 13 | flow seal, arcane beam, arcane missiles, arcane orb, blink in, blink out… |
 | **moves** | 12 | arrow shot, dash strike, earth stomp, fireball throw, ground pound, holy smite… |
 | **fire** | 12 | brazier, campfire, candle, fire breath, fire ring, fire tornado… |
@@ -154,7 +157,6 @@
 | **status** | 13 | bleeding, burning, charmed, confused, cursed, frozen… |
 | **nature** | 13 | acid splash, boulder, earth spike, healing bloom, leaf storm, poison cloud… |
 | **weather** | 12 | aurora, blizzard, cherry blossoms, clouds, falling leaves, fireflies… |
-| **ui** | 12 | achievement, coin collect, combo counter, confetti, countdown, crit number… |
 | **transitions** | 10 | blinds, burn away, crt off, diamond wipe, glitch wipe, iris… |
 | **critters** | 12 | bat, bird, butterfly, eyeball, fish school, flying skull… |
 <!-- /catalog -->
