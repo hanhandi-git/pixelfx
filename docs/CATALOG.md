@@ -1,6 +1,6 @@
 # Catalog
 
-324 effects in 28 categories: 244 original and 80 new. Every one is a file in
+327 effects in 29 categories: 244 original and 83 new. Every one is a file in
 `src/fx/<category>/<name>.js`; render any of them with `node tools/render.mjs <id> --gif`.
 
 ## moves
@@ -472,6 +472,16 @@ ki arts: charged orbs, kamehameha waves, drill beams, spirit bombs, discs and go
 | Ki wave | `dragonball/ki-wave` | new | effect | one-shot 4.2s | 340×190 | He cups ki at his hip until it swells, drives both palms forward, and a thick blue-white column crosses the field: twisted strands, running pulses, a contact that cracks the floor. |
 | Solar flare | `dragonball/solar-flash` | new | effect | one-shot 2.3s | 280×180 | Light is held at the face for a breath, then let go: a white burst with sixteen rays, a shock ring, and a slow after-image of drifting sparks while the field stays blinded. |
 | Spirit bomb | `dragonball/spirit-bomb` | new | effect | one-shot 5.6s | 386×236 | Light rises out of the whole field, packs itself into a cold blue-green sphere overhead, and is hurled down: a dome of light, a broken floor and a column of dust that keeps rising. |
+
+## one punch
+
+heroic impact arts: serious punches, consecutive fists and crater-making landings.
+
+| effect | id | source | kind | play | size | what it does |
+|---|---|---|---|---|---|---|
+| Consecutive normal punches | `onepunch/consecutive-normal-punches` | new | effect | one-shot 3.25s | 440×190 | Six compressed fists strobe across the field in a relentless chain: overlapping afterimages, blue-white pressure wakes, hit stars and a final floor ring. |
+| Hero landing | `onepunch/hero-landing` | new | effect | one-shot 2.65s | 300×180 | A compact landing pose punches a white ring through the floor, lifting a fan of grit and a low wall of dust before the crater cools. |
+| Serious punch | `onepunch/serious-punch` | new | effect | one-shot 2.8s | 420×220 | A quiet wind-up compresses the air around one fist, then a red pressure wake crosses the field and caves into a white-hot crater, dust and torn speed lines. |
 
 ## transitions
 

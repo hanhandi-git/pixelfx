@@ -295,6 +295,9 @@ import * as dragonball_ki_volley from "./dragonball/ki-volley.js";
 import * as dragonball_ki_wave from "./dragonball/ki-wave.js";
 import * as dragonball_solar_flash from "./dragonball/solar-flash.js";
 import * as dragonball_spirit_bomb from "./dragonball/spirit-bomb.js";
+import * as onepunch_consecutive_normal_punches from "./onepunch/consecutive-normal-punches.js";
+import * as onepunch_hero_landing from "./onepunch/hero-landing.js";
+import * as onepunch_serious_punch from "./onepunch/serious-punch.js";
 import * as transitions_blinds from "./transitions/blinds.js";
 import * as transitions_burn_away from "./transitions/burn-away.js";
 import * as transitions_crt_off from "./transitions/crt-off.js";
@@ -624,6 +627,9 @@ export const effects = {
   "dragonball/ki-wave": dragonball_ki_wave,
   "dragonball/solar-flash": dragonball_solar_flash,
   "dragonball/spirit-bomb": dragonball_spirit_bomb,
+  "onepunch/consecutive-normal-punches": onepunch_consecutive_normal_punches,
+  "onepunch/hero-landing": onepunch_hero_landing,
+  "onepunch/serious-punch": onepunch_serious_punch,
   "transitions/blinds": transitions_blinds,
   "transitions/burn-away": transitions_burn_away,
   "transitions/crt-off": transitions_crt_off,
@@ -951,6 +957,9 @@ export const provenance = {
   "dragonball/ki-wave": "new",
   "dragonball/solar-flash": "new",
   "dragonball/spirit-bomb": "new",
+  "onepunch/consecutive-normal-punches": "new",
+  "onepunch/hero-landing": "new",
+  "onepunch/serious-punch": "new",
   "transitions/blinds": "original",
   "transitions/burn-away": "original",
   "transitions/crt-off": "original",
