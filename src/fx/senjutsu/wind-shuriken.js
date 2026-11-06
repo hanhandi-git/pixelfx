@@ -177,6 +177,15 @@ export function draw(p, t, o) {
       const rr = 16 + b * 96;
       band(p, TG, 0, rr, 0.18, 2, f * 0.6, C, undefined, b < 0.15);
       p.glow(TG, -20, 70, C[5], 0.3 * f);
+      // Four secondary wind petals snap out behind the main burst.
+      for (let i = 0; i < 4; i++) {
+        const a = i * TAU / 4 + 0.18;
+        const r0 = 12 + b * 20, r1 = 42 + b * 58;
+        const x0 = TG + Math.cos(a) * r0, y0 = -22 + Math.sin(a) * r0 * 0.55;
+        const x1 = TG + Math.cos(a) * r1, y1 = -22 + Math.sin(a) * r1 * 0.55;
+        p.line(x0, y0, x1, y1, i % 2 ? C[6] : WHITE, f * 0.75);
+        p.line(x0, y0 + 1, x1, y1 + 1, C[4], f * 0.42);
+      }
     }
   }
 

@@ -83,6 +83,13 @@ export function draw(p, t, o) {
       }
       p.glow(0, GY, 88, WHITE, 0.75 * k);
       p.glow(0, GY, 60, C[6], 0.5 * k);
+      // A tighter inner star gives the release a crisp white-hot center before the dome expands.
+      for (let i = 0; i < 8; i++) {
+        const a = i * TAU / 8 + 0.2, len = 18 + 36 * ease.outQuad(q / 0.15);
+        p.line(Math.cos(a) * 5, GY + Math.sin(a) * 4,
+          Math.cos(a) * len, GY + Math.sin(a) * len * 0.72,
+          i % 2 ? C[6] : WHITE, k * 0.82);
+      }
     }
     // the dome, three rings out of the ground; only the upper half so they sit on the floor
     for (let i = 0; i < 3; i++) {
@@ -126,6 +133,13 @@ export function draw(p, t, o) {
     // afterglow in the air
     if (q < 1.4) p.glow(0, GY, 40 + q * 16, C[5], 0.16 * (1 - q / 1.4));
     if (q < 0.5) p.glow(0, GY, 20, WHITE, 0.2 * (1 - q / 0.5));
+    if (q < 0.55) {
+      const f = 1 - smooth(0.18, 0.55, q);
+      for (let i = 0; i < 10; i++) {
+        const a = i * TAU / 10 + 0.3, rr = 32 + q * 60;
+        p.dot(Math.cos(a) * rr, GY + Math.sin(a) * rr * 0.72, i % 2 ? G[6] : C[6], 0.65 * f);
+      }
+    }
   }
   p.glow(0, -1, 30, C[4], 0.12 * (1 - smooth(HIT, END, t)));
 }

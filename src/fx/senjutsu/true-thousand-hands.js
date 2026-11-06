@@ -1,7 +1,7 @@
 // Sage art: a root opens and three wooden dragons pour out of the floor like currents. They coil around each
 // other, then their heads bite the target in a staggered three-beat. Wood is the body, moss the soft green,
 // and amber sap runs along it like light on water.
-import { fit, clamp, smooth, ease, band, WHITE, cubicBezier, createPath, rng, noise2, tileNoise, READY } from "../../core/index.js";
+import { fit, clamp, smooth, ease, band, WHITE, TAU, cubicBezier, createPath, rng, noise2, tileNoise, READY } from "../../core/index.js";
 import { JADE, SAGE } from "../ninjutsu/_lib.js";
 
 const SEAL = 0.05, RISE = 0.7, STRIKE = 1.9, HIT = 2.4, END = 4.2;
@@ -134,6 +134,9 @@ function body(p, W, J, S, D, path, grow, fade, t) {
     const x = s.x + s.nx * wob, y = s.y + s.ny * wob;
     let nx = s.nx, ny = s.ny;
     if (ny > 0) (nx = -nx), (ny = -ny);
+    // Establish a continuous bark volume first; the stepped texture pass below then reads as grain.
+    p.circle(x, y, r * 0.96, W[2], fade * 0.72);
+    p.circle(x - nx * r * 0.2, y - ny * r * 0.2, r * 0.62, W[4], fade * 0.55);
     const mossPatch = noise2(u * 17 + 3, 5, D.seed + 5);
     for (let q = -r; q <= r; q += D.z === 0 ? 1.9 : 1.5) {
       const e = Math.abs(q) / r, px = x + nx * q, py = y + ny * q;
@@ -250,6 +253,15 @@ function headHit(p, W, J, S, D, t) {
     p.dot(x, y, i % 3 ? W[4] : S[5], 0.55 * k);
   }
   p.dot(D.target[0], D.target[1], WHITE, 0.7 * k);
+  p.glow(D.target[0], D.target[1], 20 + 18 * (1 - k), S[5], 0.24 * k);
+  if (q < 0.16) {
+    for (let i = 0; i < 6; i++) {
+      const a = i * TAU / 6 + D.phase, len = 12 + 26 * (q / 0.16);
+      p.line(D.target[0] + Math.cos(a) * 3, D.target[1] + Math.sin(a) * 2,
+        D.target[0] + Math.cos(a) * len, D.target[1] + Math.sin(a) * len * 0.5,
+        i % 2 ? J[5] : S[6], (1 - q / 0.16) * 0.62);
+    }
+  }
 }
 
 function impact(p, W, J, S, D, t) {

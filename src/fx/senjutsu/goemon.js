@@ -74,6 +74,9 @@ function oil(p, O, t, len, a) {
       const edge = Math.abs(j) > 0.86 ? 0.5 : 1;
       p.dot(P.x + P.nx * j * w, P.y + P.ny * j * w, c, a * edge);
     }
+    // Fill the oil belly between the sampled pixels so the braid reads as a heavy wave at 1x.
+    p.line(P.x - P.nx * w * 0.72, P.y - P.ny * w * 0.72,
+      P.x + P.nx * w * 0.72, P.y + P.ny * w * 0.72, O[3], a * 0.42);
     // a hard glossy rail along the lit top and a dark one along the belly
     p.dot(P.x - P.nx * w * 0.58, P.y - P.ny * w * 0.58, O[6], a * 0.8);
     p.dot(P.x + P.nx * w * 0.82, P.y + P.ny * w * 0.82, O[1], a * 0.7);
@@ -102,6 +105,11 @@ function wind(p, W, J, t, len, a) {
       p.dot(x, y, k % 2 ? W[4] : J[4], a * (dash ? 0.52 : 0.22));
       if (dash && Math.round(q * 54) % 5 === 0) p.dot(x, y - 0.5, W[6], a * 0.55);
     }
+    // Long outer ribbons make the wind drive visible around the oil core.
+    const qa = Math.min(1, len), A = point(qa, t), B = point(Math.max(0, qa - 0.22), t);
+    p.line(B.x + B.nx * ((k - 1.5) * 8), B.y + B.ny * ((k - 1.5) * 8),
+      A.x + A.nx * ((k - 1.5) * 8), A.y + A.ny * ((k - 1.5) * 8),
+      k % 2 ? W[5] : J[5], a * 0.28);
   }
   // two long wind bands, visibly faster than the oil
   for (let k = 0; k < 2; k++) {

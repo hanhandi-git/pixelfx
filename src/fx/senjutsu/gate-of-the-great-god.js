@@ -138,10 +138,16 @@ export function drawBack(p, t, o) {
   if (shaft > 0.01) {
     p.rect(TX - 30, -246, 60, 246, C[2], 0.06 * shaft);
     p.rect(TX - 13, -246, 26, 246, C[3], 0.07 * shaft);
+    p.line(TX - 22, -246, TX - 22, -4, C[5], 0.2 * shaft);
+    p.line(TX + 22, -246, TX + 22, -4, J[5], 0.16 * shaft);
     p.glow(TX, -66, 64, C[4], 0.09 * shaft);
     for (let i = 0; i < 12; i++) {
       const B = rng(S, i, 13), q = (t * 0.5 + B.next()) % 1;
       p.dot(TX + B.range(-30, 30) * (1 - q * 0.3), -4 - q * 210, i % 3 ? G[5] : J[5], 0.35 * shaft * (1 - q));
+    }
+    for (let i = 0; i < 6; i++) {
+      const y = -28 - ((t * 90 + i * 37) % 190);
+      p.line(TX - 18 + i * 7, y, TX - 14 + i * 7, y - 8, i % 2 ? J[5] : C[6], 0.32 * shaft);
     }
   }
   floorSeal(p, C, TX, 0, 28 + 3 * Math.sin(t * 2), 0.22, 0.2, shaft * 0.9);
@@ -223,4 +229,13 @@ export function draw(p, t, o) {
     }
   }
   glintStar(p, g.x, -g.h * 0.55, 16 + 4 * Math.sin(t * 3), t, C, 0.35 * fade);
+  if (t > g.land && t < g.land + 0.28) {
+    const q = (t - g.land) / 0.28, k = 1 - q;
+    for (let i = 0; i < 10; i++) {
+      const a = i * TAU / 10, len = 18 + 42 * q;
+      p.line(g.x + Math.cos(a) * 6, -2 + Math.sin(a) * 2,
+        g.x + Math.cos(a) * len, -2 + Math.sin(a) * len * 0.3,
+        i % 2 ? C[5] : J[5], k * 0.65);
+    }
+  }
 }

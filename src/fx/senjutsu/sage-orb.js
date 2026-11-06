@@ -160,6 +160,14 @@ export function create(o) {
           flare(p, target, -14, 40 + 60 * k, 1, C);
           p.glow(target, -14, 74, C[6], 0.55 * k);
           p.glow(target, -14, 50, G[6], 0.3 * k);
+          // A short, hard release crown keeps the slam readable at 1x.
+          for (let i = 0; i < 14; i++) {
+            const a = (i / 14) * TAU + 0.12;
+            const len = 22 + (i % 2 ? 28 : 44) * ease.outQuad(q / 0.2);
+            p.line(target + Math.cos(a) * 7, -14 + Math.sin(a) * 5,
+              target + Math.cos(a) * len, -14 + Math.sin(a) * len * 0.72,
+              i % 3 ? C[6] : G[6], k * (i % 2 ? 0.68 : 0.9));
+          }
         }
         // the dome: three gold rings and a jade one, then a slower dust ring
         for (let i = 0; i < 4; i++) {
@@ -175,6 +183,17 @@ export function create(o) {
         if (q > 0.15 && q < 2.4) {
           const rr = 30 + q * 16;
           band(p, target, 0, rr, 0.16, 1.4, 0.35 * (1 - smooth(0.4, 2.2, q)), C);
+        }
+        // Jade motes erupt upward after the gold shock ring, giving the impact a second beat.
+        if (q < 1.35) {
+          const f = 1 - smooth(0.2, 1.35, q);
+          for (let i = 0; i < 12; i++) {
+            const a = (i / 12) * TAU + 0.4;
+            const rr = 12 + q * 34 + (i % 3) * 4;
+            const x = target + Math.cos(a) * rr;
+            const y = -2 - Math.abs(Math.sin(a)) * rr * 0.38 - q * (12 + (i % 4) * 6);
+            if (y < -1) p.dot(x, y, i % 2 ? G[5] : G[6], 0.58 * f);
+          }
         }
         // cracked, cooling ground
         if (q < 2.4) {
