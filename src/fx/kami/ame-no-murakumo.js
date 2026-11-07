@@ -1,199 +1,140 @@
-// 云从剑 / 天丛云剑: the storm sword. Wind gathers along the blade, a sea of murakumo rolls in above the
-// field, and one rising draw cut opens the sky: a white cutting line carves a dark seam through the clouds,
-// the torn bank lifts and spills wind, and the target takes the point. Cloud wisps and teal motes hang after.
-import { READY, WHITE, clamp, ease, fit, loopNoise, rng, smooth, sparkle, TAU } from "../../core/index.js";
-import { crackFan, drawCracks, floorLight, hotStar } from "../dragonball/_lib.js";
+// 云从剑 / 天丛云剑: Kusanagi cuts through a moving storm. The new read is a rising,
+// hooked sword arc wrapped by a living cloud ribbon, not a flat beam across the screen.
+import { READY, WHITE, clamp, ease, fit, rng, smooth, sparkle, TAU } from "../../core/index.js";
+import { floorLight, hotStar } from "../dragonball/_lib.js";
 import { glint, pool } from "../pickups/_lib.js";
 import { STORM, cloudBank, floorSeal } from "./_lib.js";
 
-const END = 3.2, CUT = 0.48, HIT = 0.64;
-const TX = 226, TY = -30;
-const BX = 186, BY = -62, BW = 132, BH = 58;
-// the cutting line: from the blade's tip to the far edge of the cloud sea
-const X0 = 26, Y0 = -18, X1 = 262, Y1 = -56;
+const END = 3.2, DRAW = 0.5, HIT = 0.68;
+const TX = 226, TY = -32;
 
 export const meta = {
   name: "Ame-no-Murakumo",
-  desc: "The storm sword gathers wind, rolls a sea of murakumo in and opens it with one rising cut: a white line carves a seam, torn clouds spill wind and the target takes the point.",
+  desc: "Kusanagi winds up inside a low cloud sea, then carves a hooked rising arc that peels the murakumo open and leaves a cool wind spiral on the floor.",
   tags: ["kami", "japan", "shinto", "sword", "storm", "cloud", "wind", "云从剑", "天丛云剑", "草薙剑", "technique", "one-shot"],
-  size: [360, 220],
-  origin: [90, 190],
-  duration: END,
-  loop: false,
-  fps: 30,
-  bg: "ground",
-  actor: 2,
-  options: { palette: STORM, seed: 32 },
+  size: [360, 220], origin: [90, 190], duration: END, loop: false, fps: 30, bg: "ground", actor: 2,
+  options: { palette: STORM, seed: 132 },
 };
 
-const GUARD = { ...READY, weapon: "kusanagi", x: -2, sa: -0.25, fx: 10, fy: -21, bx: 5, by: -24, ffx: 6, fbx: -7 };
-const WIND = { ...GUARD, x: -8, crouch: 5, lean: -5, turn: 0.5, fx: -3, fy: -17, bx: 8, by: -27, sa: -2.75, ffx: 8, fbx: -9 };
-const CUTP = { ...GUARD, x: 4, crouch: 4, lean: 6, turn: 0.02, fx: 21, fy: -30, bx: -4, by: -23, sa: 0.5, ffx: 13, fbx: -10, ghost: 1 };
+const REST = { ...READY, weapon: "kusanagi", x: -2, sa: -0.25, fx: 10, fy: -21, bx: 5, by: -24, ffx: 6, fbx: -7 };
+const COIL = { ...REST, x: -8, crouch: 5, lean: -5, turn: 0.55, fx: -4, fy: -17, bx: 8, by: -27, sa: -2.7, ffx: 8, fbx: -9 };
+const SWING = { ...REST, x: 5, crouch: 4, lean: 6, turn: 0.02, fx: 21, fy: -30, bx: -4, by: -23, sa: 0.5, ffx: 13, fbx: -10, ghost: 1 };
 
 export const act = {
   target: { x: TX },
   poses: [
-    [-0.45, GUARD],
-    [0.12, WIND],
-    [0.42, WIND],
-    [0.52, { ...CUTP, sa: 0.24 }, "snap"],
-    [HIT, CUTP, "snap"],
-    [1.12, { ...CUTP, x: 6, crouch: 3, lean: 4, sa: 0.66, ghost: 0 }],
-    [1.9, GUARD],
-    [3.0, GUARD],
+    [-0.45, REST], [0.12, COIL], [0.42, { ...COIL, fy: -20 }],
+    [DRAW, SWING, "snap"], [HIT, { ...SWING, x: 7, lean: 8 }, "snap"],
+    [1.2, { ...SWING, x: 6, crouch: 3, lean: 3, ghost: 0 }], [2.0, REST], [3.0, REST],
   ],
-  hits: [
-    { t: HIT, stop: 0.16, shake: 0.4, amp: 3, push: 2.6, straw: 22, skin: "shock" },
-    { t: 1.1, stop: 0.04, shake: 0.12, amp: 1, push: 0, straw: 3, skin: null },
-  ],
+  hits: [{ t: HIT, stop: 0.16, shake: 0.42, amp: 3, push: 2.6, straw: 22, skin: "shock" }],
   dust: [{ t: HIT, x: TX, n: 10, dir: -1, c: "#c4fff0" }],
 };
 
-/** The cutting line at time t: how far it has opened, its brightness, and the width of the carved seam. */
-function cutAt(t) {
-  if (t < CUT) return null;
-  const reach = ease.outQuart(clamp((t - CUT) / 0.14));
-  const open = 1 - smooth(1.35, 2.2, t);
-  return { reach, open, seam: smooth(CUT, CUT + 0.16, t) * (1 - smooth(2.4, 3.1, t)) };
+function arcPoint(u, r = 1) {
+  const a = -2.72 + u * 2.05;
+  return [TX - 56 + Math.cos(a) * 88 * r, -34 + Math.sin(a) * 88 * r];
 }
 
-/** The line's point at u (0 at the caster, 1 at the far edge), through the target's chest. */
-const lineAt = (u) => [X0 + (X1 - X0) * u, Y0 + (Y1 - Y0) * u];
+function cloudRibbon(p, C, u, k, seed, t) {
+  if (k <= 0.02) return;
+  const pts = [];
+  for (let i = 0; i <= 18; i++) {
+    const q = i / 18, [x, y] = arcPoint(q);
+    const wob = Math.sin(q * 8 + t * 5 + seed) * (3 + 6 * u);
+    pts.push([x, y + wob]);
+  }
+  p.polyline(pts, C[2], 0.26 * k);
+  p.polyline(pts.map(([x, y]) => [x, y - 2]), C[4], 0.42 * k);
+  for (let i = 0; i < 10; i++) {
+    const q = (i / 9 + t * 0.18) % 1, [x, y] = arcPoint(q);
+    p.ellipse(x, y + Math.sin(t * 3 + i) * 3, 7 + 3 * u, 2.5 + 1.5 * u, i % 3 ? C[3] : C[5], 0.3 * k);
+  }
+}
+
+function swordArc(p, C, reach, k, hot = false) {
+  const r = 88 * reach;
+  p.arc(TX - 56, -34, r, 2.6, -2.72, -0.67, hot ? WHITE : C[4], 0.76 * k);
+  p.arc(TX - 56, -34, r + 2.4, 1, -2.65, -0.74, hot ? C[6] : C[5], 0.72 * k);
+  p.arc(TX - 56, -34, r + 5, 0.6, -2.53, -0.82, C[3], 0.35 * k);
+  p.glowLine(TX - 56, -34, TX + 2, -96, 6, C[4], 0.06 * k);
+}
 
 export function drawBack(p, t, o) {
   if (t >= END) return;
-  const C = fit(o.palette, 8), ph = t / END;
-  const fade = 1 - smooth(2.5, 3.15, t);
-  const c = cutAt(t);
-  // the sea of clouds: one bank that the cut carves in two along a dark seam
-  const lift = c ? c.seam : 0;
-  cloudBank(p, C, BX, BY - lift * 14, BW, BH, 5, ph, 0.72 * fade);
-  if (lift > 0.02) {
-    // the lower torn edge, peeled away below the cut
-    for (let i = 0; i < 9; i++) {
-      const u = i / 8, [lx, ly] = lineAt(0.28 + u * 0.7);
-      const off = 10 + 12 * lift + loopNoise(ph, 1, 7 + i) * 5;
-      const cx = Math.min(252, lx + 6);
-      p.ellipse(cx, ly + off, 18 + lift * 8, 5 + lift * 3, C[2], 0.4 * lift * fade);
-      p.ellipse(cx, ly + off - 2, 11, 3, C[3], 0.28 * lift * fade);
-    }
+  const C = fit(o.palette, 8), ph = t / END, fade = 1 - smooth(2.62, END, t);
+  cloudBank(p, C, 116, -92, 172, 48, 7, ph, 0.72 * fade, { body: 1, mid: 2, rim: 3, hot: 4, lumps: 8 });
+  cloudBank(p, C, 180, -54, 112, 34, 11, ph + 0.2, 0.46 * fade, { body: 1, mid: 2, rim: 3, hot: 4, wisps: false, lumps: 6 });
+  const seal = smooth(0.1, 0.55, t) * (1 - smooth(2.4, END, t));
+  if (seal > 0.02) {
+    floorSeal(p, C, TX, -1, 22, -t * 1.1, 0.34 * seal, { sq: 0.22, n: 22, core: 0.3, pool: true });
+    floorLight(p, TX, C, 0.11 * seal, 28);
   }
 }
 
 export function draw(p, t, o) {
   if (t >= END) return;
-  const C = fit(o.palette, 8), S = o.seed, ph = t / END;
-  const R = rng(S, Math.floor(t * 30), 3);
-  const c = cutAt(t);
-  const fade = 1 - smooth(2.55, 3.15, t);
-  const gather = smooth(0.02, CUT, t) * (1 - smooth(CUT + 0.1, CUT + 0.4, t));
+  const C = fit(o.palette, 8), S = o.seed, ph = t / END, fade = 1 - smooth(2.58, END, t);
+  const gather = smooth(0.03, DRAW, t) * (1 - smooth(DRAW, DRAW + 0.12, t));
+  const cutAge = t - DRAW, reach = cutAge >= 0 ? ease.outQuart(clamp(cutAge / 0.17)) : 0;
 
-  // the wind comes first: long solid streaks crossing the field toward the far edge, each with a white head
-  const windK = smooth(0.02, 0.4, t) * fade;
-  if (windK > 0.02) {
-    for (let i = 0; i < 5; i++) {
-      const B = rng(S, i, 5);
-      const y = -26 - i * 22 + Math.sin(ph * TAU * 2 + i) * 2;
-      const x0 = -80 + ((t * (34 + i * 12) + B.range(0, 150)) % 230);
-      const len = 46 + B.range(0, 34);
-      const xa = x0, xb = x0 + len * 0.55, xc = x0 + len;
-      p.polyline([[xa, y + 3], [xb, y - 1], [xc - 3, y + 2]], C[3], 0.9 * windK);
-      p.line(xa + 6, y + 3, xb, y, C[2], 0.6 * windK);
-      p.dot(xc - 4, y + 1, C[5], 0.85 * windK);
-      p.dot(xc - 3, y + 2, WHITE, 0.7 * windK);
-      if (i % 2 === 0) p.line(xa + 10, y + 8, xb + 6, y + 5, C[2], 0.5 * windK);
+  // A low current of wind pulls toward the blade before the swing.
+  if (gather > 0.02) {
+    for (let i = 0; i < 9; i++) {
+      const B = rng(S, i, 3), y = -12 - i * 13 + Math.sin(t * 4 + i) * 2;
+      const x = -58 + ((t * (28 + i * 4) + B.range(0, 180)) % 250);
+      p.line(x, y, x + 18 + B.range(0, 18), y - 2, C[3], 0.38 * gather);
+      p.dot(x + 20, y - 2, i % 3 ? C[5] : C[6], 0.42 * gather);
     }
-    // a low ground gale at the far end
-    p.ellipse(TX - 2, -1, 26, 4, C[3], 0.18 * windK);
-    floorLight(p, TX, C, 0.16 * windK, 30);
+    p.glow(17, -22, 16 + 10 * gather, C[5], 0.12 * gather);
   }
 
-  // the blade drinks the wind: sparks climb the edge, the tip holds a white point
-  if (gather > 0.01) {
-    const tip = [26 + 4 * gather, -18 - 2 * gather];
-    p.glow(tip[0], tip[1], 6 + 10 * gather, C[5], 0.22 * gather);
-    p.glow(tip[0], tip[1], 3, WHITE, 0.2 * gather);
-    for (let i = 0; i < 8; i++) {
-      const B = rng(S, i, 11), a = B.range(0, TAU) + t * 3;
-      const d = 5 + B.range(0, 13) * (1 - gather * 0.4);
-      p.dot(tip[0] + Math.cos(a) * d, tip[1] + Math.sin(a) * d * 0.7, i % 3 ? C[4] : C[6], 0.5 * gather);
-    }
-    p.glow(10, -26, 20, C[4], 0.1 * gather);
+  const arcK = smooth(DRAW - 0.02, DRAW + 0.08, t) * fade;
+  if (arcK > 0.02) {
+    swordArc(p, C, 0.45 + 0.55 * reach, arcK, t < DRAW + 0.16);
+    cloudRibbon(p, C, reach, arcK, 4, t);
+    const [hx, hy] = arcPoint(reach);
+    glint(p, hx, hy, Math.round(2 + 4 * (1 - reach)), WHITE, 0.26 * arcK);
+    p.dot(hx, hy, WHITE, 0.8 * arcK);
   }
 
-  // the cut: a dark seam carved through the cloud, a white line inside it, a second cooler line shadowing it
-  if (c) {
-    const { reach, open, seam } = c;
-    const x2 = X0 + (X1 - X0) * reach, y2 = Y0 + (Y1 - Y0) * reach;
-    if (seam > 0.02) {
-      const w = 1.5 + 3.4 * seam;
-      p.line(X0, Y0, x2, y2, C[0], 0.92 * seam);
-      p.line(X0, Y0 + w, x2, y2 + w, C[0], 0.55 * seam);
-      // cloud rim caught on the cut: broken hot pixels along both borders
-      for (let i = 0; i < 26; i++) {
-        const B = rng(S, i, 17), u = B.range(0.1, 1) * reach;
-        const [lx, ly] = lineAt(u);
-        p.dot(lx + B.range(-2, 2), ly - w - 1 - B.range(0, 2), i % 3 ? C[5] : WHITE, 0.6 * seam);
-        if (i % 2) p.dot(lx + B.range(-2, 2), ly + w + 1 + B.range(0, 2), C[4], 0.45 * seam);
-      }
-    }
-    if (open > 0.02) {
-      p.line(X0, Y0, x2, y2, WHITE, 0.95 * open);
-      p.line(X0, Y0 - 1.2, x2, y2 - 1.2, C[6], 0.55 * open);
-      p.line(X0, Y0 + 1.6, x2, y2 + 1.6, C[4], 0.4 * open);
-      p.glowLine(X0, Y0, x2, y2, 9, C[4], 0.05 * open);
-      p.glowLine(X0, Y0, x2, y2, 3, WHITE, 0.05 * open);
-      // the point runs ahead of the line
-      const head = lineAt(reach);
-      glint(p, head[0], head[1], Math.round(2 + 4 * (1 - reach)), WHITE, 0.3 * open);
+  if (t >= HIT && t < HIT + 0.74) {
+    const q = (t - HIT) / 0.74, f = 1 - q;
+    p.circle(TX, TY, 3 + 13 * ease.outQuad(q), WHITE, 0.92 * f);
+    hotStar(p, TX, TY, 17 * f + 5, -0.6, C, 0.82 * f);
+    sparkle(p, TX, TY, 19 * f + 4, WHITE, C[5], 0.82 * f);
+    p.glow(TX, TY, 38, C[4], 0.18 * f);
+    p.ellipse(TX, -1, 14 + q * 34, 3 + q * 2, C[5], 0.24 * f);
+    pool(p, TX, 0, 28, 7, C[4], 0.28 * f);
+    for (let i = 0; i < 18; i++) {
+      const B = rng(S, i, 17), a = B.range(-2.9, -0.15), d = q * B.range(20, 96);
+      const x = Math.max(-78, Math.min(244, TX + Math.cos(a) * d));
+      const y = Math.min(1, TY + Math.sin(a) * d + q * q * 22);
+      p.line(x, y, x + B.range(-2, 3), y + B.range(1, 4), i % 3 ? C[5] : WHITE, 0.72 * f);
     }
   }
 
-  // the target takes the point: a white heart, a wind ring and the floor pulled into a gale
-  if (t >= HIT && t < HIT + 0.75) {
-    const q = (t - HIT) / 0.75, f = 1 - q;
-    p.circle(TX, TY, 3 + 13 * ease.outQuad(q), WHITE, 0.9 * f);
-    hotStar(p, TX, TY, 16 * f + 5, 0.4, C, 0.8 * f);
-    sparkle(p, TX, TY, 18 * f + 4, WHITE, C[5], 0.8 * f);
-    for (let i = 0; i < 16; i++) {
-      const B = rng(S, i, 23), a = B.range(-Math.PI, 0), sp = B.range(30, 110);
-      const d = q * sp, x = Math.min(262, TX + Math.cos(a) * d), y = TY + Math.sin(a) * d + q * q * 22;
-      p.dot(x, y, i % 3 ? C[5] : WHITE, 0.8 * f);
-    }
-    pool(p, TX, 0, 32, 8, C[4], 0.35 * f);
-    p.ellipse(TX, -1, 12 + q * 30, 3.6 + q * 2.4, C[5], 0.22 * f);
-    p.glow(TX, TY, 40, C[4], 0.2 * f);
-    p.glow(TX, TY, 16, WHITE, 0.22 * f);
-  }
-
-  // torn cloud wisps spill from the seam and drift off; teal motes cool in the air
-  const wisp = smooth(CUT + 0.08, CUT + 0.4, t) * fade;
-  if (wisp > 0.02) {
-    for (let i = 0; i < 12; i++) {
-      const B = rng(S, i, 29);
-      const [bx, by] = lineAt(0.3 + (i / 12) * 0.7);
-      const age = t - CUT - B.range(0.05, 0.35);
-      if (age < 0) continue;
-      const up = B.next() > 0.45 ? -1 : 1;
-      const x = Math.min(246, bx + B.range(-20, 22) + Math.sin(age * 1.8 + i) * 4);
-      const y = by + up * (6 + age * B.range(8, 26)) + age * age * 3;
-      const k = (1 - age / 1.6) * wisp;
-      if (k <= 0.02) continue;
-      p.ellipse(x, y, 8 + age * 4, 2.4 + age * 1.2, i % 3 ? C[3] : C[4], 0.3 * k);
-      if (i % 4 === 0) p.dot(x, y - 1, C[6], 0.4 * k);
+  // After the cut the cloud behaves like a torn cloth, curling around the empty seam.
+  const after = smooth(HIT + 0.08, HIT + 0.38, t) * fade;
+  if (after > 0.02) {
+    const spin = (t - HIT) * 1.8;
+    for (let j = 0; j < 2; j++) {
+      const r = 26 + j * 13 + (t - HIT) * 10;
+      p.arc(TX, -34, r, 2.2, -2.35 + spin + j * 0.2, -0.8 + spin + j * 0.2, j ? C[3] : C[5], 0.34 * after);
     }
     for (let i = 0; i < 14; i++) {
-      const B = rng(S, i, 31);
-      const x = BX - BW / 2 + B.range(0, BW), y = BY + B.range(-10, 30) - ((t - CUT) * B.range(6, 18)) % 30;
-      p.dot(x, y, i % 3 ? C[4] : C[5], 0.4 * wisp * B.range(0.4, 1));
+      const B = rng(S, i, 29), age = t - HIT - B.range(0.1, 0.8);
+      if (age < 0 || age > 1.6) continue;
+      const q = age / 1.6, [x, y] = arcPoint(B.range(0.1, 0.95));
+      p.ellipse(x + B.range(-18, 18), y + age * B.range(-12, 18), 5 + 4 * q, 2, i % 3 ? C[4] : C[6], (1 - q) * 0.38 * after);
     }
+    p.glow(TX, -1, 30, C[4], 0.08 * after);
   }
-
-  // the low scar stays in the cloud, cooling from white to storm teal
-  const scar = smooth(HIT, HIT + 0.15, t) * (1 - smooth(2.5, 3.05, t));
-  if (scar > 0.02) {
-    const x2 = X0 + (X1 - X0) * 0.94, y2 = Y0 + (Y1 - Y0) * 0.94;
-    p.line(X0 + 20, Y0 - 2, x2, y2 - 2, C[4], 0.3 * scar);
-    p.line(X0 + 26, Y0 - 3, x2, y2 - 3, C[5], 0.18 * scar);
+  if (fade > 0.02) {
+    const motes = smooth(0.3, 0.7, t) * fade;
+    for (let i = 0; i < 10; i++) {
+      const B = rng(S, i, 41), x = -34 + B.range(0, 260), y = -26 - B.range(0, 76) + ((t * 8 + i * 9) % 32);
+      p.dot(x, y, i % 3 ? C[4] : C[6], 0.26 * motes);
+    }
   }
 }

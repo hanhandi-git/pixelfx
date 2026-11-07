@@ -74,13 +74,13 @@ These **<!-- new-count -->101<!-- /new-count -->** pieces are not in the origina
 | **fanren** | Immortal-slaying bead | `fanren/immortal-slaying-bead` |
 | **fanren** | Heaven-palm bottle | `fanren/palm-heaven-bottle` |
 | **fanren** | Xuantian spirit-slaying sword | `fanren/xuantian-sword` |
-| **kami** | Amaterasu, sun mirror | `kami/amaterasu-sun` |
+| **kami** | Amaterasu, Yata mirror | `kami/amaterasu-sun` |
 | **kami** | Ame-no-Murakumo | `kami/ame-no-murakumo` |
 | **kami** | Ama-no-Iwato | `kami/ameno-iwato` |
 | **kami** | Six magatama | `kami/magatama-six` |
-| **kami** | Susanoo, storm sword | `kami/susanoo-thunder` |
+| **kami** | Susanoo, storm-drum sword | `kami/susanoo-thunder` |
 | **kami** | Tsukuyomi, moon bow | `kami/tsukuyomi-arrow` |
-| **kami** | Yamata no Orochi | `kami/yamata-no-orochi` |
+| **kami** | Yamata no Orochi, eightfold coil | `kami/yamata-no-orochi` |
 | **konosuba** | Explosion chant | `konosuba/explosion-chant` |
 | **konosuba** | Explosion crater | `konosuba/explosion-crater` |
 | **konosuba** | Explosion | `konosuba/explosion-ritual` |
@@ -158,7 +158,7 @@ Categories with new content appear first; samples list **new** effects before or
 | **ui** | 20 | hud banner, hud dialog, hud panel, skill ready, hud skill slot, hud status bar… |
 | **dragonball** | 8 | destructo disc, drill beam, golden aura, ki charge, ki volley, ki wave… |
 | **lightning** | 18 | forked burst, ground surge, static cage, storm sigil, storm vortex, thunder rain… |
-| **japanese legend** | 7 | amaterasu, sun mirror, ame-no-murakumo, ama-no-iwato, six magatama, susanoo, storm sword, tsukuyomi, moon bow… |
+| **japanese legend** | 7 | amaterasu, yata mirror, ame-no-murakumo, ama-no-iwato, six magatama, susanoo, storm-drum sword, tsukuyomi, moon bow… |
 | **world** | 7 | aurora pass, crystal hollow, ember depths, inkbound shrine, mossy ruins, sunscar temple… |
 | **melee** | 18 | holy sword cleave, katana draw cut, knight lance thrust, war mace crush, rapier lunge, banded staff combo… |
 | **senjutsu** | 6 | gate of the great god, sage art: goemon, sage orb, thousand wood dragons, white flash, wind shuriken |

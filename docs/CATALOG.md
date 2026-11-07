@@ -500,13 +500,13 @@ shinto arts: the sun mirror, the moon bow, the cloud-cleaving sword, six magatam
 
 | effect | id | source | kind | play | size | what it does |
 |---|---|---|---|---|---|---|
-| Amaterasu, sun mirror | `kami/amaterasu-sun` | new | effect | one-shot 3.35s | 340×230 | The sun goddess lifts the Yata mirror; light gathers in the disc, a shrine seal opens under the target and the sun answers with hard rays, a gold pillar and a glowing floor. |
-| Ame-no-Murakumo | `kami/ame-no-murakumo` | new | effect | one-shot 3.2s | 360×220 | The storm sword gathers wind, rolls a sea of murakumo in and opens it with one rising cut: a white line carves a seam, torn clouds spill wind and the target takes the point. |
-| Ama-no-Iwato | `kami/ameno-iwato` | new | effect | one-shot 3.8s | 320×200 | The heavenly rock cave: a shimenawa strains across the boulder that hides the sun, the stone splits, the door grinds apart and white-gold light floods out. |
+| Amaterasu, Yata mirror | `kami/amaterasu-sun` | new | effect | one-shot 3.35s | 340×230 | The Yata mirror unfolds in eight bronze facets, catches the field's light and folds it into a sunbrand before its hot shards fall through the dark. |
+| Ame-no-Murakumo | `kami/ame-no-murakumo` | new | effect | one-shot 3.2s | 360×220 | Kusanagi winds up inside a low cloud sea, then carves a hooked rising arc that peels the murakumo open and leaves a cool wind spiral on the floor. |
+| Ama-no-Iwato | `kami/ameno-iwato` | new | effect | one-shot 3.8s | 320×200 | A single cave boulder splits along a living seam; the shimenawa snaps, warm sun pours from the hollow and stone dust settles over the threshold. |
 | Six magatama | `kami/magatama-six` | new | effect | loop 3.6s | 140×112 | Six jade magatama strung on a gold cord turn around a bright seed, the far jewels dimmed behind the near ones, with dust winking between them. |
-| Susanoo, storm sword | `kami/susanoo-thunder` | new | effect | one-shot 3.5s | 340×240 | The storm god raises the Totsuka blade; tomoe drums beat around a sea of cloud, and one downward cut pulls a forked pillar of thunder onto the target and leaves violet arcs. |
+| Susanoo, storm-drum sword | `kami/susanoo-thunder` | new | effect | one-shot 3.5s | 340×240 | Three tomoe drums circle the Totsuka blade; their beat tightens a green wind coil, then a forked violet thunder tree crashes into the marked ground. |
 | Tsukuyomi, moon bow | `kami/tsukuyomi-arrow` | new | effect | one-shot 3s | 320×190 | A crescent of moonlight is strung in front of the moon god; the arrow is drawn and loosed as a silver shaft trailing dust, and the hit is one white crescent cut through the target. |
-| Yamata no Orochi | `kami/yamata-no-orochi` | new | effect | one-shot 4.5s | 420×300 | Eight heads rise out of a blood-red fog in two ranks, eyes lighting one by one; they rear, breathe fire, and one white-gold sword line cuts the rank, scattering scales and embers. |
+| Yamata no Orochi, eightfold coil | `kami/yamata-no-orochi` | new | effect | one-shot 4.5s | 420×300 | Eight serpent heads coil around a shared blood-red heart, wake one by one, breathe inward and collapse under a single gold sword cut. |
 
 ## transitions
 
