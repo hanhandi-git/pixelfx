@@ -243,18 +243,24 @@ import * as weather_shooting_stars from "./weather/shooting-stars.js";
 import * as weather_snow from "./weather/snow.js";
 import * as weather_storm from "./weather/storm.js";
 import * as ui_achievement from "./ui/achievement.js";
+import * as ui_banner from "./ui/banner.js";
 import * as ui_coin_collect from "./ui/coin-collect.js";
 import * as ui_combo_counter from "./ui/combo-counter.js";
 import * as ui_confetti from "./ui/confetti.js";
 import * as ui_countdown from "./ui/countdown.js";
 import * as ui_crit_number from "./ui/crit-number.js";
 import * as ui_damage_number from "./ui/damage-number.js";
+import * as ui_dialog from "./ui/dialog.js";
 import * as ui_exclamation from "./ui/exclamation.js";
 import * as ui_health_bar_hit from "./ui/health-bar-hit.js";
 import * as ui_heart_lost from "./ui/heart-lost.js";
 import * as ui_level_up from "./ui/level-up.js";
+import * as ui_panel from "./ui/panel.js";
 import * as ui_quest_complete from "./ui/quest-complete.js";
 import * as ui_skill_ready from "./ui/skill-ready.js";
+import * as ui_skill_slot from "./ui/skill-slot.js";
+import * as ui_status_bar from "./ui/status-bar.js";
+import * as ui_toast from "./ui/toast.js";
 import * as ui_xp_bar_fill from "./ui/xp-bar-fill.js";
 import * as pickups_cash_coin from "./pickups/cash-coin.js";
 import * as pickups_chest_open from "./pickups/chest-open.js";
@@ -587,18 +593,24 @@ export const effects = {
   "weather/snow": weather_snow,
   "weather/storm": weather_storm,
   "ui/achievement": ui_achievement,
+  "ui/banner": ui_banner,
   "ui/coin-collect": ui_coin_collect,
   "ui/combo-counter": ui_combo_counter,
   "ui/confetti": ui_confetti,
   "ui/countdown": ui_countdown,
   "ui/crit-number": ui_crit_number,
   "ui/damage-number": ui_damage_number,
+  "ui/dialog": ui_dialog,
   "ui/exclamation": ui_exclamation,
   "ui/health-bar-hit": ui_health_bar_hit,
   "ui/heart-lost": ui_heart_lost,
   "ui/level-up": ui_level_up,
+  "ui/panel": ui_panel,
   "ui/quest-complete": ui_quest_complete,
   "ui/skill-ready": ui_skill_ready,
+  "ui/skill-slot": ui_skill_slot,
+  "ui/status-bar": ui_status_bar,
+  "ui/toast": ui_toast,
   "ui/xp-bar-fill": ui_xp_bar_fill,
   "pickups/cash-coin": pickups_cash_coin,
   "pickups/chest-open": pickups_chest_open,
@@ -929,18 +941,24 @@ export const provenance = {
   "weather/snow": "original",
   "weather/storm": "original",
   "ui/achievement": "original",
+  "ui/banner": "new",
   "ui/coin-collect": "original",
   "ui/combo-counter": "original",
   "ui/confetti": "original",
   "ui/countdown": "original",
   "ui/crit-number": "original",
   "ui/damage-number": "original",
+  "ui/dialog": "new",
   "ui/exclamation": "original",
   "ui/health-bar-hit": "original",
   "ui/heart-lost": "original",
   "ui/level-up": "original",
+  "ui/panel": "new",
   "ui/quest-complete": "original",
   "ui/skill-ready": "new",
+  "ui/skill-slot": "new",
+  "ui/status-bar": "new",
+  "ui/toast": "new",
   "ui/xp-bar-fill": "new",
   "pickups/cash-coin": "new",
   "pickups/chest-open": "original",

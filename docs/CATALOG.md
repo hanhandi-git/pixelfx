@@ -1,6 +1,6 @@
 # Catalog
 
-339 effects in 30 categories: 244 original and 95 new. Every one is a file in
+345 effects in 30 categories: 244 original and 101 new. Every one is a file in
 `src/fx/<category>/<name>.js`; render any of them with `node tools/render.mjs <id> --gif`.
 
 ## moves
@@ -392,18 +392,24 @@ level ups, numbers, toasts, countdowns.
 | effect | id | source | kind | play | size | what it does |
 |---|---|---|---|---|---|---|
 | Achievement | `ui/achievement` | original | effect | one-shot 2.4s | 220×72 | A toast slides in on speed lines and settles; a gold medal pops onto it in a burst of sparkles, a shine sweeps the whole toast, then it slides away. |
+| HUD banner | `ui/banner` | new | effect | one-shot 2.4s | 240×70 | A stage or wave banner: a dark plate with a gold rim, a small kicker, a big pixel-font title and a sub-line. It slides in with a shine, holds, then slides away and ends empty. |
 | Coin collect | `ui/coin-collect` | original | effect | one-shot 2.45s | 176×116 | A coin bursts into a fountain of spinning coins that hang, then zip one by one into a HUD counter that pops and ticks up, glints and folds away. |
 | Combo counter | `ui/combo-counter` | original | effect | one-shot 1.45s | 208×100 | x5 COMBO rockets in on streaming speed lines, smearing, and slams to a stop: a white flash, a ring, sparks; it pulses while a timer bar drains, then whooshes out. |
 | Confetti | `ui/confetti` | original | effect | one-shot 3.4s | 200×140 | Two party poppers bang one after the other: paper bits and curly streamers burst out, stall, then tumble and flutter down, flipping, and settle on the floor. |
 | Countdown | `ui/countdown` | original | effect | one-shot 3.1s | 152×136 | 3, 2, 1 slam into a timer ring that drains like a burning fuse, throwing sparks; then GO! bursts out as the ring blows into a shockwave with rays. |
 | Crit number | `ui/crit-number` | original | effect | one-shot 1.5s | 152×120 | CRIT 128! slams in huge and white over a jagged starburst with a hard shake and speed lines, cools to fire, holds with a shine, then pops into sparks. |
 | Damage number | `ui/damage-number` | original | effect | one-shot 1.05s | 76×68 | A red -27 punches out of a hit spark, white for a frame, arcs up, lands with a squash and a little hop, then fades as it lifts away. |
+| HUD dialog | `ui/dialog` | new | effect | loop 2.4s | 300×190 | A pixel dialog card: dark plate, gold frame, corner brackets, a big pixel-font title, divider, small lines and a blinking prompt. One card for title, pause, defeat, victory. |
 | Exclamation | `ui/exclamation` | original | effect | one-shot 1.4s | 84×104 | A bold ! springs up off the hero's head, stretching as it shoots up and squashing as it lands; surprise ticks flick out, it wobbles, then pops away. |
 | Health bar hit | `ui/health-bar-hit` | original | effect | one-shot 2s | 160×64 | A segmented health bar takes a hit: it jolts and dips, the lost chunk flashes white and sheds chips, holds, then drains away behind a sparking edge. |
 | Heart lost | `ui/heart-lost` | original | effect | one-shot 1.5s | 96×88 | A HUD heart is hit: it flashes white and jolts, a crack runs down it, it splits into two halves that tumble away, leaving an empty socket that fades. |
 | Level up | `ui/level-up` | original | effect | one-shot 3.2s | 176×138 | Gold gathers at the feet and bursts up as a pillar of light round the hero; rings climb it, LEVEL UP! drops in letter by letter, a shine sweeps it, sparkles twinkle. |
+| HUD panel | `ui/panel` | new | effect | loop 2.4s | 340×100 | A reusable pixel HUD plate: dark rounded body, lit rim, shaded base, a thin gold inner frame and two corner brackets. Sized from options, it backs bars, hotbars and dialog cards. |
 | Quest complete | `ui/quest-complete` | original | effect | one-shot 2.6s | 204×92 | A stitched ribbon unrolls from the middle, QUEST COMPLETE types on letter by letter, a gold seal stamps down and ticks, stars pop; then it all rolls away. |
 | Skill ready | `ui/skill-ready` | new | effect | one-shot 2.6s | 136×140 | A hotbar skill's cooldown unwinds to the last second, then the slot flashes white, fires a ring of light and pops READY underneath with a clean shine. |
+| HUD skill slot | `ui/skill-slot` | new | effect | loop 2.4s | 52×60 | A pixel hotbar slot: HUD plate, gold keycap, 10x10 spell icon, name, dithered cooldown curtain and a no-mana state. One shared frame; only the icon palette changes. |
+| HUD status bar | `ui/status-bar` | new | effect | loop 2.4s | 320×24 | A segmented HUD bar: dark outline, hard ramp fill, lit rim, cell dividers, white-hot leading edge. Label and value sit inside; tone picks the hp, mp, xp, boss or gold ramp. |
+| HUD toast | `ui/toast` | new | effect | one-shot 1.7s | 180×30 | A small pickup or status toast: a dark pixel plate, a gold rim, one mini-font line. It slides in, holds, slides out and ends empty. |
 | XP bar fill | `ui/xp-bar-fill` | new | effect | one-shot 2.45s | 208×76 | An XP bar tops up: the level badge pops onto the plate, the bar races for the next level behind a white-hot edge that sheds sparks, then it shines and folds away. |
 
 ## pickups

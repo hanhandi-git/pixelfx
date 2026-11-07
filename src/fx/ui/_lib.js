@@ -3,7 +3,7 @@
 // tintActor adapts the body flash of Sprite Fusion's open-source power-up
 // (https://www.spritefusion.com/pixel-art-vfx/power-up), MIT License, Copyright (c) 2026 Hugo Duprez.
 
-import { FONTS, WHITE, luma, noise, mix } from "../../core/index.js";
+import { FONTS, WHITE, luma, noise, mix, hex, clamp } from "../../core/index.js";
 
 /**
  * The letters of str in a pixel font, laid out left to right in font pixels:
@@ -192,4 +192,42 @@ export function shake(t, amp, t0 = 0, len = 0.3, seed = 1, hz = 32) {
   if (t < t0 || t > t0 + len) return [0, 0];
   const k = 1 - (t - t0) / len;
   return [Math.round(noise(t * hz, seed) * amp * k * 1.7), Math.round(noise(t * hz, seed + 7) * amp * k * 1.3)];
+}
+
+
+// ---- shared HUD style ------------------------------------------------------
+// The gold and ink ramps the existing UI effects use, plus one bar helper so every new HUD piece
+// reads as part of the same set (Quest complete, Achievement, Health bar hit, XP bar fill).
+export const UI_GOLD = ["#2a1405", "#5c3008", "#9a5a0e", "#d48e18", "#f5b92c", "#ffde5e", "#fff4bc", "#ffffff"];
+export const UI_INK = { outline: hex("#0d0a14"), rim: hex("#5a4f74"), top: hex("#2a2338"), body: hex("#211b2d"), low: hex("#15111c") };
+export const UI_TONES = {
+  hp: ["#1a0508", "#4a0b12", "#8c1420", "#d42a2e", "#ff5a4a", "#ff9a86", "#ffd8cc", "#ffffff"],
+  mp: ["#06121f", "#0c2a4a", "#144a7a", "#1f6fa8", "#3a9ad0", "#7cc8f0", "#c8f0ff", "#ffffff"],
+  xp: ["#141a05", "#2a3a08", "#4a5c0e", "#6e8a18", "#9ab828", "#c8e05a", "#efffb0", "#ffffff"],
+  boss: ["#14081f", "#2a1040", "#4a1a6a", "#6e2a94", "#9450c0", "#c08ae0", "#e8ccff", "#ffffff"],
+  gold: UI_GOLD,
+};
+
+/**
+ * A segmented HUD bar in the library's UI style: dark outline, a hard 4-step fill, a lit top rim,
+ * dark base, cell dividers and one white-hot leading edge. value is 0..1.
+ */
+export function bar(p, x, y, w, h, value, C, { cells = 10, rim = true } = {}) {
+  value = clamp(value, 0, 1);
+  if (w < 2 || h < 2) return;
+  x = Math.round(x); y = Math.round(y); w = Math.round(w); h = Math.round(h);
+  p.rect(x - 1, y - 1, w + 2, h + 2, UI_INK.outline);
+  p.rect(x, y, w, h, hex("#171320"));
+  const fw = Math.round(w * value);
+  if (fw > 0) {
+    p.shade(x, y, x + fw, y + h, (px, py, o) => {
+      const v = (py - y) / h;
+      o.c = v < 0.16 ? C[6] : v < 0.38 ? C[5] : v < 0.72 ? C[4] : v < 0.9 ? C[3] : C[2];
+    });
+    p.rect(x, y + h - 1, fw, 1, C[1]);
+    p.rect(x + fw - 1, y, 1, h, WHITE);
+  }
+  if (rim) p.rect(x, y, w, 1, UI_INK.rim);
+  const n = Math.max(1, Math.min(cells, Math.floor(w / 10)));
+  for (let i = 1; i < n; i++) p.rect(x + Math.round((w * i) / n), y, 1, h, UI_INK.outline);
 }
