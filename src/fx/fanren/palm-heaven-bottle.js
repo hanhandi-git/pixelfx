@@ -102,9 +102,9 @@ export function draw(p, t, o) {
 
   // the drop cycle: forms at the lip, hangs, falls, opens the herb
   const form = smooth(0.1, 0.42, ph);
-  const fall = smooth(0.46, 0.62, ph);
   const land = smooth(0.6, 0.7, ph);
-  const bloom = smooth(0.62, 0.9, ph) * (1 - smooth(0.94, 1, ph) * 0.85);
+  // the herb breathes all the way down before the seam, so it doesn't pop off as the loop wraps
+  const bloom = smooth(0.62, 0.9, ph) * (1 - smooth(0.94, 1, ph));
   const lipX = BX + Math.sin(ph * TAU) * 0.7;
   const lipY = BY + Math.cos(ph * TAU) * 2.2 - 24;
 
@@ -157,12 +157,13 @@ export function draw(p, t, o) {
         if (w > 1) p.dot(x + 1, y, C[3], 0.5 * hk);
       }
     }
-    // the bud
+    // the bud: a hot white tip over a green heart
     const bh = 5 + 3 * hk;
     p.circle(0, -bh, 2.2, C[5], 0.85 * hk);
-    p.dot(0, -bh - 2, C[6], hk);
+    p.dot(0, -bh - 2, WHITE, hk);
     p.glow(0, -bh, 10, C[4], 0.12 * hk);
-    p.glow(0, -bh, 4, C[6], 0.18 * hk);
+    p.glow(0, -bh, 4, C[6], 0.22 * hk);
+    if (hk > 0.7) glint(p, 0, -bh, 2, WHITE, 0.25 * hk);
     pool(p, 0.5, 0, 9, 2, C[4], 0.25 * hk);
     // motes rising off the herb
     cycle(t, D, 8, S + 3, D * 0.5, (age, life, R) => {

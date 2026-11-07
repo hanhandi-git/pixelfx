@@ -137,15 +137,16 @@ export function draw(p, t, o) {
     stroke(p, b, leader, C, 0.9, { light: 0.3 });
   }
   if (t >= HIT) {
-    const k = 1 - smooth(1.45, 1.95, t), hero = 1 - smooth(HIT, HIT + 0.09, t);
+    // the white hero frame is brief; the pillar fades straight after it so the gold steps read through
+    const k = 1 - smooth(1.15, 1.75, t), hero = 1 - smooth(HIT, HIT + 0.09, t);
     if (k > 0.02) {
       const b = zigzag(R, TX + 2, TOP + 30, TX, TY - 2, 0.12, 0.2, 1.8, 0);
-      stroke(p, b, k, C, 2.4 + hero * 1.4, { hero: hero > 0.4, light: 0.55, core: 1.8 + hero });
+      stroke(p, b, k, C, 2.4 + hero * 1.4, { hero: hero > 0.4, light: 0.42, core: 1.5 + hero });
       crackle(p, b, k * 0.85, C, 0.4);
       for (let j = 0; j < 8; j++) {
         const y0 = TOP + 48 + j * 26;
         const bb = zigzag(R, TX, y0, TX + R.range(-42, 42), y0 + R.range(18, 52), 0.24, 0.12, 0.55, 1);
-        stroke(p, bb, k * (0.4 + 0.4 * (1 - j / 8)), C, 1.2, { light: 0.4, core: 1.2 });
+        stroke(p, bb, k * (0.4 + 0.4 * (1 - j / 8)), C, 1.2, { light: 0.3, core: 1.0 });
         // violet repulsion forks ride the gold
         if (j % 2 === 0) {
           const v = zigzag(R, TX, y0 + 8, TX + R.range(-58, 58), y0 + R.range(26, 60), 0.3, 0, 0.4, 1);
@@ -153,8 +154,8 @@ export function draw(p, t, o) {
         }
       }
       p.glowLine(TX + 2, TOP + 30, TX, TY, 11, C[3], 0.06 * k);
-      p.glow(TX, -120, 60, C[3], 0.08 * k);
-      p.glow(TX, -90, 24, C[5], 0.1 * k);
+      p.glow(TX, -120, 60, C[3], 0.06 * k);
+      p.glow(TX, -90, 24, C[5], 0.08 * k);
     }
   }
 
@@ -162,8 +163,8 @@ export function draw(p, t, o) {
   if (t >= HIT && t < HIT + 0.6) {
     const q = (t - HIT) / 0.6, f = 1 - q;
     p.circle(TX, TY, 4 + 16 * ease.outQuad(q), WHITE, 0.95 * f);
-    p.glow(TX, TY, 46, C[6], 0.3 * f);
-    p.glow(TX, TY, 18, WHITE, 0.25 * f);
+    p.glow(TX, TY, 42, C[6], 0.22 * f);
+    p.glow(TX, TY, 16, WHITE, 0.18 * f);
     glint(p, TX, TY, Math.round(4 + 8 * f), WHITE, 0.3 * f);
     pool(p, TX, 0, 48, 9, C[4], 0.42 * f);
     p.glow(TX, -1, 40, C[5], 0.18 * f);
