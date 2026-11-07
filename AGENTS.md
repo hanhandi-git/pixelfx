@@ -34,6 +34,7 @@ new native implementation.
 - `src/encounters/index.js`: generated encounter registry.
 - `tools/`: rendering, checking, sprite-sheet export, map/encounter previews and gallery tooling.
 - `gallery/fantasy.html`: live encounter player (the same timeline the tools render).
+- `ui/`: reusable pixel DOM UI kit (`pixel-ui.css` + `pixel-ui.js` factories + `preview.html`) for games and tools.
 - `cocos/runtime/PixelfxSprite.ts`: reusable Cocos Creator 3.x playback component (copy into a game or `pixelfx-cocos`).
 - [pixelfx-cocos](https://github.com/hanhandi-git/pixelfx-cocos) (`../pixelfx-cocos/`): Cocos Creator 3.8.8 project — scenes, workbench scripts, generated `assets/resources/pixelfx/`.
 - `docs/`: catalog and authoring documentation.
