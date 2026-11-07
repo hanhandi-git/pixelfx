@@ -303,6 +303,13 @@ import * as fanren_gold_devouring_beetles from "./fanren/gold-devouring-beetles.
 import * as fanren_immortal_slaying_bead from "./fanren/immortal-slaying-bead.js";
 import * as fanren_palm_heaven_bottle from "./fanren/palm-heaven-bottle.js";
 import * as fanren_xuantian_sword from "./fanren/xuantian-sword.js";
+import * as kami_amaterasu_sun from "./kami/amaterasu-sun.js";
+import * as kami_ame_no_murakumo from "./kami/ame-no-murakumo.js";
+import * as kami_ameno_iwato from "./kami/ameno-iwato.js";
+import * as kami_magatama_six from "./kami/magatama-six.js";
+import * as kami_susanoo_thunder from "./kami/susanoo-thunder.js";
+import * as kami_tsukuyomi_arrow from "./kami/tsukuyomi-arrow.js";
+import * as kami_yamata_no_orochi from "./kami/yamata-no-orochi.js";
 import * as transitions_blinds from "./transitions/blinds.js";
 import * as transitions_burn_away from "./transitions/burn-away.js";
 import * as transitions_crt_off from "./transitions/crt-off.js";
@@ -640,6 +647,13 @@ export const effects = {
   "fanren/immortal-slaying-bead": fanren_immortal_slaying_bead,
   "fanren/palm-heaven-bottle": fanren_palm_heaven_bottle,
   "fanren/xuantian-sword": fanren_xuantian_sword,
+  "kami/amaterasu-sun": kami_amaterasu_sun,
+  "kami/ame-no-murakumo": kami_ame_no_murakumo,
+  "kami/ameno-iwato": kami_ameno_iwato,
+  "kami/magatama-six": kami_magatama_six,
+  "kami/susanoo-thunder": kami_susanoo_thunder,
+  "kami/tsukuyomi-arrow": kami_tsukuyomi_arrow,
+  "kami/yamata-no-orochi": kami_yamata_no_orochi,
   "transitions/blinds": transitions_blinds,
   "transitions/burn-away": transitions_burn_away,
   "transitions/crt-off": transitions_crt_off,
@@ -975,6 +989,13 @@ export const provenance = {
   "fanren/immortal-slaying-bead": "new",
   "fanren/palm-heaven-bottle": "new",
   "fanren/xuantian-sword": "new",
+  "kami/amaterasu-sun": "new",
+  "kami/ame-no-murakumo": "new",
+  "kami/ameno-iwato": "new",
+  "kami/magatama-six": "new",
+  "kami/susanoo-thunder": "new",
+  "kami/tsukuyomi-arrow": "new",
+  "kami/yamata-no-orochi": "new",
   "transitions/blinds": "original",
   "transitions/burn-away": "original",
   "transitions/crt-off": "original",

@@ -272,6 +272,8 @@ function buildCharacters() {
 // choice buttons, weapon groups and the role line — rebuilt whenever the language changes
 function rebuildCast() {
   const picker = $("#gallery-characters");
+  const intro = document.querySelector(".cast-intro");
+  if (intro) intro.textContent = tr("cast.intro", { n: CHARACTERS.length });
   picker.replaceChildren();
   for (const c of CHARACTERS) {
     const text = characterText(c);

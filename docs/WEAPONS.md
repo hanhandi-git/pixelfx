@@ -1,6 +1,6 @@
 # Weapons
 
-Seventeen selectable weapons share the portable rig, the character costumes and its depth buffer. Nine are
+Twenty selectable weapons share the portable rig, the character costumes and its depth buffer. Twelve are
 melee weapons; eight are thrown weapons with their own ranged actions. Every model is original
 code-authored geometry under this repository's MIT license.
 
@@ -15,6 +15,9 @@ code-authored geometry under this repository's MIT license.
 | `katana` | 太刀 / Katana | melee | `melee/katana-draw` — thin horizontal draw cut |
 | `war-mace` | 重钉锤 / War mace | melee | `melee/mace-crush` — crushing blow, chips and ground shock |
 | `rapier` | 刺剑 / Rapier | melee | `melee/rapier-lunge` — precise needle thrust |
+| `kusanagi` | 云从剑 / 天丛云剑 / Kusanagi | melee | `kami/ame-no-murakumo` — one rising cut that carves a seam through a sea of murakumo |
+| `totsuka` | 十拳剑 / Totsuka | melee | `kami/susanoo-thunder` — raised blade draws a forked thunder pillar onto the target |
+| `yata-mirror` | 八咫镜 / Yata mirror | melee | `kami/amaterasu-sun` — mirrored sun: rays, a gold pillar and a burning floor |
 | `kunai` | 苦无 / Kunai | **thrown** | `thrown/kunai-throw` — end-over-end throw that embeds in the target |
 | `powder-bomb` | 火药弹 / Powder bomb | **thrown** | `thrown/powder-bomb-throw` — fuse, bounce and compact blast |
 | `boomerang` | 回旋镖 / Boomerang | **thrown** | `thrown/boomerang-throw` — outbound and return passes before the catch |
@@ -28,7 +31,9 @@ The native figure is about 38 px tall. Weapons are measured from the fist in the
 models distinguish material faces, edge highlights, wraps and guards at one-pixel scale. The lance
 has a split pennon; the holy sword has a wing guard and inset gold line; the kunai has a hollow ring
 pommel; the thrown set adds a fuse bomb, a curved boomerang,
-a red paper seal, a short jade-pommel jian, a rolled sash, a bronze bell and a pinch of needles. Filtering is nearest neighbour and the grip is the pivot for standalone weapon icons.
+a red paper seal, a short jade-pommel jian, a rolled sash, a bronze bell and a pinch of needles. The
+shinto set adds a straight cloud-guarded tsurugi, a broad Totsuka with a vermilion grip and dragon guard,
+and a bronze Yata mirror cut with an eight-point star. Filtering is nearest neighbour and the grip is the pivot for standalone weapon icons.
 
 ## Classes
 

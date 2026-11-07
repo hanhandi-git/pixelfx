@@ -90,6 +90,47 @@ export const MELEE_SHAPES = {
     polygon(T, [[30, -1.7], [35, 0], [30, 1.7]], C.silver);
     band(T, 24, 1, 6, C.gold, C.goldD); T(25, -3, C.goldL);
   } },
+  kusanagi: { two: -7, draw(T) {
+    // 云从剑 / 天丛云剑: a straight tsurugi, a cloud-lobed guard, a dark storm-steel blade with one pale edge.
+    wraps(T, -7.6, 2, 0.85); band(T, -8.2, 0.6, 1.1);
+    ring(T, -8.8, 0, 1.25, C.gold); T(-8.8, 0, C.jade); T(-8.8, -0.6, C.goldL);
+    polygon(T, [[2.2, -3.6], [3.6, -2.4], [3.6, 2.4], [2.2, 3.6]], C.gold);
+    for (const dy of [-2.8, 0, 2.8]) polygon(T, [[2.7, dy - 1.1], [4.7, dy - 0.35], [4.7, dy + 0.35], [2.7, dy + 1.1]], C.goldL);
+    for (let i = 4; i < 37; i += 0.35) {
+      const u = (i - 4) / 33, w = u > 0.9 ? (1 - u) / 0.1 * 1.9 : 1.9;
+      for (let k = -w; k <= w; k += 0.4) T(i, k, k < -1.2 ? C.white : k < -0.25 ? C.silver : k < 0.5 ? C.steel : C.edge);
+    }
+    for (let i = 5; i < 35; i += 0.7) T(i, 0, C.cyan);
+    // a cloud notch cut into each shoulder near the guard
+    for (const dy of [-1.6, 1.6]) for (let i = 4.4; i < 7; i += 0.3) T(i, dy, C.jade);
+    T(-7.2, -1.2, C.cyan);
+  } },
+  totsuka: { two: -9, draw(T) {
+    // 十拳剑: a broad, long straight blade, a red-wrapped grip, a dragon-head guard and a bronze pommel.
+    wraps(T, -10, 2.4, 0.95); band(T, -10.6, 0.6, 1.3, C.bronze, C.bronzeD);
+    polygon(T, [[-11.4, -1.5], [-9.4, 0], [-11.4, 1.5]], C.gold);
+    polygon(T, [[2.4, -5], [4.2, -3.2], [4.2, 3.2], [2.4, 5]], C.gold);
+    polygon(T, [[3, -4.2], [4, -2.4], [4, 2.4], [3, 4.2]], C.goldD);
+    for (let i = 4.6; i < 46; i += 0.35) {
+      const u = (i - 4.6) / 41, w = u > 0.9 ? (1 - u) / 0.1 * 2.4 : 2.4;
+      for (let k = -w; k <= w; k += 0.4) T(i, k, k < -1.5 ? C.white : k < -0.3 ? C.silver : k < 0.8 ? C.steel : C.edge);
+    }
+    for (let i = 6; i < 44; i += 0.5) T(i, 0, C.violet);
+    for (const dy of [-1.4, 1.4]) for (let i = 5; i < 8.6; i += 0.3) T(i, dy, C.violet);
+    T(-9.7, 0, C.redL);
+  } },
+  "yata-mirror": { draw(T) {
+    // 八咫镜: a bronze mirror on a short wrapped handle, its bright face cut with an eight-point star.
+    wraps(T, -4.8, 0.4, 0.8); band(T, -5, 0.6, 1.15, C.bronze, C.bronzeD);
+    ring(T, 4, 0, 4.8, C.bronze); ring(T, 4, 0, 4.1, C.gold);
+    for (let y = -3.6; y <= 3.6; y += 0.4) for (let x = 0.8; x <= 7.2; x += 0.4) {
+      const d = (x - 4) ** 2 + y * y;
+      if (d <= 3.7 * 3.7) T(x, y, y < -1 ? C.ivory : y < 0.9 ? C.goldL : C.gold);
+    }
+    for (let a = 0; a < Math.PI * 2; a += Math.PI / 4) T(4 + Math.cos(a) * 2.4, Math.sin(a) * 2.4, C.bronzeD);
+    T(4, 0, C.white); T(3, 0, C.white); T(5, 0, C.white);
+    for (let i = 0; i < 3; i++) T(-5.6 - i * 0.4, -1.2 - i * 0.7, i & 1 ? C.red : C.redL);
+  } },
   rapier: { two: -3.5, draw(T) {
     wraps(T, -4, 2, 0.65); band(T, -5, 0.7, 1.1);
     ring(T, 2.6, 0, 3.3, C.gold); ring(T, -0.2, 1.2, 3.2, C.goldD);
@@ -210,6 +251,9 @@ export const ARMORY = Object.freeze([
   { id: "lance", label: "骑士长枪", name: "Knight lance", fx: "melee/lance-thrust", tip: 62, family: "thrust", class: "melee" },
   { id: "holy-sword", label: "圣剑", name: "Holy sword", fx: "melee/holy-sword-cleave", tip: 40, family: "sweep", class: "melee" },
   { id: "katana", label: "太刀", name: "Katana", fx: "melee/katana-draw", tip: 36, family: "sweep", class: "melee" },
+  { id: "kusanagi", label: "云从剑", name: "Kusanagi", fx: "kami/ame-no-murakumo", tip: 36, family: "sweep", class: "melee" },
+  { id: "totsuka", label: "十拳剑", name: "Totsuka", fx: "kami/susanoo-thunder", tip: 44, family: "sweep", class: "melee" },
+  { id: "yata-mirror", label: "八咫镜", name: "Yata mirror", fx: "kami/amaterasu-sun", tip: 9, family: "slam", class: "melee" },
   { id: "war-mace", label: "重钉锤", name: "War mace", fx: "melee/mace-crush", tip: 35, family: "slam", class: "melee" },
   { id: "rapier", label: "刺剑", name: "Rapier", fx: "melee/rapier-lunge", tip: 38, family: "thrust", class: "melee" },
   { id: "kunai", label: "苦无", name: "Kunai", fx: "thrown/kunai-throw", tip: 18, family: "throw", class: "thrown" },

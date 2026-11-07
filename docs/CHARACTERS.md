@@ -23,6 +23,9 @@ copied sprite art, logos or other published assets.
 | `hulk` | Hulk / 绿巨人 | Gamma-green bulk, heavy brow and jaw, huge fists, torn purple trousers, bare green shins | Original procedural likeness, MIT |
 | `thor` | Thor / 雷神 | Silver winged helm, long blond locks, red cape, silver chest discs, bracers and boots | Original procedural likeness, MIT |
 | `captain-america` | Captain America / 美国队长 | Blue cowl with white temple wings, white chest star, red-white waist stripes, red boots | Original procedural likeness, MIT |
+| `amaterasu` | Amaterasu / 天照命 | Gold sun disc behind the head, waist-length black hair and hairpins, white haori, vermilion hakama, the Yata mirror at the chest | Original procedural geometry, MIT |
+| `tsukuyomi` | Tsukuyomi / 月读命 | Tall black kanmuri with a silver crescent and gold trim, a straight mane, indigo sokutai, white collar and obi, a silver crescent behind the head | Original procedural geometry, MIT |
+| `susanoo` | Susanoo / 须佐之男 | Wild mane, bare shoulders, a torn storm cloak, the shimenawa rope twisted across the chest, bracers, storm-grey hakama, lightning on one arm | Original procedural geometry, MIT |
 
 The bone height and hand positions stay fixed. Costumes extend the rest silhouette to roughly
 40–42 px; each actor exposes its actual `x`, `y`, `w`, `h`, mask and pixels. Feet stay at `(0, 0)`.

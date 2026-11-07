@@ -385,5 +385,107 @@ export function costume(S, look, api) {
       ball(f, [7.2, 0, 0], [1.35, 1.35, 1.35], 4);
       line(f, [5.8, 0, 0], [6.4, 0, 0], 1.4, 1.35, 10);
     }
+  } else if (look.style === "sun-goddess") {
+    // 天照命: a gold sun disc stands behind the head, black hair falls past the waist, a white haori over a
+    // vermilion hakama, the Yata mirror at the chest.
+    face("head", [[-5, -6.4, -5.6], [-5, -6.4, 5.6], [-5, 0.4, 8], [-5, 8.6, 0], [-5, 0.4, -8]], 6);
+    face("head", [[-4.8, -5, -4.2], [-4.8, -5, 4.2], [-4.8, 0.2, 6], [-4.8, 6.6, 0], [-4.8, 0.2, -6]], 4);
+    for (const a of [-2.4, -1.6, -0.8, 0, 0.8, 1.6, 2.4]) {
+      const cy = 1.6 + Math.sin(a) * 7.2, cz = Math.cos(a) * 9.2;
+      line("head", [-5, 1.6 + Math.sin(a) * 8.6, Math.cos(a) * 10.4], [-5, cy, cz], 0.22, 0.12, 6);
+    }
+    head([-1, 1.7, 0], [2.9, 2.4, 3.05]);
+    for (const s of [-1, 1]) {
+      for (let i = 0; i < 9; i++)
+        head([-3.5 - i * 0.12, -1.2 - i * 2.1, s * (1.4 + i * 0.14)], [1.5, 1.15, 1.3], 5);
+      line("head", [0.6, 2.3, s * 2.6], [-1.6, -1.2, s * 3.2], 0.9, 0.4, 5);
+      line("head", [2.1, 2.2, s * 2.2], [2.7, -0.6, s * 2.4], 0.7, 0.25, 5);
+    }
+    // crossed gold hairpins and a vermilion sun mark on the brow
+    line("head", [-0.6, 3.6, -2.2], [2.2, 4.8, 0.4], 0.24, 0.16, 6);
+    line("head", [-0.6, 3.6, 2.2], [2.2, 4.8, -0.4], 0.24, 0.16, 6);
+    head([2.08, 1.62, 0], [0.26, 0.42, 0.42], 10);
+    // Yata mirror: a gold disc with a bright face, hung from a cord
+    ball("chest", [3.7, 1.2, 0.4], [0.55, 1, 1], 6);
+    ball("chest", [3.95, 1.2, 0.4], [0.3, 0.72, 0.72], 8);
+    line("chest", [4.1, 0.4, 0.4], [4.1, 2, 0.4], 0.14, 0.14, 6);
+    line("neck", [0.6, 0.2, -1.4], [3.6, 2.1, 0.4], 0.14, 0.14, 6);
+    // white haori: wide sleeves with a gold edge
+    for (const f of ["upperN", "upperF"]) {
+      line(f, [0.8, 0, 0], [7.4, 0, 0], 1.9, 1.7, 4);
+      face(f, [[0.8, -1.8, -2], [0.8, 2, 2], [6.4, 2.4, 2.6], [6.6, -4.6, -2.4]], 4);
+      line(f, [6.5, -4.4, -2.2], [6.5, 2.3, 2.4], 0.3, 0.3, 6);
+    }
+    line("chest", [3.2, 3.4, 0], [2.4, -2.2, 0.8], 0.28, 0.24, 9);
+    // vermilion hakama with gold seams and the gold sash
+    face("pelvis", [[3.1, 1.2, -4.2], [3.1, 1.2, 4.2], [4.5, -11, 6.6], [4.8, -11.6, 0], [4.4, -11, -6.6]], 10);
+    for (const z of [-4.6, -1.6, 1.6, 4.6]) line("pelvis", [3.3, 0.9, z], [4.6, -10.8, z * 1.35], 0.2, 0.16, 6);
+    line("pelvis", [3.25, 1.2, -4.2], [3.35, 1.2, 4.2], 0.55, 0.55, 6);
+    for (const f of ["shinN", "shinF"]) line(f, [0.8, 0, 0], [7.8, 0, 0], 2.05, 1.55, 9);
+    for (const f of ["footN", "footF"]) line(f, [-1, -0.7, 0], [3.6, -1.1, 0], 1.6, 1.3, 7);
+  } else if (look.style === "moon-god") {
+    // 月读命: a tall black kanmuri with a silver crescent, a long straight mane, an indigo sokutai and a white obi.
+    face("head", [[-0.6, 2.4, -1.9], [-0.6, 2.4, 1.9], [0.8, 7.6, 2.1], [0.8, 7.6, -2.1]], 5);
+    line("head", [0.9, 7.5, -2.2], [0.9, 7.5, 2.2], 0.32, 0.32, 6);
+    line("head", [-0.2, 2.3, -2], [-0.2, 2.3, 2], 0.3, 0.3, 6);
+    line("head", [1.2, 4.4, -1.7], [1.9, 6.1, 0], 0.34, 0.24, 8);
+    line("head", [1.9, 6.1, 0], [1.2, 7.8, 1.7], 0.3, 0.2, 8);
+    // a silver crescent opens around the back of the head, in the same plane as Amaterasu's sun disc
+    for (let i = 0; i <= 9; i++) {
+      const a = -1.35 + (i / 9) * 2.7;
+      head([-4.4, 2.6 + Math.sin(a) * 5.2, Math.cos(a) * 5.2], [0.5, 0.95, 0.95], 8);
+      if (i % 3 === 0) head([-4.5, 2.6 + Math.sin(a) * 6.4, Math.cos(a) * 6.4], [0.3, 0.5, 0.5], 5);
+    }
+    face("head", [[-3.4, 1.2, -3.4], [-3.4, 1.2, 3.4], [-4, -8, 3.2], [-4.2, -11, 0], [-4, -8, -3.2]], 5);
+    for (const s of [-1, 1]) line("head", [1, 2, s * 2.7], [0.2, -5.2, s * 3.2], 0.8, 0.3, 5);
+    line("chest", [1, 4.2, -2], [3.3, 1.2, 0], 0.3, 0.28, 10);
+    line("chest", [1, 4.2, 2], [3.3, 1.2, 0], 0.3, 0.28, 10);
+    line("chest", [3.3, 1.2, 0], [3.2, -2.4, 0], 0.26, 0.22, 10);
+    for (const f of ["upperN", "upperF"]) {
+      line(f, [1.2, 0, 0], [7.6, 0, 0], 2.05, 1.75, 4);
+      face(f, [[1.2, -2, -2.2], [1.2, 2.4, 2.2], [6.8, 2.8, 2.6], [7, -5, -2.6]], 4);
+      line(f, [6.8, -4.6, -2.4], [6.8, 2.6, 2.5], 0.32, 0.32, 10);
+    }
+    face("pelvis", [[3.1, 1.2, -4.2], [3.1, 1.2, 4.2], [4.6, -16, 7], [4.9, -16.8, 0], [4.5, -16, -7]], 4);
+    line("pelvis", [3.25, 1.2, -4.2], [3.35, 1.2, 4.2], 0.6, 0.6, 10);
+    ball("pelvis", [4.4, 0.2, 1.2], [0.4, 0.55, 0.55], 8);
+    ball("chest", [3.55, 1.6, -0.8], [0.32, 0.4, 0.4], 8);
+    for (const f of ["shinN", "shinF"]) line(f, [0.8, 0, 0], [7.8, 0, 0], 2, 1.5, 9);
+    for (const f of ["footN", "footF"]) line(f, [-1, -0.7, 0], [3.6, -1.1, 0], 1.6, 1.3, 7);
+  } else if (look.style === "storm-god") {
+    // 须佐之男: a wild mane, bare shoulders, a torn storm cloak and the shimenawa rope across his chest.
+    head([-1, 1.7, 0], [2.9, 2.3, 3.1]);
+    for (const [a, b, r] of [
+      [[0.4, 2.4, 0], [1.8, 5.8, 0.4], 1.3],
+      [[-1.2, 2.8, -0.4], [-2.8, 6, -1], 1.25],
+      [[-2.4, 2.2, 0.6], [-4.8, 4.4, 1.4], 1.1],
+      [[-0.2, 2.5, -2.4], [-0.8, 5, -3.6], 1],
+      [[0.4, 2.4, 2.3], [0.8, 4.6, 3.6], 0.95],
+    ]) line("head", a, b, r, 0.12, 5);
+    for (const s of [-1, 1]) {
+      line("head", [-2.6, 0.6, s * 2.2], [-4.2, -4.4, s * 2.8], 1.2, 0.5, 5);
+      line("head", [1.2, 1.6, s * 2.6], [0.4, -2.6, s * 3.1], 0.8, 0.3, 5);
+    }
+    line("chest", [2.6, 2.8, -2.6], [3.2, 1.2, 0], 0.35, 0.3, 3);
+    line("chest", [2.6, 2.8, 2.6], [3.2, 1.2, 0], 0.35, 0.3, 3);
+    line("chest", [1.8, 0.6, -2.2], [2.6, -1.4, 0], 0.25, 0.22, 3);
+    // the torn cloak hangs off the far shoulder only
+    face("chest", [[-2.6, 3, 1.6], [-2.6, 3, 4.6], [-7.4, -8.6, 6], [-8.4, -10, 2.4], [-7.6, -8.2, 1.2]], 4);
+    ball("upperF", [0.4, 0, 0], [2.6, 2.8, 3], 4);
+    // shimenawa: a thick vermilion rope, twisted bands, a knot and two hanging tassels
+    line("chest", [3.4, 2.6, -3.4], [3.8, -1.6, 3.2], 0.7, 0.7, 10);
+    for (let i = 0; i < 4; i++) line("chest", [3.45, 2.2 - i * 1.1, -3.3], [3.85, 2 - i * 1.1, 3.1], 0.22, 0.22, 4);
+    line("chest", [3.9, -1, 2.8], [3.2, -6.4, 3.2], 0.45, 0.2, 10);
+    line("chest", [3.6, -0.6, 2.2], [2.6, -5.4, 2.6], 0.4, 0.18, 10);
+    for (const f of ["foreN", "foreF"]) line(f, [1, 0, 0], [7, 0, 0], 1.65, 1.4, 7);
+    face("pelvis", [[3.1, 1.2, -4.4], [3.1, 1.2, 4.4], [4.4, -7.4, 6.2], [4.8, -8, 0], [4.3, -7.4, -6.2]], 4);
+    line("pelvis", [3.25, 1.2, -4.4], [3.35, 1.2, 4.4], 0.65, 0.65, 10);
+    line("pelvis", [3.4, 0.8, 1.4], [3.0, -4.6, 2], 0.3, 0.22, 10);
+    for (const f of ["shinN", "shinF"]) line(f, [0.8, 0, 0], [7.8, 0, 0], 2.05, 1.6, 7);
+    for (const f of ["footN", "footF"]) line(f, [-1, -0.7, 0], [3.6, -1.1, 0], 1.6, 1.3, 7);
+    // a fork of lightning still crawling on the far shoulder
+    line("upperF", [2, 1.4, 0], [4, 2.2, 0], 0.2, 0.18, 8);
+    line("upperF", [4, 2.2, 0], [5, 1.2, 0], 0.18, 0.16, 8);
+    line("upperF", [4, 2.2, 0], [4.6, 3.2, 0.4], 0.14, 0.12, 8);
   }
 }

@@ -1,6 +1,6 @@
 # Catalog
 
-332 effects in 29 categories: 244 original and 88 new. Every one is a file in
+339 effects in 30 categories: 244 original and 95 new. Every one is a file in
 `src/fx/<category>/<name>.js`; render any of them with `node tools/render.mjs <id> --gif`.
 
 ## moves
@@ -487,6 +487,20 @@ xianxia arts: bamboo-cloud flying swords, evil-warding thunder, gold-devouring b
 | Immortal-slaying bead | `fanren/immortal-slaying-bead` | new | effect | one-shot 3.2s | 420×260 | A black bead is flicked out and hangs over the target; it cracks and a perfect white sphere unfolds without smoke, leaving a glassy crater, gold dust and a violet halo. |
 | Heaven-palm bottle | `fanren/palm-heaven-bottle` | new | effect | loop 3.2s | 148×164 | The little green bottle hangs in the air and turns through the light; a dewdrop gathers at its lip each turn and falls, and where it lands a spirit herb unfolds. |
 | Xuantian spirit-slaying sword | `fanren/xuantian-sword` | new | effect | one-shot 3.45s | 412×340 | A slit of white light opens in the sky, runes gather, and a colossal blade drops point-first onto the target; the law-cut tears across the field and the blade shatters upward. |
+
+## japanese legend
+
+shinto arts: the sun mirror, the moon bow, the cloud-cleaving sword, six magatama and the eight-headed serpent.
+
+| effect | id | source | kind | play | size | what it does |
+|---|---|---|---|---|---|---|
+| Amaterasu, sun mirror | `kami/amaterasu-sun` | new | effect | one-shot 3.35s | 340×230 | The sun goddess lifts the Yata mirror; light gathers in the disc, a shrine seal opens under the target and the sun answers with hard rays, a gold pillar and a glowing floor. |
+| Ame-no-Murakumo | `kami/ame-no-murakumo` | new | effect | one-shot 3.2s | 360×220 | The storm sword gathers wind, rolls a sea of murakumo in and opens it with one rising cut: a white line carves a seam, torn clouds spill wind and the target takes the point. |
+| Ama-no-Iwato | `kami/ameno-iwato` | new | effect | one-shot 3.8s | 320×200 | The heavenly rock cave: a shimenawa strains across the boulder that hides the sun, the stone splits, the door grinds apart and white-gold light floods out. |
+| Six magatama | `kami/magatama-six` | new | effect | loop 3.6s | 140×112 | Six jade magatama strung on a gold cord turn around a bright seed, the far jewels dimmed behind the near ones, with dust winking between them. |
+| Susanoo, storm sword | `kami/susanoo-thunder` | new | effect | one-shot 3.5s | 340×240 | The storm god raises the Totsuka blade; tomoe drums beat around a sea of cloud, and one downward cut pulls a forked pillar of thunder onto the target and leaves violet arcs. |
+| Tsukuyomi, moon bow | `kami/tsukuyomi-arrow` | new | effect | one-shot 3s | 320×190 | A crescent of moonlight is strung in front of the moon god; the arrow is drawn and loosed as a silver shaft trailing dust, and the hit is one white crescent cut through the target. |
+| Yamata no Orochi | `kami/yamata-no-orochi` | new | effect | one-shot 4.5s | 420×300 | Eight heads rise out of a blood-red fog in two ranks, eyes lighting one by one; they rear, breathe fire, and one white-gold sword line cuts the rank, scattering scales and embers. |
 
 ## transitions
 

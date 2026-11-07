@@ -6,23 +6,23 @@
 
 # pixelfx-extended.
 
-An extended [**pixelfx**](https://github.com/patch-gg/pixelfx) fork with **<!-- new-count -->88<!-- /new-count -->** additional maps, minions and effects beyond the original 244-effect baseline.
+An extended [**pixelfx**](https://github.com/patch-gg/pixelfx) fork with **<!-- new-count -->95<!-- /new-count -->** additional maps, minions and effects beyond the original 244-effect baseline.
 
-**<!-- count -->332<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
+**<!-- count -->339<!-- /count --> pixel art effects and animations, every one a small piece of code.** Fire,
 explosions, magic, weather, UI, pickups, critters and more. Play them live, recolor and mirror them, drop them into
 a browser game, or export sprite sheets for any engine. Plus a **fantasy game kit** — battle maps, minion and boss
 units, telegraphed attacks, and encounter timelines you author under `src/encounters/` — and a Claude Code skill that
 makes new ones the way a picky pixel artist would: draft, render, look, refine.
 
-The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->88<!-- /new-count --> new ones**. The [gallery](gallery/index.html) marks every item `original` or `new` and filters by it.
+The library is **<!-- original-count -->244<!-- /original-count --> original effects and **<!-- new-count -->95<!-- /new-count --> new ones**. The [gallery](gallery/index.html) marks every item `original` or `new` and filters by it.
 
-**<!-- act-count -->115<!-- /act-count -->** effects export an **`act`** timeline: wind-up, release, freeze on contact, target reaction, recovery. **<!-- moves-count -->12<!-- /moves-count -->**
+**<!-- act-count -->119<!-- /act-count -->** effects export an **`act`** timeline: wind-up, release, freeze on contact, target reaction, recovery. **<!-- moves-count -->12<!-- /moves-count -->**
 **moves** in `src/fx/moves/` chain those beats into full attacks from wind-up to recovery.
 
 **[open the gallery](https://patch-gg.github.io/pixelfx/)** ·
 [live gallery (this fork)](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown) ·
 [fantasy encounters](https://patch-gg.github.io/pixelfx/fantasy.html) ·
-[catalog](docs/CATALOG.md) · [fantasy kit](docs/FANTASY.md) · [acting](#acting) · [the skill](#the-skill) ·
+[catalog](docs/CATALOG.md) · [Japanese legend](docs/JAPANESE.md) · [fantasy kit](docs/FANTASY.md) · [acting](#acting) · [the skill](#the-skill) ·
 [make your own](#make-your-own) · [how it works](#how-it-works)
 
 The method is [Hugo Duprez](https://x.com/HugoDuprez)'s, from [How to make (good) pixel art effects with
@@ -33,7 +33,7 @@ the idea at library scale, with a skill to keep going.
 
 ## new additions.
 
-These **<!-- new-count -->88<!-- /new-count -->** pieces are not in the original 244-effect baseline: fantasy maps, minions, bosses and more. Browse them in the [gallery (`?source=new`)](gallery/index.html?source=new) or the deployed [live gallery](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown) (new effects, Moon Oracle, thrown category).
+These **<!-- new-count -->95<!-- /new-count -->** pieces are not in the original 244-effect baseline: fantasy maps, minions, bosses and more. Browse them in the [gallery (`?source=new`)](gallery/index.html?source=new) or the deployed [live gallery](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown) (new effects, Moon Oracle, thrown category).
 
 <p align="center">
   <img src="docs/readme/montage-new.gif" width="800" alt="Six looping fantasy battle maps at full 320×180 resolution: aurora pass, crystal hollow, ember depths, mossy ruins, sunscar temple and wisp marsh.">
@@ -74,6 +74,13 @@ These **<!-- new-count -->88<!-- /new-count -->** pieces are not in the original
 | **fanren** | Immortal-slaying bead | `fanren/immortal-slaying-bead` |
 | **fanren** | Heaven-palm bottle | `fanren/palm-heaven-bottle` |
 | **fanren** | Xuantian spirit-slaying sword | `fanren/xuantian-sword` |
+| **kami** | Amaterasu, sun mirror | `kami/amaterasu-sun` |
+| **kami** | Ame-no-Murakumo | `kami/ame-no-murakumo` |
+| **kami** | Ama-no-Iwato | `kami/ameno-iwato` |
+| **kami** | Six magatama | `kami/magatama-six` |
+| **kami** | Susanoo, storm sword | `kami/susanoo-thunder` |
+| **kami** | Tsukuyomi, moon bow | `kami/tsukuyomi-arrow` |
+| **kami** | Yamata no Orochi | `kami/yamata-no-orochi` |
 | **konosuba** | Explosion chant | `konosuba/explosion-chant` |
 | **konosuba** | Explosion crater | `konosuba/explosion-crater` |
 | **konosuba** | Explosion | `konosuba/explosion-ritual` |
@@ -144,6 +151,7 @@ Categories with new content appear first; samples list **new** effects before or
 | **thrown** | 8 | binding silk, boomerang throw, flying sword, kunai throw, pear-blossom needles, powder bomb throw… |
 | **dragonball** | 8 | destructo disc, drill beam, golden aura, ki charge, ki volley, ki wave… |
 | **lightning** | 18 | forked burst, ground surge, static cage, storm sigil, storm vortex, thunder rain… |
+| **japanese legend** | 7 | amaterasu, sun mirror, ame-no-murakumo, ama-no-iwato, six magatama, susanoo, storm sword, tsukuyomi, moon bow… |
 | **world** | 7 | aurora pass, crystal hollow, ember depths, inkbound shrine, mossy ruins, sunscar temple… |
 | **melee** | 18 | holy sword cleave, katana draw cut, knight lance thrust, war mace crush, rapier lunge, banded staff combo… |
 | **senjutsu** | 6 | gate of the great god, sage art: goemon, sage orb, thousand wood dragons, white flash, wind shuriken |
@@ -171,17 +179,6 @@ Categories with new content appear first; samples list **new** effects before or
 <!-- /catalog -->
 
 Every effect is a file in `src/fx/<category>/<name>.js`. The [catalog](docs/CATALOG.md) lists them all.
-
-## pixel UI kit.
-
-`ui/` carries a reusable DOM kit for the games and tools built around the library: square 1 px panels with gold
-corner brackets, hp/mp/xp/boss bars, keycaps, one button family, hotbar slots with cooldown and mana states,
-badges, pips, banners, toasts and modal cards. One scale token (`--px-u`) drives the whole interface, and
-`.px-theme-ink` gives it the gallery's monochrome look. No fonts, images or frameworks.
-
-![pixel UI kit](ui/preview.png)
-
-[preview the kit](ui/preview.html) · [usage](ui/README.md) · `ui/pixel-ui.css` · `ui/pixel-ui.js`
 
 ## fantasy game kit.
 
@@ -304,7 +301,7 @@ node tools/render.mjs fire/torch --gif --opts '{"palette": ["#102","#215","#43a"
 </p>
 
 An effect on its own looks like a sticker. What sells a hit is the body around it: the wind-up that says something is
-coming, the freeze on contact, the target rocking back, the recovery. **<!-- act-count -->115<!-- /act-count -->** effects export `act` data for that; the
+coming, the freeze on contact, the target rocking back, the recovery. **<!-- act-count -->119<!-- /act-count -->** effects export `act` data for that; the
 **<!-- moves-count -->12<!-- /moves-count -->** **moves** are the standalone attack choreographies:
 
 ```js
