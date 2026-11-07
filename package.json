@@ -11,7 +11,10 @@
     ".": "./src/core/index.js",
     "./fx/*": "./src/fx/*.js",
     "./core/*": "./src/core/*.js",
-    "./encounters/*": "./src/encounters/*.js"
+    "./encounters/*": "./src/encounters/*.js",
+    "./ui": "./ui/pixel-ui.js",
+    "./ui/style.css": "./ui/pixel-ui.css",
+    "./ui/*": "./ui/*"
   },
   "scripts": {
     "test": "node --test tests/*.test.mjs",

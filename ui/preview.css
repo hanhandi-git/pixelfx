@@ -1,0 +1,68 @@
+/* The preview page's own layout. Components come from pixel-ui.css. */
+html, body { margin: 0; background: #050409; }
+body.uip {
+  --px-u: 1.05px;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 122, 60, 0.06), transparent 70%),
+    #050409;
+  padding: calc(var(--px-u) * 26) calc(var(--px-u) * 24) calc(var(--px-u) * 48);
+}
+.uip-wrap { max-width: calc(var(--px-u) * 1060); margin: 0 auto; display: flex; flex-direction: column; gap: calc(var(--px-u) * 34); }
+.uip-head { display: flex; justify-content: space-between; align-items: flex-start; gap: calc(var(--px-u) * 24); flex-wrap: wrap; }
+.uip-brand { max-width: calc(var(--px-u) * 620); display: flex; flex-direction: column; gap: calc(var(--px-u) * 7); }
+.uip-tools { display: flex; flex-direction: column; align-items: flex-end; gap: calc(var(--px-u) * 9); }
+.uip-themes { display: flex; }
+.uip-themes .px-btn { min-height: calc(var(--px-u) * 28); padding: 0 calc(var(--px-u) * 12); font-size: calc(var(--px-u) * 10); }
+.uip-themes .px-btn.is-on { color: var(--px-gold-2); border-color: var(--px-gold); background: rgba(255, 255, 255, 0.05); }
+.uip-section { display: flex; flex-direction: column; gap: calc(var(--px-u) * 12); }
+.uip-section-head { display: flex; align-items: baseline; gap: calc(var(--px-u) * 14); border-bottom: var(--px-line-w) solid var(--px-line); padding-bottom: calc(var(--px-u) * 7); }
+.uip-section-head .px-title { font-size: calc(var(--px-u) * 18); letter-spacing: 0.18em; text-indent: 0.18em; }
+.uip-grid { display: grid; gap: calc(var(--px-u) * 12); }
+.uip-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.uip-gap { margin-top: calc(var(--px-u) * 9); }
+.uip-type-row { display: flex; align-items: center; gap: calc(var(--px-u) * 18); flex-wrap: wrap; padding: calc(var(--px-u) * 10) 0; }
+.uip-bars { display: flex; flex-direction: column; gap: calc(var(--px-u) * 12); max-width: calc(var(--px-u) * 520); }
+.uip-bar-row { display: grid; grid-template-columns: calc(var(--px-u) * 70) minmax(0, 1fr); align-items: center; gap: calc(var(--px-u) * 10); }
+.uip-actions { display: flex; gap: calc(var(--px-u) * 8); }
+.uip-actions .px-btn { min-height: calc(var(--px-u) * 30); padding: 0 calc(var(--px-u) * 12); font-size: calc(var(--px-u) * 10); }
+.uip-buttons { display: flex; align-items: center; gap: calc(var(--px-u) * 10); flex-wrap: wrap; }
+.uip-buttons .px-btn { font-size: calc(var(--px-u) * 11); min-height: calc(var(--px-u) * 34); }
+.uip-keys { display: flex; align-items: center; gap: calc(var(--px-u) * 5); flex-wrap: wrap; margin-top: calc(var(--px-u) * 8); }
+.uip-key-rule { flex: 1 1 calc(var(--px-u) * 40); min-width: calc(var(--px-u) * 30); }
+.uip-skills { display: flex; gap: calc(var(--px-u) * 9); flex-wrap: wrap; }
+.uip-note { margin: 0; }
+.uip-feedback-grid { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--px-u) * 12); }
+.uip-stage { position: relative; aspect-ratio: 16 / 9; border: var(--px-line-w) solid var(--px-line); background: radial-gradient(ellipse at 50% 60%, #1a2530, #070b10 70%); overflow: hidden; }
+.uip-stage--modal { aspect-ratio: 4 / 3; }
+.uip-banner { top: 18%; }
+.uip-toast { position: absolute; left: 50%; bottom: 12%; transform: translateX(-50%); }
+.uip-toast.is-open { transform: translateX(-50%); }
+.uip-modal { position: absolute; padding: calc(var(--px-u) * 14); }
+.uip-modal .px-modal__card { width: min(100%, calc(var(--px-u) * 470)); padding: calc(var(--px-u) * 14) calc(var(--px-u) * 18); }
+.uip-modal .px-modal__title { font-size: calc(var(--px-u) * 26); }
+.uip-modal .px-modal__body { margin-top: calc(var(--px-u) * 9); }
+.uip-modal .px-modal__foot { margin-top: calc(var(--px-u) * 11); }
+.uip-modal .px-stat-grid { margin-top: 0; }
+.uip-modal .px-btn { min-height: calc(var(--px-u) * 30); padding: 0 calc(var(--px-u) * 12); font-size: calc(var(--px-u) * 10); }
+@media (max-width: 760px) { .uip-feedback-grid { grid-template-columns: 1fr; } }
+.uip-hud { display: flex; align-items: flex-start; gap: calc(var(--px-u) * 14); flex-wrap: wrap; }
+.uip-hero { display: flex; gap: calc(var(--px-u) * 9); padding: calc(var(--px-u) * 7) calc(var(--px-u) * 10); width: calc(var(--px-u) * 340); }
+.uip-portrait { width: calc(var(--px-u) * 44); height: calc(var(--px-u) * 60); flex: none; }
+.uip-hero-meta { flex: 1; min-width: 0; }
+.uip-hero-line { display: flex; align-items: baseline; justify-content: space-between; gap: calc(var(--px-u) * 8); margin-bottom: calc(var(--px-u) * 5); }
+.uip-hero-bars { display: flex; flex-direction: column; gap: calc(var(--px-u) * 3); }
+.uip-stagecard { width: calc(var(--px-u) * 260); }
+.uip-pips { margin-top: calc(var(--px-u) * 6); }
+.uip-toolcol { display: flex; flex-direction: column; gap: calc(var(--px-u) * 8); align-items: flex-end; }
+.uip-toolcol .px-stat { min-width: calc(var(--px-u) * 54); padding: calc(var(--px-u) * 5); }
+.uip-toolcol .px-stat b { font-size: calc(var(--px-u) * 15); }
+.uip-dock { width: 100%; }
+.uip-dock .px-combo { width: calc(var(--px-u) * 110); }
+.uip-foot { display: flex; justify-content: space-between; gap: calc(var(--px-u) * 20); border-top: var(--px-line-w) solid var(--px-line); padding-top: calc(var(--px-u) * 12); }
+@media (max-width: 760px) {
+  body.uip { padding: 18px 14px 34px; }
+  .uip-grid--3 { grid-template-columns: 1fr; }
+  .uip-stage { aspect-ratio: auto; height: 470px; }
+  .uip-hero { width: 100%; }
+}

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pixelfx · Pixel UI Kit</title>
+<link rel="stylesheet" href="pixel-ui.css">
+<link rel="stylesheet" href="preview.css">
+</head>
+<body class="px-ui px-theme-ember uip">
+<div class="uip-wrap">
+  <header class="uip-head">
+    <div class="uip-brand">
+      <span class="px-kicker">pixelfx · interface</span>
+      <h1 class="px-title">Pixel UI Kit</h1>
+      <p class="px-sub">One frame language for pixel games: square 1px plates, gold brackets, mono labels, a single scale token.</p>
+    </div>
+    <div class="uip-tools">
+      <div class="uip-themes" role="group" aria-label="Theme">
+        <button class="px-btn px-btn--ghost is-on" data-theme="px-theme-ember" type="button">Ember</button>
+        <button class="px-btn px-btn--ghost" data-theme="px-theme-ink" type="button">Ink</button>
+      </div>
+      <span class="px-badge">ui/pixel-ui.css</span>
+    </div>
+  </header>
+
+  <section class="uip-section">
+    <div class="uip-section-head">
+      <span class="px-kicker">01 · surfaces</span>
+      <h2 class="px-title">Panels &amp; type</h2>
+    </div>
+    <div class="uip-grid uip-grid--3">
+      <div class="px-panel px-panel--framed px-panel--pad">
+        <div class="px-kicker">Framed plate</div>
+        <h3 class="px-title-sm uip-gap">冥河守卫 · 阿刻戎</h3>
+        <div class="px-rule uip-gap"></div>
+        <p class="px-sub uip-gap">A framed panel is the default container: 1px edge, inner shadow, two gold corner brackets.</p>
+      </div>
+      <div class="px-panel px-panel--raised px-panel--pad">
+        <span class="px-label">Raised plate</span>
+        <p class="px-sub uip-gap">For key information that sits above another surface.</p>
+        <div class="px-pips uip-gap"><i class="is-on"></i><i></i><i></i></div>
+      </div>
+      <div class="px-plate">
+        <div class="px-kicker">Third plate</div>
+        <div class="px-title-sm">熔岩深窟</div>
+        <div class="px-label">余烬的源头</div>
+      </div>
+    </div>
+    <div class="uip-type-row">
+      <span class="px-kicker">Kicker</span>
+      <span class="px-label">Label / META</span>
+      <span class="px-num">0128</span>
+      <span class="px-badge">BADGE</span>
+      <span class="px-badge px-badge--boss">BOSS · PHASE II</span>
+      <span class="px-badge px-badge--good">READY</span>
+    </div>
+  </section>
+
+  <section class="uip-section">
+    <div class="uip-section-head">
+      <span class="px-kicker">02 · status</span>
+      <h2 class="px-title">Bars</h2>
+    </div>
+    <div class="uip-bars" id="bars"></div>
+    <div class="uip-actions">
+      <button class="px-btn px-btn--ghost" type="button" data-demo="hit">模拟受击</button>
+      <button class="px-btn px-btn--ghost" type="button" data-demo="heal">恢复</button>
+    </div>
+  </section>
+
+  <section class="uip-section">
+    <div class="uip-section-head">
+      <span class="px-kicker">03 · input</span>
+      <h2 class="px-title">Buttons &amp; keys</h2>
+    </div>
+    <div class="uip-buttons">
+      <button class="px-btn px-btn--primary" type="button">进入遗迹 <small class="px-btn__sub">ENTER</small></button>
+      <button class="px-btn" type="button">普通按钮</button>
+      <button class="px-btn px-btn--ghost" type="button">幽灵按钮</button>
+      <button class="px-btn px-btn--danger" type="button">危险操作</button>
+      <button class="px-btn px-btn--icon" type="button" aria-label="声音"><span class="px-btn__icon" data-icon="sound"></span></button>
+    </div>
+    <div class="uip-keys">
+      <kbd class="px-key">W</kbd><kbd class="px-key">A</kbd><kbd class="px-key">S</kbd><kbd class="px-key">D</kbd>
+      <div class="px-rule uip-key-rule"></div>
+      <kbd class="px-key px-key--sm">J</kbd><kbd class="px-key px-key--sm">K</kbd><kbd class="px-key px-key--sm">L</kbd>
+      <kbd class="px-key px-key--sm">U</kbd><kbd class="px-key px-key--sm">I</kbd><kbd class="px-key px-key--sm">O</kbd>
+      <kbd class="px-key px-key--ghost px-key--sm">ESC</kbd>
+    </div>
+  </section>
+
+  <section class="uip-section">
+    <div class="uip-section-head">
+      <span class="px-kicker">04 · hotbar</span>
+      <h2 class="px-title">Skills</h2>
+    </div>
+    <div class="uip-skills" id="skills"></div>
+    <p class="px-label uip-note">glyph 保留技能颜色；边框、键帽、名称、冷却和法力不足状态全部共用</p>
+  </section>
+
+  <section class="uip-section">
+    <div class="uip-section-head">
+      <span class="px-kicker">05 · feedback</span>
+      <h2 class="px-title">Banner, toast &amp; modal</h2>
+    </div>
+    <div class="uip-feedback-grid">
+      <div class="uip-stage">
+        <div class="px-banner is-open uip-banner">
+          <div class="px-banner__kicker">STAGE CLEAR</div>
+          <div class="px-banner__title">苔痕遗迹</div>
+          <div class="px-banner__sub">暂时沉寂</div>
+        </div>
+        <div class="px-toast is-open uip-toast">生命 +18</div>
+      </div>
+      <div class="uip-stage uip-stage--modal">
+        <div class="px-modal uip-modal">
+          <div class="px-modal__card px-panel px-panel--framed">
+            <div class="px-modal__head">
+              <div class="px-kicker">PAUSED</div>
+              <h3 class="px-title px-modal__title px-modal__title--modal">暂停</h3>
+              <p class="px-sub px-modal__sub">火光暂歇</p>
+            </div>
+            <div class="px-modal__body">
+              <div class="px-stat-grid">
+                <div class="px-stat"><b>128</b><span>击破</span></div>
+                <div class="px-stat"><b>Lv.4</b><span>等级</span></div>
+                <div class="px-stat"><b>6:32</b><span>用时</span></div>
+              </div>
+            </div>
+            <div class="px-modal__foot">
+              <button class="px-btn px-btn--primary" type="button">继续</button>
+              <button class="px-btn px-btn--ghost" type="button">重新开始</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="uip-section">
+    <div class="uip-section-head">
+      <span class="px-kicker">06 · composition</span>
+      <h2 class="px-title">HUD pieces</h2>
+    </div>
+    <div class="uip-hud">
+      <div class="px-panel px-panel--framed uip-hero">
+        <div class="px-portrait uip-portrait"><canvas id="portrait" width="30" height="42"></canvas></div>
+        <div class="uip-hero-meta">
+          <div class="uip-hero-line"><strong class="px-title-sm">余烬剑士</strong><span class="px-badge">Lv.3</span></div>
+          <div class="uip-hero-bars" id="hero-bars"></div>
+        </div>
+      </div>
+      <div class="px-plate uip-stagecard">
+        <div class="px-kicker">第一幕</div>
+        <div class="px-title-sm">苔痕遗迹</div>
+        <div class="px-label">月下的旧圣所</div>
+        <div class="px-pips uip-pips"><i class="is-on"></i><i></i><i></i></div>
+      </div>
+      <div class="uip-toolcol">
+        <button class="px-btn px-btn--icon" type="button" aria-label="静音"><span class="px-btn__icon" data-icon="sound"></span></button>
+        <div class="px-stat"><b>21</b><span>击破</span></div>
+      </div>
+    </div>
+    <div class="uip-dock px-dock">
+      <div class="px-combo is-on"><b>7</b><span>连击</span></div>
+      <div class="px-skill-strip">
+        <span><b>WASD</b> 移动</span><span><b>J</b> 斩</span><span><b>K</b> 火</span><span><b>L</b> 霜</span><span><b>U</b> 雷</span><span><b>I</b> 愈</span><span><b>O</b> 陨</span>
+      </div>
+      <div class="px-sigil">余烬不熄</div>
+    </div>
+  </section>
+
+  <footer class="uip-foot">
+    <span class="px-label">pixelfx · pixel-ui · MIT</span>
+    <span class="px-label">scale token · --px-u</span>
+  </footer>
+</div>
+<script type="module" src="preview.js"></script>
+</body>
+</html>

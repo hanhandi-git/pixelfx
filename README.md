@@ -172,6 +172,17 @@ Categories with new content appear first; samples list **new** effects before or
 
 Every effect is a file in `src/fx/<category>/<name>.js`. The [catalog](docs/CATALOG.md) lists them all.
 
+## pixel UI kit.
+
+`ui/` carries a reusable DOM kit for the games and tools built around the library: square 1 px panels with gold
+corner brackets, hp/mp/xp/boss bars, keycaps, one button family, hotbar slots with cooldown and mana states,
+badges, pips, banners, toasts and modal cards. One scale token (`--px-u`) drives the whole interface, and
+`.px-theme-ink` gives it the gallery's monochrome look. No fonts, images or frameworks.
+
+![pixel UI kit](ui/preview.png)
+
+[preview the kit](ui/preview.html) · [usage](ui/README.md) · `ui/pixel-ui.css` · `ui/pixel-ui.js`
+
 ## fantasy game kit.
 
 The library also carries the things a fantasy game needs around its effects. They use the same files, buffers,

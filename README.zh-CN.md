@@ -163,6 +163,14 @@
 
 每个特效是 `src/fx/<category>/<name>.js` 中的一个文件。[目录](docs/CATALOG.md) 有完整列表。
 
+## 像素 UI 套件
+
+`ui/` 是给本库周边的游戏与工具复用的一套 DOM 组件：方形 1px 面板与金色角标、生命/法力/经验/Boss 条、键帽、统一按钮、带冷却与法力状态的技能槽、徽章、进度点、横幅、Toast 和弹层。整套界面只由一个缩放变量 `--px-u` 驱动；`.px-theme-ink` 提供 Gallery 的黑白风格。不依赖字体文件、图片或框架。
+
+![像素 UI 套件](ui/preview.png)
+
+[预览组件](ui/preview.html) · [使用说明](ui/README.md) · `ui/pixel-ui.css` · `ui/pixel-ui.js`
+
 ## 奇幻游戏套件
 
 在特效之外，库还提供奇幻游戏常用拼装块，共用同一套文件、缓冲、调色与工具，各多一种导出：
