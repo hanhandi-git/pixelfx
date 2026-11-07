@@ -59,8 +59,9 @@ button, input, select { font: inherit; color: inherit; }
 h1 { margin: 0; font: 400 54px/66px var(--display); letter-spacing: 0; }
 .sub { margin: 4px 0 0; font: 500 17px/1.4 var(--text); color: var(--quiet); text-wrap: balance; }
 .links { display: flex; flex-wrap: wrap; gap: 20px; font: 500 13px/1 var(--mono); letter-spacing: 0.04em; margin-left: auto; }
-.links a { text-decoration: none; color: var(--quiet); padding: 6px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
-.links a:hover { color: var(--ink); border-color: var(--ink); }
+.links a, .head-ember { text-decoration: none; color: var(--quiet); padding: 6px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.links a:hover, .head-ember:hover { color: var(--ink); border-color: var(--ink); }
+.head-ember { flex: none; font: 500 13px/1 var(--mono); letter-spacing: 0.04em; }
 /* language: 中文 / EN / 日本語, one segmented control, the current one filled in */
 .langs { display: flex; flex: none; border: 1px solid var(--line); }
 .lang {
@@ -267,6 +268,7 @@ pre {
   .head { gap: 16px; }
   .links { gap: 14px; }
   .langs { margin-left: auto; }
+  .head-ember { margin-left: 0; width: 100%; text-align: right; }
   .gallery-cast { padding:14px; gap:16px; }
   .cast-choices { gap:5px; }
   .cast-choice { padding:15px 1px 8px; font-size:11px; }
