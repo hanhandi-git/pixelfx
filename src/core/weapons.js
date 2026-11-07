@@ -119,18 +119,6 @@ export const MELEE_SHAPES = {
     for (const dy of [-1.4, 1.4]) for (let i = 5; i < 8.6; i += 0.3) T(i, dy, C.violet);
     T(-9.7, 0, C.redL);
   } },
-  "yata-mirror": { draw(T) {
-    // 八咫镜: a bronze mirror on a short wrapped handle, its bright face cut with an eight-point star.
-    wraps(T, -4.8, 0.4, 0.8); band(T, -5, 0.6, 1.15, C.bronze, C.bronzeD);
-    ring(T, 4, 0, 4.8, C.bronze); ring(T, 4, 0, 4.1, C.gold);
-    for (let y = -3.6; y <= 3.6; y += 0.4) for (let x = 0.8; x <= 7.2; x += 0.4) {
-      const d = (x - 4) ** 2 + y * y;
-      if (d <= 3.7 * 3.7) T(x, y, y < -1 ? C.ivory : y < 0.9 ? C.goldL : C.gold);
-    }
-    for (let a = 0; a < Math.PI * 2; a += Math.PI / 4) T(4 + Math.cos(a) * 2.4, Math.sin(a) * 2.4, C.bronzeD);
-    T(4, 0, C.white); T(3, 0, C.white); T(5, 0, C.white);
-    for (let i = 0; i < 3; i++) T(-5.6 - i * 0.4, -1.2 - i * 0.7, i & 1 ? C.red : C.redL);
-  } },
   rapier: { two: -3.5, draw(T) {
     wraps(T, -4, 2, 0.65); band(T, -5, 0.7, 1.1);
     ring(T, 2.6, 0, 3.3, C.gold); ring(T, -0.2, 1.2, 3.2, C.goldD);
@@ -253,7 +241,6 @@ export const ARMORY = Object.freeze([
   { id: "katana", label: "太刀", name: "Katana", fx: "melee/katana-draw", tip: 36, family: "sweep", class: "melee" },
   { id: "kusanagi", label: "云从剑", name: "Kusanagi", fx: "kami/ame-no-murakumo", tip: 36, family: "sweep", class: "melee" },
   { id: "totsuka", label: "十拳剑", name: "Totsuka", fx: "kami/susanoo-thunder", tip: 44, family: "sweep", class: "melee" },
-  { id: "yata-mirror", label: "八咫镜", name: "Yata mirror", fx: "kami/amaterasu-sun", tip: 9, family: "slam", class: "melee" },
   { id: "war-mace", label: "重钉锤", name: "War mace", fx: "melee/mace-crush", tip: 35, family: "slam", class: "melee" },
   { id: "rapier", label: "刺剑", name: "Rapier", fx: "melee/rapier-lunge", tip: 38, family: "thrust", class: "melee" },
   { id: "kunai", label: "苦无", name: "Kunai", fx: "thrown/kunai-throw", tip: 18, family: "throw", class: "thrown" },

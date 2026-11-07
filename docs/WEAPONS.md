@@ -17,7 +17,6 @@ code-authored geometry under this repository's MIT license.
 | `rapier` | 刺剑 / Rapier | melee | `melee/rapier-lunge` — precise needle thrust |
 | `kusanagi` | 云从剑 / 天丛云剑 / Kusanagi | melee | `kami/ame-no-murakumo` — one rising cut that carves a seam through a sea of murakumo |
 | `totsuka` | 十拳剑 / Totsuka | melee | `kami/susanoo-thunder` — raised blade draws a forked thunder pillar onto the target |
-| `yata-mirror` | 八咫镜 / Yata mirror | melee | `kami/amaterasu-sun` — mirrored sun: rays, a gold pillar and a burning floor |
 | `kunai` | 苦无 / Kunai | **thrown** | `thrown/kunai-throw` — end-over-end throw that embeds in the target |
 | `powder-bomb` | 火药弹 / Powder bomb | **thrown** | `thrown/powder-bomb-throw` — fuse, bounce and compact blast |
 | `boomerang` | 回旋镖 / Boomerang | **thrown** | `thrown/boomerang-throw` — outbound and return passes before the catch |

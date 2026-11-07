@@ -393,7 +393,6 @@ const WEAPON = {
     "pear-needles": "梨花針",
     kusanagi: "雲叢剣",
     totsuka: "十拳剣",
-    "yata-mirror": "八咫鏡",
   },
 };
 

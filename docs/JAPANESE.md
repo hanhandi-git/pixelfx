@@ -18,13 +18,10 @@
 
 | 中文 | 名称 / ID | 类型 | 画布 | 时长 | 说明 |
 |---|---|---|---|---|---|
-| 天照命·八咫镜 | Amaterasu, Yata mirror · `kami/amaterasu-sun` | once | 340×230 | 3.35s | 八咫镜展开八片青铜镜面，吸收场地光线后折成一道日印，镜片碎光在余辉里落下。 |
 | 月读命·月弓 | Tsukuyomi, moon bow · `kami/tsukuyomi-arrow` | once | 320×190 | 3.0s | 月光在身前绷成一张月弓，拉满、放弦，银箭拖着月尘穿过场地；命中是一道白色月牙斩，冷光地环与落月花瓣。 |
 | 须佐之男·十拳剑 | Susanoo, storm-drum sword · `kami/susanoo-thunder` | once | 340×240 | 3.5s | 三面三巴太鼓绕着举起的十拳剑旋转，风压收紧，落斩召下一棵分叉雷树，地面留着紫电裂纹。 |
 | 云从剑 | Ame-no-Murakumo · `kami/ame-no-murakumo` | once | 360×220 | 3.2s | 低云围着剑身盘成一条带，拔剑时形成钩状上挑弧，云层被掀开，命中后只剩一圈冷风。 |
 | 六勾玉 | Six magatama · `kami/magatama-six` | loop | 140×112 | 3.6s | 六枚翡翠勾玉穿在金线上绕中心转动，后半圈压在雾后变暗，金屑在勾玉之间明灭。 |
-| 天岩户 | Ama-no-Iwato · `kami/ameno-iwato` | once | 320×200 | 3.8s | 一整块洞门巨石沿活的中缝裂成两半，注连绳绷断，暖日从空腔喷出，纸垂与碎石落到门槛。 |
-| 八岐大蛇 | Yamata no Orochi, eightfold coil · `kami/yamata-no-orochi` | once | 420×300 | 4.5s | 八颗蛇首从同一颗血红心脏周围盘起，依次睁眼并向内吐息，最后被一道斜切金线收拢。 |
 
 ## 节拍
 
@@ -68,7 +65,6 @@
 |---|---|---|---|
 | `kusanagi` | 云从剑 / 天丛云剑 / Kusanagi | 近战 | `kami/ame-no-murakumo` — 直刃双锋、云头护手、雷纹剑身 |
 | `totsuka` | 十拳剑 / Totsuka | 近战 | `kami/susanoo-thunder` — 宽长直刃、赤缠柄、龙首护手 |
-| `yata-mirror` | 八咫镜 / Yata mirror | 近战 | `kami/amaterasu-sun` — 铜镜短柄、亮面八芒星 |
 
 武器在骨架的手部坐标系里绘制，随姿势与深度缓冲正确遮挡；`?weapon=kusanagi` 可直接预览。
 
@@ -76,7 +72,6 @@
 
 ```js
 import { createAct, createFrame } from "pixelfx";
-import * as sunMirror from "pixelfx/fx/kami/amaterasu-sun";
 
 const frame = createFrame(340, 230);
 const fx = createAct(sunMirror, { x: 104, y: 202, character: "amaterasu" });
@@ -86,7 +81,6 @@ fx.draw(frame);
 ```
 
 ```sh
-node tools/render.mjs kami/amaterasu-sun --sheet
 node tools/render.mjs kami/magatama-six --gif
 node tools/act.mjs kami/susanoo-thunder --character susanoo
 node --test tests/characters.test.mjs tests/weapons.test.mjs

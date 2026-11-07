@@ -6,13 +6,13 @@
 
 # pixelfx-extended.
 
-在 [**pixelfx**](https://github.com/patch-gg/pixelfx) 原版 244 特效基线之上，额外增加 **<!-- new-count -->101<!-- /new-count -->** 条地图、小怪等素材的扩展仓库。
+在 [**pixelfx**](https://github.com/patch-gg/pixelfx) 原版 244 特效基线之上，额外增加 **<!-- new-count -->98<!-- /new-count -->** 条地图、小怪等素材的扩展仓库。
 
-**<!-- count -->345<!-- /count --> 个像素特效与动画，每一个都是一小段代码。** 火焰、爆炸、魔法、天气、UI、拾取物、小动物等。可实时播放、换色与镜像，嵌入浏览器游戏，或导出精灵图给任意引擎。另有 **奇幻游戏套件** —— 战斗地图、小怪与 Boss 单位、带预警的技能，以及在 `src/encounters/` 中编写的遭遇战时间轴 —— 以及 Claude Code skill，用像素画师那套「起草 → 渲染 → 眼看 → 精修」流程做新内容。
+**<!-- count -->342<!-- /count --> 个像素特效与动画，每一个都是一小段代码。** 火焰、爆炸、魔法、天气、UI、拾取物、小动物等。可实时播放、换色与镜像，嵌入浏览器游戏，或导出精灵图给任意引擎。另有 **奇幻游戏套件** —— 战斗地图、小怪与 Boss 单位、带预警的技能，以及在 `src/encounters/` 中编写的遭遇战时间轴 —— 以及 Claude Code skill，用像素画师那套「起草 → 渲染 → 眼看 → 精修」流程做新内容。
 
-库内 **<!-- original-count -->244<!-- /original-count -->** 个原始特效与 **<!-- new-count -->101<!-- /new-count -->** 个新增。[Gallery](gallery/index.html) 会把每条资源标为 `original` 或 `new`，并支持按来源筛选。
+库内 **<!-- original-count -->244<!-- /original-count -->** 个原始特效与 **<!-- new-count -->98<!-- /new-count -->** 个新增。[Gallery](gallery/index.html) 会把每条资源标为 `original` 或 `new`，并支持按来源筛选。
 
-有 **<!-- act-count -->119<!-- /act-count -->** 个特效导出 **`act`** 时间轴（蓄力、出手、命中定格、受击与收招）。另有 **<!-- moves-count -->12<!-- /moves-count -->** 个 **`moves`**（`src/fx/moves/`）把这一套打成从 wind-up 到 recovery 的完整攻击。
+有 **<!-- act-count -->118<!-- /act-count -->** 个特效导出 **`act`** 时间轴（蓄力、出手、命中定格、受击与收招）。另有 **<!-- moves-count -->12<!-- /moves-count -->** 个 **`moves`**（`src/fx/moves/`）把这一套打成从 wind-up 到 recovery 的完整攻击。
 
 **[打开 Gallery](https://patch-gg.github.io/pixelfx/)** ·
 [在线 Gallery（本扩展部署版）](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown) ·
@@ -24,7 +24,7 @@
 
 ## 新增内容
 
-以下 **<!-- new-count -->101<!-- /new-count -->** 条不在原始 244 特效基线内：奇幻地图、小怪、Boss 等。在 [Gallery（`?source=new`）](gallery/index.html?source=new) 或部署版 [在线 Gallery](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown)（仅新增、Moon Oracle、投掷分类）浏览。
+以下 **<!-- new-count -->98<!-- /new-count -->** 条不在原始 244 特效基线内：奇幻地图、小怪、Boss 等。在 [Gallery（`?source=new`）](gallery/index.html?source=new) 或部署版 [在线 Gallery](http://42.192.38.33/pixelfx_extend/index.html?source=new&character=moon-oracle#thrown)（仅新增、Moon Oracle、投掷分类）浏览。
 
 <p align="center">
   <img src="docs/readme/montage-new.gif" width="800" alt="六张 320×180 奇幻战斗地图循环预览：极光隘口、水晶洞窟、余烬深渊、苔痕遗迹、日痕神殿与磷火沼泽。">
@@ -65,13 +65,10 @@
 | **fanren** | Immortal-slaying bead | `fanren/immortal-slaying-bead` |
 | **fanren** | Heaven-palm bottle | `fanren/palm-heaven-bottle` |
 | **fanren** | Xuantian spirit-slaying sword | `fanren/xuantian-sword` |
-| **kami** | Amaterasu, Yata mirror | `kami/amaterasu-sun` |
 | **kami** | Ame-no-Murakumo | `kami/ame-no-murakumo` |
-| **kami** | Ama-no-Iwato | `kami/ameno-iwato` |
 | **kami** | Six magatama | `kami/magatama-six` |
 | **kami** | Susanoo, storm-drum sword | `kami/susanoo-thunder` |
 | **kami** | Tsukuyomi, moon bow | `kami/tsukuyomi-arrow` |
-| **kami** | Yamata no Orochi, eightfold coil | `kami/yamata-no-orochi` |
 | **konosuba** | Explosion chant | `konosuba/explosion-chant` |
 | **konosuba** | Explosion crater | `konosuba/explosion-crater` |
 | **konosuba** | Explosion | `konosuba/explosion-ritual` |
@@ -149,13 +146,13 @@
 | **ui** | 20 | hud banner, hud dialog, hud panel, skill ready, hud skill slot, hud status bar… |
 | **dragonball** | 8 | destructo disc, drill beam, golden aura, ki charge, ki volley, ki wave… |
 | **lightning** | 18 | forked burst, ground surge, static cage, storm sigil, storm vortex, thunder rain… |
-| **japanese legend** | 7 | amaterasu, yata mirror, ame-no-murakumo, ama-no-iwato, six magatama, susanoo, storm-drum sword, tsukuyomi, moon bow… |
 | **world** | 7 | aurora pass, crystal hollow, ember depths, inkbound shrine, mossy ruins, sunscar temple… |
 | **melee** | 18 | holy sword cleave, katana draw cut, knight lance thrust, war mace crush, rapier lunge, banded staff combo… |
 | **senjutsu** | 6 | gate of the great god, sage art: goemon, sage orb, thousand wood dragons, white flash, wind shuriken |
 | **a mortal's journey** | 6 | azure bamboo swords, evil-warding thunder, gold-devouring beetles, immortal-slaying bead, heaven-palm bottle, xuantian spirit-slaying sword |
 | **miku** | 5 | encore, leek smash, song aura, sound wave, vocal burst |
 | **konosuba** | 4 | explosion chant, explosion crater, explosion, explosion |
+| **japanese legend** | 4 | ame-no-murakumo, six magatama, susanoo, storm-drum sword, tsukuyomi, moon bow |
 | **spawn & death** | 13 | ink unravel, shanhaijing summon, talisman suppression, coin drop, disintegrate, dissolve burn… |
 | **arcane** | 13 | flow seal, arcane beam, arcane missiles, arcane orb, blink in, blink out… |
 | **moves** | 12 | arrow shot, dash strike, earth stomp, fireball throw, ground pound, holy smite… |
@@ -284,7 +281,7 @@ node tools/render.mjs fire/torch --gif --opts '{"palette": ["#102","#215","#43a"
   <img src="docs/readme/acts.gif" width="800" alt="假人与草靶对练：连击、重锤、地击等，含蓄力、命中定格与收招。">
 </p>
 
-单独播放特效像贴纸；命中感来自身体演出：蓄力、定格、目标后仰、收招。**<!-- act-count -->119<!-- /act-count -->** 个特效导出 `act`；**<!-- moves-count -->12<!-- /moves-count -->** 个 **moves** 是独立的成套攻击编排：
+单独播放特效像贴纸；命中感来自身体演出：蓄力、定格、目标后仰、收招。**<!-- act-count -->118<!-- /act-count -->** 个特效导出 `act`；**<!-- moves-count -->12<!-- /moves-count -->** 个 **moves** 是独立的成套攻击编排：
 
 ```js
 export const act = {
